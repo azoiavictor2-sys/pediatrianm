@@ -1,6 +1,10 @@
 package com.fema.ambulato.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,7 +15,9 @@ public class Prontuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Nome do paciente é obrigatório")
     private String pacienteNome;
+
     private String celularContato;
     private String tipagemSanguinea;
 
@@ -31,13 +37,21 @@ public class Prontuario {
     @Column(columnDefinition = "TEXT")
     private String plano;
 
-    private String nomeAluno;
-    private String turma;
+    @Column(columnDefinition = "TEXT")
+    private String dadosGeraisJson;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "aluno_id", nullable = false)
+    @JsonIgnoreProperties({"senha", "hibernateLazyInitializer", "handler"})
+    private Usuario aluno;
+
     private LocalDateTime dataAtendimento;
 
     public Prontuario() {
         this.dataAtendimento = LocalDateTime.now();
     }
+
+    // --- GETTERS E SETTERS ---
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -72,11 +86,11 @@ public class Prontuario {
     public String getPlano() { return plano; }
     public void setPlano(String plano) { this.plano = plano; }
 
-    public String getNomeAluno() { return nomeAluno; }
-    public void setNomeAluno(String nomeAluno) { this.nomeAluno = nomeAluno; }
+    public String getDadosGeraisJson() { return dadosGeraisJson; }
+    public void setDadosGeraisJson(String dadosGeraisJson) { this.dadosGeraisJson = dadosGeraisJson; }
 
-    public String getTurma() { return turma; }
-    public void setTurma(String turma) { this.turma = turma; }
+    public Usuario getAluno() { return aluno; }
+    public void setAluno(Usuario aluno) { this.aluno = aluno; }
 
     public LocalDateTime getDataAtendimento() { return dataAtendimento; }
     public void setDataAtendimento(LocalDateTime dataAtendimento) { this.dataAtendimento = dataAtendimento; }

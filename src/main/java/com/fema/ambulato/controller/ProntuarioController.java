@@ -1,41 +1,46 @@
 package com.fema.ambulato.controller;
 
 import com.fema.ambulato.model.Prontuario;
-import com.fema.ambulato.repository.ProntuarioRepository;
+import com.fema.ambulato.service.ProntuarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/prontuarios")
-@CrossOrigin(origins = "*")
 public class ProntuarioController {
 
     @Autowired
-    private ProntuarioRepository repository;
+    private ProntuarioService prontuarioService;
 
     @PostMapping("/salvar")
-    public ResponseEntity<String> salvarProntuario(@RequestBody Prontuario novoProntuario) {
-        repository.save(novoProntuario);
-        return ResponseEntity.ok("Prontuário salvo e gravado com sucesso no Banco de Dados!");
+    public ResponseEntity<Prontuario> salvar(
+            @Valid @RequestBody Prontuario prontuario,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        Prontuario salvo = prontuarioService.salvar(prontuario, userDetails.getUsername());
+        return ResponseEntity.ok(salvo);
     }
 
-    @GetMapping("/listar/{nomeDoAluno}")
-    public ResponseEntity<List<Prontuario>> listarMeusProntuarios(@PathVariable String nomeDoAluno) {
-        List<Prontuario> lista = repository.findByNomeAluno(nomeDoAluno);
+    @GetMapping("/meus")
+    public ResponseEntity<List<Prontuario>> listarMeus(
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        List<Prontuario> lista = prontuarioService.listarPorAluno(userDetails.getUsername());
         return ResponseEntity.ok(lista);
     }
 
-    // NOVA ROTA: Excluir Prontuário
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<String> deletarProntuario(@PathVariable Long id) {
-        if(repository.existsById(id)) {
-            repository.deleteById(id);
-            return ResponseEntity.ok("Prontuário excluído com sucesso.");
-        } else {
-            return ResponseEntity.status(404).body("Prontuário não encontrado.");
-        }
+    public ResponseEntity<String> deletar(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        prontuarioService.deletar(id, userDetails.getUsername());
+        return ResponseEntity.ok("Prontuário excluído com sucesso.");
     }
 }

@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prontuário Pediátrico - Ambulatório</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root { 
+            --primary: #0056b3; 
+            --primary-hover: #004494;
+            --bg: #f4f7f6;
+            --text: #333; 
+            --border: #e1e4e8; 
+            --card-bg: #ffffff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --radius: 16px;
+            --box-bg: #f8f9fa;
+            --input-bg: #f1f3f5; 
+            --input-focus: #ffffff;
+        }
+        
+        [data-theme="dark"] {
+            --primary: #4da3ff;
+            --primary-hover: #1a8cff;
+            --bg: #121212;
+            --text: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --border: #333;
+            --shadow: 0 10px 30px rgba(0,0,0,0.5);
+            --box-bg: #2d2d2d;
+            --input-bg: #252525;
+            --input-focus: #1e1e1e;
+        }
+
+        html { scroll-behavior: smooth; }
+        
+        /* Fonte nova aplicada aqui */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg); color: var(--text); padding: 20px; line-height: 1.5; margin: 0; 
+            transition: background-color 0.3s, color 0.3s; 
+            overflow-x: hidden;
+        }
+
+        /* Barras de rolagem invisíveis/elegantes */
+        ::-webkit-scrollbar { width: 6px; height: 0px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+        [data-theme="dark"] ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); }
+        [data-theme="dark"] ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+        * { scrollbar-width: thin; scrollbar-color: rgba(0,0,0,0.15) transparent; }
+
+        .container-login { max-width: 500px; margin: 10vh auto; background: var(--card-bg); padding: 40px; border-radius: var(--radius); box-shadow: var(--shadow); transition: background-color 0.3s; }
+        .container-setup { max-width: 800px; margin: 5vh auto; background: var(--card-bg); padding: 40px; border-radius: var(--radius); box-shadow: var(--shadow); transition: background-color 0.3s; }
+        .container-app { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        
+        h1, h2 { color: var(--primary); margin-top: 0; }
+        
+        /* Títulos com detalhe lateral (Acento) */
+        h3 { 
+            color: var(--primary); 
+            margin-top: 0; 
+            border-bottom: none; 
+            padding-bottom: 5px;
+            padding-left: 12px;
+            border-left: 5px solid var(--primary); 
+            background: linear-gradient(90deg, rgba(0,86,179,0.05) 0%, rgba(255,255,255,0) 100%); 
+            border-radius: 4px;
+            font-size: 1.25em;
+        }
+        
+        h4 { color: var(--text); margin-bottom: 15px; border-bottom: 1px dashed var(--border); padding-bottom: 5px; font-size: 1.1em; opacity: 0.9;}
+        
+        .app-layout { display: flex; gap: 25px; align-items: flex-start; margin-top: 20px; }
+        
+        .sidebar { flex: 0 0 260px; position: sticky; top: 20px; background: var(--card-bg); padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 8px; max-height: 90vh; overflow-y: auto; overflow-x: hidden; transition: background-color 0.3s;}
+        .sidebar h3 { font-size: 1.1em; margin-bottom: 15px; border-bottom: none; border-left: none; background: none; text-align: center; color: var(--text); padding:0;}
+        .sidebar a { text-decoration: none; color: var(--text); opacity: 0.8; padding: 12px 15px; border-radius: 8px; transition: all 0.2s; font-weight: 500; font-size: 0.95em; border: 1px solid transparent; display: flex; align-items: center; gap: 10px;}
+        .sidebar a i { width: 20px; text-align: center; color: var(--primary); opacity: 0.7;}
+        .sidebar a:hover { background: var(--box-bg); opacity: 1; color: var(--primary); }
+        .sidebar a:hover i { opacity: 1; }
+        
+        .sidebar a.btn-meus-prontuarios { background: var(--primary); color: white; justify-content: center; margin-bottom: 15px; font-weight: bold; opacity: 1;}
+        .sidebar a.btn-meus-prontuarios i { color: white; opacity: 1;}
+        .sidebar a.btn-meus-prontuarios:hover { background: var(--primary-hover); }
+        
+        .sidebar a.btn-finalizar { background: #28a745; color: white; justify-content: center; margin-top: 15px; font-weight: bold; opacity: 1;}
+        .sidebar a.btn-finalizar i { color: white; opacity: 1;}
+        .sidebar a.btn-finalizar:hover { background: #218838; }
+
+        .main-content { flex: 1; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+        .card { background: var(--card-bg); padding: 35px; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); scroll-margin-top: 20px; transition: background-color 0.3s;}
+        
+        .dash-card { background: var(--box-bg); padding: 40px 30px; border-radius: var(--radius); border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; text-align: center;}
+        .dash-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--primary);}
+        .dash-card.green:hover { border-color: #28a745; }
+
+        .form-group { margin-bottom: 15px; }
+        label { font-weight: 600; display: block; margin-bottom: 6px; font-size: 0.9em; color: var(--text); opacity: 0.9;}
+        
+        /* Inputs modernos */
+        input[type="text"], input[type="password"], input[type="number"], input[type="date"], select, textarea { 
+            width: 100%; 
+            padding: 12px 15px; 
+            border: 2px solid transparent; 
+            border-radius: 8px; 
+            background-color: var(--input-bg); 
+            color: var(--text); 
+            font-size: 0.95em;
+            font-family: inherit;
+            transition: all 0.3s ease; 
+        }
+        input:focus, select:focus, textarea:focus { 
+            outline: none; 
+            background-color: var(--input-focus); 
+            border-color: var(--primary); 
+            box-shadow: 0 0 0 4px rgba(0, 86, 179, 0.1); 
+        }
+        
+        .btn { background-color: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 16px; margin-top: 10px; width: 100%; font-weight: bold; transition: background 0.2s, transform 0.1s; }
+        .btn:hover { background-color: var(--primary-hover); }
+        .btn:active { transform: scale(0.98); }
+        .btn-secondary { background-color: #6c757d; }
+        .btn-secondary:hover { background-color: #5a6268; }
+        .btn-copy { background-color: #28a745; margin-top: 10px; width: auto; font-size: 14px; padding: 8px 16px;}
+        .btn-copy:hover { background-color: #218838; }
+        .btn-print { background-color: #17a2b8; margin-top: 10px; font-size: 16px; padding: 12px 24px; width: auto;}
+        .btn-print:hover { background-color: #138496; }
+        .btn-word { background-color: #0056b3; margin-top: 10px; font-size: 16px; padding: 12px 24px; width: auto;}
+        .btn-word:hover { background-color: #004494; }
+        
+        .page { display: none; }
+        .active-page { display: block; animation: fadeIn 0.3s ease-in-out; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .hidden-field { display: none; margin-top: 10px; padding: 15px; background: var(--box-bg); border-left: 4px solid var(--primary); border-radius: 0 8px 8px 0; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px; }
+        .radio-group { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; padding: 10px 0;}
+        .radio-group label { font-weight: normal; display: flex; align-items: center; gap: 5px; margin: 0; cursor: pointer;}
+        
+        .alert-text { font-weight: bold; font-size: 0.85em; margin-top: 5px; display: block; }
+        .text-danger { color: #dc3545; }
+        .text-warning { color: #d39e00; }
+        .input-danger { border-color: #dc3545 !important; background-color: rgba(220,53,69,0.1) !important; }
+        .input-warning { border-color: #ffc107 !important; background-color: rgba(255,193,7,0.1) !important; }
+        
+        .summary-box { background: var(--box-bg); padding: 20px; border-radius: var(--radius); margin-bottom: 25px; color: var(--text); border-left: 5px solid var(--primary); transition: background-color 0.3s;}
+        .summary-box p { margin: 5px 0; }
+        .box-exame { background: var(--box-bg); padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid var(--border); transition: background-color 0.3s;}
+        .box-exame h4 { margin-top: 0; color: var(--primary); border-bottom: none; font-size: 1.05em; margin-bottom: 10px;}
+        .soap-box { margin-bottom: 30px; border: 1px solid var(--border); background: var(--box-bg); padding: 25px; border-radius: var(--radius); box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
+        .soap-box textarea { background: var(--input-bg); border: 1px solid var(--border); font-size: 1.05em; line-height: 1.6; }
+
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
+        .modal-content { background-color: var(--card-bg); margin: 5% auto; padding: 35px; border-radius: var(--radius); width: 90%; max-width: 600px; box-shadow: var(--shadow); position: relative; text-align: center;}
+        .close-modal { color: #aaa; position: absolute; right: 20px; top: 15px; font-size: 28px; font-weight: bold; cursor: pointer; transition: color 0.2s;}
+        .close-modal:hover { color: var(--primary); }
+
+        #print-area { display: none; }
+        
+        @media print {
+            body { background: white; color: black; margin: 0; padding: 0; font-size: 12pt; }
+            body * { visibility: hidden; }
+            #print-area, #print-area * { visibility: visible; }
+            #print-area { display: block; position: absolute; left: 0; top: 0; width: 100%; padding: 20px; }
+            .print-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 25px; }
+            .print-header h1 { font-size: 18pt; margin: 0; color: black; font-weight: bold; text-transform: uppercase; }
+            .print-header h2 { font-size: 14pt; margin: 5px 0 0 0; color: #333; font-weight: normal; }
+            .print-header p { margin: 5px 0 0 0; font-size: 11pt; color: #555; }
+            .print-section { margin-bottom: 20px; text-align: justify; }
+            .print-section h3 { font-size: 14pt; color: black; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 10px; background: none; }
+            .print-section p { margin: 0 0 10px 0; white-space: pre-wrap; line-height: 1.5; }
+            .print-footer { margin-top: 50px; text-align: center; }
+            .print-footer .signature-line { width: 300px; border-top: 1px solid #000; margin: 0 auto 10px auto; }
+            @page { margin: 2cm; }
+        }
+
+        /* --- TOASTS --- */
+        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+        .toast { min-width: 250px; padding: 15px 20px; border-radius: 8px; color: white; font-weight: bold; box-shadow: 0 8px 20px rgba(0,0,0,0.2); opacity: 0; transform: translateX(100%); transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); display: flex; align-items: center; gap: 10px;}
+        .toast.show { opacity: 1; transform: translateX(0); }
+        .toast-success { background-color: #28a745; }
+        .toast-danger { background-color: #dc3545; }
+        .toast-warning { background-color: #ffc107; color: #333; }
+    </style>
+</head>
+<body>
+
+<div id="toast-container"></div> 
+
+<div id="page-login" class="page active-page">
+    <div style="text-align: right; padding: 20px;">
+        <button class="btn btn-secondary" style="width: auto; padding: 8px 15px; border-radius: 20px; font-size: 0.9em;" onclick="toggleDarkMode()"><i class="fa-solid fa-moon"></i> Tema Escuro</button>
+    </div>
+    <div class="container-login">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+            <h2 style="margin-top: 15px; margin-bottom: 5px;">Ambulatório FEMA</h2>
+            <p style="color: var(--text); opacity: 0.7; margin-top: 0;">Prontuário Eletrônico</p>
+        </div>
+        <div class="form-group"><label>Usuário:</label><input type="text" id="login-user" placeholder="Digite sua matrícula" onkeypress="if(event.key === 'Enter') fazerLogin()"></div>
+        <div class="form-group"><label>Senha:</label><input type="password" id="login-pass" placeholder="Digite sua senha" onkeypress="if(event.key === 'Enter') fazerLogin()"></div>
+        <button class="btn" onclick="fazerLogin()"><i class="fa-solid fa-arrow-right-to-bracket"></i> ACESSAR SISTEMA</button>
+        <div id="login-error" class="alert-text text-danger" style="text-align: center; margin-top: 15px;"></div>
+    </div>
+</div>
+
+<div id="page-dashboard" class="page">
+    <div class="container-app" style="max-width: 900px; margin-top: 5vh;">
+        <div class="card" style="padding: 50px 40px; text-align: center;">
+            <div style="width: 80px; height: 80px; background-color: rgba(0,86,179,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
+                <i class="fa-solid fa-user-doctor" style="font-size: 35px; color: var(--primary);"></i>
+            </div>
+            <h1 style="color: var(--primary); margin-bottom: 10px;">Olá, <span id="dash-user-name">Aluno</span>!</h1>
+            <p style="color: var(--text); opacity: 0.8; font-size: 1.1em; margin-bottom: 40px;">Bem-vindo(a) ao seu painel pessoal de controle.</p>
+
+            <div class="grid-2">
+                <div class="dash-card" onclick="irParaSetup()">
+                    <i class="fa-solid fa-file-medical" style="font-size: 40px; color: var(--primary); margin-bottom: 15px;"></i>
+                    <h3 style="margin-bottom: 10px; border:none; background:none; padding:0; color: var(--primary);">Novo Atendimento</h3>
+                    <p style="font-size: 0.9em; opacity: 0.7; margin: 0; color: var(--text);">Iniciar a anamnese e exame de um novo paciente.</p>
+                </div>
+
+                <div class="dash-card green" onclick="buscarMeusProntuarios()">
+                    <i class="fa-solid fa-folder-open" style="font-size: 40px; color: #28a745; margin-bottom: 15px;"></i>
+                    <h3 style="margin-bottom: 10px; border:none; background:none; padding:0; color: #28a745;">Meus Prontuários</h3>
+                    <p style="font-size: 0.9em; opacity: 0.7; margin: 0; color: var(--text);">Acessar e editar histórico de pacientes salvos.</p>
+                </div>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="sairDaConta()" style="width: auto; margin-top: 50px; padding: 10px 25px;"><i class="fa-solid fa-right-from-bracket"></i> Sair da Conta</button>
+        </div>
+    </div>
+</div>
+
+<div id="page-setup" class="page">
+    <div class="container-setup">
+        <button class="btn btn-secondary" style="width: auto; margin-bottom: 20px; font-size: 0.9em;" onclick="voltarAoDashboard()"><i class="fa-solid fa-arrow-left"></i> Voltar ao Painel</button>
+        <h2 style="text-align: center; margin-bottom: 30px;">Configuração do Atendimento</h2>
+        
+        <div class="card" style="margin-bottom: 20px; box-shadow: none; border: 1px solid var(--border);">
+            <h3 style="background: none; border: none; padding: 0;"><i class="fa-solid fa-users"></i> Equipe Médica / Turma</h3>
+            <hr style="border: 0; border-top: 1px solid var(--border); margin-bottom: 15px;">
+            <div class="form-group">
+                <label>Qtd de alunos presentes:</label>
+                <select id="qtd-alunos" onchange="gerarCamposAlunos()"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select>
+            </div>
+            <div id="campos-alunos" class="form-group"></div>
+            <div class="grid-3">
+                <div class="form-group"><label>Semestre:</label><select id="semestre"><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></div>
+                <div class="form-group"><label>Turma:</label><input type="text" id="turma" value="T16"></div>
+                <div class="form-group"><label>Matéria:</label><input type="text" id="materia" value="Pediatria"></div>
+            </div>
+        </div>
+
+        <div class="card" style="box-shadow: none; border: 1px solid var(--border);">
+            <h3 style="background: none; border: none; padding: 0;"><i class="fa-solid fa-child"></i> Dados do Paciente</h3>
+            <hr style="border: 0; border-top: 1px solid var(--border); margin-bottom: 15px;">
+            <div class="grid-2">
+                <div class="form-group"><label>Nome do Paciente:</label><input type="text" id="paciente-nome" placeholder="Nome completo"></div>
+                <div class="form-group"><label>Sexo Biológico:</label><select id="paciente-sexo"><option>Masculino</option><option>Feminino</option></select></div>
+            </div>
+        </div>
+
+        <div id="setup-error" class="alert-text text-danger" style="margin: 15px 0; text-align: center; font-size: 1em;"></div>
+        <button class="btn" onclick="iniciarConsulta()" style="padding: 15px; font-size: 1.1em;">INICIAR CONSULTA <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+</div>
+
+<div id="page-consulta" class="page">
+    <div class="container-app">
+        <div class="summary-box" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <p style="font-size: 1.2em; color: var(--primary); margin:0;"><strong><i class="fa-solid fa-user-injured"></i> <span id="auto-paciente"></span></strong></p>
+                <p style="margin: 5px 0 0 0; opacity: 0.8; font-size: 0.9em;"><i class="fa-solid fa-user-doctor"></i> Equipe: <span id="auto-alunos"></span></p>
+            </div>
+            <div style="text-align: right; opacity: 0.8; font-size: 0.9em;">
+                <p style="margin:0;"><i class="fa-regular fa-calendar"></i> <span id="auto-data"></span></p>
+                <p style="margin: 5px 0 0 0;"><i class="fa-solid fa-book-medical"></i> <span id="auto-etapa"></span> | <span id="auto-turma"></span> | <span id="auto-materia"></span></p>
+            </div>
+        </div>
+
+        <div class="app-layout">
+            <aside class="sidebar">
+                <a href="javascript:void(0)" class="btn-meus-prontuarios" onclick="buscarMeusProntuarios()"><i class="fa-solid fa-folder-open"></i> VER PRONTUÁRIOS</a>
+                
+                <h3 style="font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; opacity: 0.6;">Navegação</h3>
+                <a href="#sec-identificacao"><i class="fa-regular fa-id-card"></i> Identificação</a>
+                <a href="#sec-qp"><i class="fa-solid fa-comment-medical"></i> Queixa Principal</a>
+                <a href="#sec-hma"><i class="fa-solid fa-notes-medical"></i> História Atual</a>
+                <a href="#sec-antecedentes"><i class="fa-solid fa-clock-rotate-left"></i> Ant. Fisiológicos</a>
+                <a href="#sec-dnpm"><i class="fa-solid fa-child-reaching"></i> DNPM</a>
+                <a href="#sec-patologico"><i class="fa-solid fa-virus"></i> Hist. Patológico</a>
+                <a href="#sec-familiar"><i class="fa-solid fa-people-roof"></i> Ant. Familiares</a>
+                <a href="#sec-socio"><i class="fa-solid fa-house-chimney-medical"></i> Socioeconômico</a>
+                <a href="#sec-habitos"><i class="fa-solid fa-apple-whole"></i> Hábitos de Vida</a>
+                <a href="#sec-isda"><i class="fa-solid fa-magnifying-glass-plus"></i> ISDA</a>
+                <a href="#sec-exame"><i class="fa-solid fa-heart-pulse"></i> Exame Físico</a>
+                <a href="#sec-avaliacao"><i class="fa-solid fa-file-signature"></i> Avaliação</a>
+                <a href="#sec-plano"><i class="fa-solid fa-pills"></i> Plano (Conduta)</a>
+                
+                <hr style="border-color: var(--border); width: 100%; margin: 15px 0;">
+                
+                <a href="javascript:void(0)" onclick="toggleDarkMode()"><i class="fa-solid fa-moon"></i> Alternar Tema</a>
+                <a href="javascript:void(0)" onclick="limparProntuario()" style="color: #dc3545; font-weight: bold;"><i class="fa-solid fa-trash-can"></i> Limpar Dados</a>
+                <a href="javascript:void(0)" class="btn-finalizar" onclick="gerarSOAP()"><i class="fa-solid fa-check-double"></i> FINALIZAR SOAP</a>
+            </aside>
+
+            <main class="main-content">
+                <section class="card" id="sec-identificacao">
+                    <h3>Identificação</h3>
+                    <div class="grid-2">
+                        <div class="form-group"><label>Data de Nascimento:</label><input type="date" id="data-nasc" onchange="calcularIdades()"></div>
+                        <div class="form-group"><label>Idade Calculada:</label><input type="text" id="idade-display" readonly style="background: var(--box-bg); border:none; font-weight:bold; color: var(--primary);"><input type="hidden" id="idade-meses-hidden"></div>
+                    </div>
+                    <div class="grid-3">
+                        <div class="form-group"><label>Nome da Mãe:</label><input type="text" id="id-mae"></div>
+                        <div class="form-group"><label>Celular para contato:</label><input type="text" id="id-celular" oninput="this.value = mascaraCelular(this.value)" placeholder="(XX) XXXXX-XXXX" maxlength="15"></div>
+                        <div class="form-group"><label>Cor:</label><input type="text" id="id-cor"></div>
+                        <div class="form-group"><label>Etnia:</label><input type="text" id="id-etnia"></div>
+                        <div class="form-group"><label>Religião:</label><input type="text" id="id-religiao"></div>
+                        <div class="form-group">
+                            <label>Tipagem Sanguínea:</label>
+                            <div class="radio-group" style="background: var(--input-bg); padding: 10px; border-radius: 8px;">
+                                <label><input type="radio" name="sangue-tipo" value="A"> A</label><label><input type="radio" name="sangue-tipo" value="B"> B</label><label><input type="radio" name="sangue-tipo" value="O"> O</label><label><input type="radio" name="sangue-tipo" value="AB"> AB</label> |
+                                <label><input type="radio" name="sangue-fator" value="+"> +</label><label><input type="radio" name="sangue-fator" value="-"> -</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Convênio além do SUS:</label>
+                            <select id="id-tem-conv" onchange="toggleBox(this.value, 'box-convenio', 'Sim')"><option>Não</option><option>Sim</option></select>
+                            <div id="box-convenio" class="hidden-field"><input type="text" id="id-convenio" placeholder="Qual convênio?"></div>
+                        </div>
+                    </div>
+                    <div class="form-group" style="background: var(--box-bg); padding: 15px; border-radius: 8px;">
+                        <label>É a mãe biológica que está acompanhando?</label>
+                        <select id="id-mae-acomp" onchange="toggleBox(this.value, 'box-acompanhante', 'Não')"><option>Sim</option><option>Não</option></select>
+                        <div id="box-acompanhante" class="hidden-field" style="background: var(--input-bg);">
+                            <div class="grid-2"><input type="text" id="id-acomp-nome" placeholder="Nome do acompanhante"><input type="text" id="id-acomp-parente" placeholder="Parentesco com o paciente"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card" id="sec-qp">
+                    <h3>Queixa Principal (QP)</h3>
+                    <div class="form-group">
+                        <label>Qual o motivo primário da consulta?</label>
+                        <select id="qp-tipo" onchange="toggleBox(this.value, 'box-qp', 'Outro')"><option>Consulta de rotina</option><option>Outro</option></select>
+                        <div id="box-qp" class="hidden-field"><textarea id="qp-texto" rows="2" placeholder="Descreva nas palavras do paciente/acompanhante..."></textarea></div>
+                    </div>
+                </section>
+
+                <section class="card" id="sec-hma">
+                    <h3>História da Doença Atual (HMA)</h3>
+                    <div class="grid-3">
+                        <div class="form-group"><label>Quando começou:</label><input type="text" id="hma-inicio"></div>
+                        <div class="form-group"><label>Onde é a Dor:</label><input type="text" id="hma-local"></div>
+                        <div class="form-group"><label>Intensidade (0-10):</label><select id="hma-int"><option selected>Selecione</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+                        <div class="form-group"><label>Frequência:</label><input type="text" id="hma-freq"></div>
+                        <div class="form-group"><label>Tipo da Dor:</label><input type="text" id="hma-tipo"></div>
+                        <div class="form-group"><label>Dor no momento atual:</label><input type="text" id="hma-momento"></div>
+                    </div>
+                    <hr style="border:0; border-top:1px dashed var(--border); margin: 20px 0;">
+                    <div class="grid-2">
+                        <div class="form-group"><label>Irradia/Erradia?</label><select onchange="toggleBox(this.value, 'box-irradia', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-irradia" class="hidden-field"><input type="text" id="hma-irradia" placeholder="Para onde?"></div></div>
+                        <div class="form-group"><label>Fator melhora?</label><select onchange="toggleBox(this.value, 'box-melhora', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-melhora" class="hidden-field"><input type="text" id="hma-melhora" placeholder="Qual fator?"></div></div>
+                        <div class="form-group"><label>Fator piora?</label><select onchange="toggleBox(this.value, 'box-piora', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-piora" class="hidden-field"><input type="text" id="hma-piora" placeholder="Qual fator?"></div></div>
+                        <div class="form-group"><label>Sintomas associados?</label><select onchange="toggleBox(this.value, 'box-assoc', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-assoc" class="hidden-field"><input type="text" id="hma-assoc" placeholder="Quais?"></div></div>
+                    </div>
+                    <hr style="border:0; border-top:1px dashed var(--border); margin: 20px 0;">
+                    <div class="form-group">
+                        <label>Fez uso de medicamento para este quadro?</label>
+                        <select onchange="toggleBox(this.value, 'box-med-hma', 'Sim')"><option>Não</option><option>Sim</option></select>
+                        <div id="box-med-hma" class="hidden-field"><div class="grid-2"><input type="text" id="hma-med-qual" placeholder="Qual medicamento?"><input type="text" id="hma-med-qtd" placeholder="Quantidade / Dose?"><input type="text" id="hma-med-tempo" placeholder="Por quanto tempo?"><input type="text" id="hma-med-prescrito" placeholder="Prescrito por quem?"></div></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Atrapalha atividade diária?</label>
+                        <select onchange="toggleBox(this.value, 'box-atrapalha', 'Sim')"><option>Não</option><option>Sim</option></select>
+                        <div id="box-atrapalha" class="hidden-field"><div class="grid-2"><input type="text" id="hma-atra-onde" placeholder="Em qual atividade?"><input type="text" id="hma-atra-como" placeholder="De que maneira?"></div></div>
+                    </div>
+                    <div class="form-group" style="background:var(--box-bg); padding:15px; border-radius:8px;">
+                        <label>Alteração no apetite, humor, sono, peso ou disposição?</label>
+                        <div class="radio-group"><label><input type="checkbox" onchange="toggleBox(this.checked, 'box-alt', true)"> Sim, apresentou alterações</label></div>
+                        <div id="box-alt" class="hidden-field" style="background:var(--input-bg);"><textarea id="hma-alt-texto" rows="2" placeholder="O que alterou especificamente?"></textarea></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Já consultou por conta destes mesmos sintomas antes?</label>
+                        <select onchange="toggleBox(this.value, 'box-cons-ant', 'Sim')"><option>Não</option><option>Sim</option></select>
+                        <div id="box-cons-ant" class="hidden-field">
+                            <div class="grid-3" style="margin-bottom: 10px;">
+                                <input type="text" id="hma-cons-quando" placeholder="Quando foi?"><input type="text" id="hma-cons-onde" placeholder="Onde consultou?"><input type="text" id="hma-cons-diag" placeholder="Qual foi o diagnóstico?">
+                            </div>
+                            <div class="form-group" style="margin-bottom:0; background:var(--input-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                <label>Foi prescrito medicamento nesta consulta anterior?</label>
+                                <select onchange="toggleBox(this.value, 'box-med-ant', 'Sim')"><option>Não</option><option>Sim</option></select>
+                                <div id="box-med-ant" class="hidden-field"><input type="text" id="hma-cons-med" placeholder="Medicação / Quantidade / Tempo de uso"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group"><label>Teve contato recente com pessoas doentes?</label><select id="hma-doentes"><option>Não</option><option>Sim</option></select></div>
+                    
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label style="color: var(--primary); font-size: 1em;"><i class="fa-solid fa-feather"></i> Descrição Detalhada da HMA (Texto Livre):</label>
+                        <textarea id="hma-desc-livre" rows="5" placeholder="Use este espaço para descrever a evolução da doença atual contando a história do paciente de forma fluida..." style="border-color: var(--primary);"></textarea>
+                    </div>
+                </section>
+
+                <section class="card" id="sec-antecedentes">
+                    <h3>Antecedentes Pessoais e Fisiológicos</h3>
+                    <p style="font-size:0.9em; opacity:0.8; margin-bottom: 20px;">Preencha os dados neonatais e gestacionais para compor o histórico.</p>
+                    <div class="grid-3">
+                        <div class="form-group"><label>Peso ao nascer:</label><input type="text" id="neo-peso" placeholder="Ex: 3200g"></div>
+                        <div class="form-group"><label>Estatura ao nascer:</label><input type="text" id="neo-altura" placeholder="Ex: 49cm"></div>
+                        <div class="form-group"><label>Amamentação:</label><input type="text" id="neo-ama" placeholder="LME, Fórmula..."></div>
+                        <div class="form-group"><label>APGAR 1º e 5º min:</label><input type="text" id="neo-apgar" placeholder="Ex: 8/9"></div>
+                        <div class="form-group"><label>Necessitou Fototerapia?</label><select onchange="toggleBox(this.value, 'box-foto', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-foto" class="hidden-field"><input type="text" id="neo-foto-tempo" placeholder="Por quanto tempo?"></div></div>
+                        <div class="form-group"><label>Local do parto:</label><input type="text" id="neo-local" placeholder="Hospital/Maternidade"></div>
+                        <div class="form-group"><label>Virose ou Diabetes Gestacional?</label><select id="neo-virose"><option>Não</option><option>Sim</option></select></div>
+                        <div class="form-group"><label>Alergias conhecidas?</label><select onchange="toggleBox(this.value, 'box-aler', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-aler" class="hidden-field"><input type="text" id="neo-aler" placeholder="Qual alergia?"></div></div>
+                        <div class="form-group"><label>Possui irmãos?</label><select onchange="toggleBox(this.value, 'box-irmaos-neo', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-irmaos-neo" class="hidden-field"><input type="text" id="neo-irmaos-ordem" placeholder="Qual a ordem do paciente?"></div></div>
+                        <div class="form-group"><label>Histórico de Aborto materno?</label><select onchange="toggleBox(this.value, 'box-aborto', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-aborto" class="hidden-field"><input type="text" id="neo-aborto-motivo" placeholder="Causa conhecida?"></div></div>
+                        <div class="form-group"><label>Via de parto:</label><select id="neo-parto"><option>Normal</option><option>Cesárea</option></select></div>
+                        <div class="form-group"><label>Idade Gest. (Semanas):</label><input type="number" id="neo-ig"></div>
+                        <div class="form-group"><label>Gestações (G):</label><input type="number" id="neo-g" value="1"></div>
+                        <div class="form-group"><label>Partos (P):</label><input type="number" id="neo-p" value="1"></div>
+                        <div class="form-group"><label>Abortos (A):</label><input type="number" id="neo-a" value="0"></div>
+                        <div class="form-group"><label>A gravidez foi planejada?</label><select id="neo-planejada"><option>Sim</option><option>Não</option></select></div>
+                        <div class="form-group"><label>Álcool/Drogas na Gestação?</label><select onchange="toggleBox(this.value, 'box-drogas', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-drogas" class="hidden-field"><input type="text" id="neo-drogas-txt" placeholder="Qual substância e tempo?"></div></div>
+                        <div class="form-group"><label>Calendário Vacinal em dia?</label><select onchange="toggleBox(this.value, 'box-vac', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-vac" class="hidden-field"><input type="text" id="neo-vac-txt" placeholder="Quais vacinas aplicadas?"></div></div>
+                        <div class="form-group"><label>Fez suplementação gestacional?</label><select onchange="toggleBox(this.value, 'box-sup', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-sup" class="hidden-field"><input type="text" id="neo-sup-txt" placeholder="Ferro, Ácido fólico...?"></div></div>
+                        <div class="form-group"><label>Teve Intercorrência na Gestação?</label><select id="neo-int-select" onchange="toggleBox(this.value, 'box-int-gest', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-int-gest" class="hidden-field"><input type="text" id="neo-int-txt" placeholder="Qual intercorrência?"></div></div>
+                        <div class="form-group"><label>Realizou Pré-natal adequado?</label><select id="neo-prenatal"><option>Sim</option><option>Não</option></select></div>
+                    </div>
+                    <button class="btn btn-secondary" onclick="gerarResumo()"><i class="fa-solid fa-arrows-rotate"></i> Gerar Resumo Automático</button>
+                    <textarea id="resumo-gerado" rows="3" style="width:100%; margin-top:15px; background: var(--box-bg); border:none; color:var(--primary);" readonly placeholder="Resumo gerado automaticamente aparecerá aqui..."></textarea>
+                </section>
+
+                <section class="card" id="sec-dnpm">
+                    <h3>Desenvolvimento Psicomotor (DNPM)</h3>
+                    <div id="box-aviso-dnpm" style="background: rgba(255,193,7,0.15); border-left:4px solid #ffc107; padding:15px; margin-bottom:20px; border-radius:4px; display:flex; align-items:center; gap:10px;">
+                        <i class="fa-solid fa-lightbulb" style="color: #ffc107; font-size: 1.5em;"></i>
+                        <span id="aviso-dnpm" style="font-weight:600; color: var(--text);">O alerta de desenvolvimento esperado aparecerá após o cálculo da idade na seção de Identificação.</span>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Já anda ou engatinha adequadamente?</label>
+                            <select id="dnpm-anda" onchange="document.getElementById('box-dnpm-anda').style.display = (this.value === 'Sim') ? 'block' : 'none';">
+                                <option>Sim</option><option>Não</option>
+                            </select>
+                            <div id="box-dnpm-anda" class="hidden-field" style="display:block; background:var(--input-bg);">
+                                <input type="text" id="dnpm-anda-quando" placeholder="Com qual idade começou?">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Fala adequadamente para a idade?</label>
+                            <select id="dnpm-fala" onchange="document.getElementById('box-dnpm-fala').style.display = (this.value === 'Sim') ? 'block' : 'none';">
+                                <option>Sim</option><option>Não</option>
+                            </select>
+                            <div id="box-dnpm-fala" class="hidden-field" style="display:block; background:var(--input-bg);">
+                                <input type="text" id="dnpm-fala-quando" placeholder="Com qual idade começou?">
+                            </div>
+                        </div>
+                        <div class="form-group"><label>Erupção Dentária (Dentição):</label><input type="text" id="dnpm-dente" placeholder="Quantos dentes?"></div>
+                        <div class="form-group">
+                            <label>Já ocorreu o desfralde?</label>
+                            <select id="dnpm-fralda" onchange="document.getElementById('box-dnpm-fralda').style.display = (this.value === 'Não') ? 'none' : 'block';">
+                                <option>Sim</option><option>Em processo</option><option selected>Não</option>
+                            </select>
+                            <div id="box-dnpm-fralda" class="hidden-field" style="background:var(--input-bg);">
+                                <input type="text" id="dnpm-fralda-quando" placeholder="Quando iniciou / parou a fralda?">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card" id="sec-patologico">
+                    <h3>Histórico Patológico Pregresso</h3>
+                    <div class="grid-2">
+                        <div class="form-group"><label>Sofreu algum trauma físico?</label><select onchange="toggleBox(this.value, 'box-trauma', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-trauma" class="hidden-field"><input type="text" id="pat-trauma" placeholder="Qual tipo de trauma?"></div></div>
+                        <div class="form-group"><label>Teve Icterícia neonatal/tardia?</label><select id="pat-icte"><option>Não</option><option>Sim</option></select></div>
+                        <div class="form-group"><label>Foi submetido a cirurgias?</label><select onchange="toggleBox(this.value, 'box-cirurgia', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-cirurgia" class="hidden-field"><input type="text" id="pat-cirurgia" placeholder="Qual procedimento cirúrgico?"></div></div>
+                        <div class="form-group"><label>Possui histórico de internação?</label><select onchange="toggleBox(this.value, 'box-interna', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-interna" class="hidden-field"><input type="text" id="pat-interna" placeholder="Motivo e duração da internação?"></div></div>
+                        <div class="form-group"><label>Portador de doença de base crônica?</label><select onchange="toggleBox(this.value, 'box-base', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-base" class="hidden-field"><input type="text" id="pat-base" placeholder="Asma, DM1, Anemia Falciforme...?"></div></div>
+                    </div>
+                </section>
+
+                <section class="card" id="sec-familiar">
+                    <h3>Antecedentes Familiares</h3>
+                    <div class="grid-3">
+                        <div class="form-group"><label>Pai biológico possui doença?</label><select onchange="toggleBox(this.value, 'box-pai', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-pai" class="hidden-field"><input type="text" id="fam-pai" placeholder="Qual patologia?"></div></div>
+                        <div class="form-group"><label>Mãe biológica possui doença?</label><select onchange="toggleBox(this.value, 'box-mae', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-mae" class="hidden-field"><input type="text" id="fam-mae" placeholder="Qual patologia?"></div></div>
+                        <div class="form-group"><label>Irmãos possuem doença?</label><select onchange="toggleBox(this.value, 'box-irm', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-irm" class="hidden-field"><input type="text" id="fam-irmaos" placeholder="Qual patologia?"></div></div>
+                    </div>
+                </section>
+
+                <section class="card" id="sec-socio">
+                    <h3>Socioeconômico</h3>
+                    <div class="grid-3">
+                        <div class="form-group"><label>Tipo de moradia (Casa):</label><select id="soc-casa"><option>Alvenaria</option><option>Madeira</option><option>Pau-a-pique</option></select></div>
+                        <div class="form-group"><label>Possui Saneamento Básico?</label><select id="soc-sane"><option>Sim</option><option>Não</option></select></div>
+                        <div class="form-group"><label>Acesso a rede de Esgoto?</label><select id="soc-esgoto"><option>Sim</option><option>Não</option></select></div>
+                        <div class="form-group"><label>Passa Coleta de Lixo regular?</label><select id="soc-lixo"><option>Sim</option><option>Não</option></select></div>
+                        <div class="form-group"><label>Acesso contínuo a água tratada?</label><select id="soc-agua"><option>Sim</option><option>Não</option></select></div>
+                    </div>
+                </section>
+
+                <section class="card" id="sec-habitos">
+                    <h3>Hábitos de Vida</h3>
+                    
+                    <h4>Alimentação</h4>
+                    <div class="grid-2">
+                        <div class="form-group"><label>Rotina alimentar diária:</label><input type="text" id="hab-alim-rotina" placeholder="Descreva o padrão das refeições"></div>
+                        <div class="form-group"><label>Frequência (Vezes ao dia):</label><select id="hab-alim-vezes" onchange="toggleBox(this.value, 'box-vezes', 'Outro')"><option>2x</option><option>3x</option><option>4x</option><option>5x</option><option>Outro</option></select><div id="box-vezes" class="hidden-field"><input type="text" id="hab-alim-vezes-outro" placeholder="Especifique"></div></div>
+                        <div class="form-group"><label>Quantidade média ingerida:</label><input type="text" id="hab-alim-qtd"></div>
+                        <div class="form-group"><label>Intolerância ou alergia alimentar?</label><select onchange="toggleBox(this.value, 'box-intol', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-intol" class="hidden-field"><input type="text" id="hab-alim-intol" placeholder="APLV, Lactose, Glúten?"></div></div>
+                        <div class="form-group"><label>Preferências marcantes?</label><select onchange="toggleBox(this.value, 'box-pref', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-pref" class="hidden-field"><input type="text" id="hab-alim-pref" placeholder="O que prefere comer?"></div></div>
+                        <div class="form-group"><label>Recusas alimentares severas?</label><select onchange="toggleBox(this.value, 'box-recusa', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-recusa" class="hidden-field"><input type="text" id="hab-alim-recusa" placeholder="O que recusa comer?"></div></div>
+                        <div class="form-group"><label>Consumo de doces/açúcares?</label><select onchange="toggleBox(this.value, 'box-doces', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-doces" class="hidden-field"><input type="text" id="hab-alim-doces" placeholder="Quais doces e qual a frequência?"></div></div>
+                        <div class="form-group"><label>Faz uso de Merenda Escolar?</label><input type="text" id="hab-alim-merenda" placeholder="Frequência / Aceitação"></div>
+                        <div class="form-group"><label>Ingestão hídrica diária (Água):</label><input type="text" id="hab-alim-agua" placeholder="Copos/Litros aproximados"></div>
+                    </div>
+                    
+                    <h4>Medicamentos de Uso Prévio</h4>
+                    <div class="grid-2">
+                        <div class="form-group"><label>Faz uso contínuo de medicação?</label><select onchange="toggleBox(this.value, 'box-medcont', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-medcont" class="hidden-field"><input type="text" id="hab-med-cont" placeholder="Qual medicamento e motivo?"></div></div>
+                        <div class="form-group"><label>Alergia a algum medicamento?</label><select onchange="toggleBox(this.value, 'box-alermed', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-alermed" class="hidden-field"><input type="text" id="hab-med-aler" placeholder="Qual medicamento?"></div></div>
+                        <div class="form-group"><label>Faz uso de Polivitamínicos?</label><select onchange="toggleBox(this.value, 'box-poli', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-poli" class="hidden-field"><input type="text" id="hab-med-poli" placeholder="Quais e doses?"></div></div>
+                        <div class="form-group"><label>Como/Onde são armazenados?</label><input type="text" id="hab-med-arma" placeholder="O acesso é fácil para a criança?"></div>
+                    </div>
+                    
+                    <h4>Escolaridade, Lazer e Temperamento</h4>
+                    <div class="grid-2">
+                        <div class="form-group"><label>Tipo de instituição escolar:</label><input type="text" id="hab-esc-tipo" placeholder="Creche, Pública, Particular..."></div>
+                        <div class="form-group"><label>Horários que frequenta:</label><input type="text" id="hab-esc-hora" placeholder="Integral, Manhã, Tarde..."></div>
+                        <div class="form-group"><label>Rendimento/Desempenho Escolar:</label><input type="text" id="hab-esc-rend" placeholder="Bom, dificuldades específicas?"></div>
+                        <div class="form-group"><label>Relacionamento escolar:</label><input type="text" id="hab-esc-rel" placeholder="Como interage com colegas e professores?"></div>
+                        <div class="form-group"><label>O que faz no tempo livre (Lazer):</label><input type="text" id="hab-laz-oque" placeholder="Esportes, leitura, brincadeiras..."></div>
+                        <div class="form-group"><label>Interage preferencialmente com:</label><select id="hab-laz-inter"><option>Ambos</option><option>Somente crianças da mesma faixa</option><option>Somente adultos</option></select></div>
+                        <div class="form-group"><label>Tem o hábito de brincar sozinho?</label><select id="hab-laz-soz"><option>Sim</option><option>Não</option></select></div>
+                        <div class="form-group"><label>Humor predominante:</label><input type="text" id="hab-temp-humor" placeholder="Ex: Alegre, choroso, apático"></div>
+                        <div class="form-group"><label>Apresenta Tiques ou manias?</label><input type="text" id="hab-temp-tique" placeholder="Ex: Roer unhas, puxar cabelo"></div>
+                        <div class="form-group"><label>Dinâmica do relacionamento com os pais:</label><input type="text" id="hab-temp-pais" placeholder="Afetuoso, distante, conflituoso?"></div>
+                        <div class="form-group"><label>Relacionamento com outras pessoas:</label><input type="text" id="hab-temp-pessoas" placeholder="Sociável, tímido?"></div>
+                    </div>
+
+                    <h4>Sono</h4>
+                    <div class="grid-3">
+                        <div class="form-group"><label>Quantidade de horas de sono (Dia/Noite):</label><input type="text" id="hab-sono-horas" placeholder="Ex: 9 horas"></div>
+                        <div class="form-group"><label>Sono é agitado ou acorda na madrugada?</label><select id="hab-sono-agi-sel" onchange="toggleBox(this.value, 'box-sono', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-sono" class="hidden-field"><input type="text" id="hab-sono-motivo" placeholder="Qual o motivo aparente e a frequência?"></div></div>
+                        <div class="form-group"><label>Dorme na mesma cama que os pais (Coleito)?</label><select id="hab-sono-pais"><option>Não</option><option>Sim</option></select></div>
+                    </div>
+
+                    <h4>Telas</h4>
+                    <div class="grid-2">
+                        <div class="form-group"><label>Tempo diário de exposição a telas:</label><input type="text" id="hab-telas-tempo" placeholder="Ex: 3 horas (TV + Celular)"></div>
+                        <div class="form-group"><label>Conteúdo assistido ou jogado:</label><input type="text" id="hab-telas-cont" placeholder="Desenhos educativos, YouTube, Jogos violentos?"></div>
+                    </div>
+
+                    <h4>Evacuação</h4>
+                    <div class="grid-2">
+                        <div class="form-group"><label>Frequência de evacuações (Vezes/dia ou Semana):</label><input type="text" id="hab-evac-vezes" placeholder="Ex: 1x ao dia, a cada 2 dias..."></div>
+                        <div class="form-group"><label>Data/Momento da última evacuação:</label><input type="text" id="hab-evac-ultima" placeholder="Ex: Hoje de manhã"></div>
+                        <div class="form-group"><label>Padrão das fezes segundo a Escala de Bristol:</label><select id="hab-evac-bristol"><option>Tipo 1 (Bolinhas duras)</option><option>Tipo 2 (Salsicha segmentada)</option><option>Tipo 3 (Salsicha com rachaduras)</option><option selected>Tipo 4 (Salsicha lisa/mole)</option><option>Tipo 5 (Pedaços moles c/ bordas nítidas)</option><option>Tipo 6 (Massa pastosa, bordas irregulares)</option><option>Tipo 7 (Totalmente líquida)</option></select></div>
+                        <div class="form-group"><label>Notou alguma alteração recente nas fezes?</label><select id="hab-evac-alt-sel" onchange="toggleBox(this.value, 'box-evac-alt', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-evac-alt" class="hidden-field"><input type="text" id="hab-evac-alt-txt" placeholder="Sangue, muco, dor? Há quanto tempo?"></div></div>
+                    </div>
+
+                    <h4>Diurese</h4>
+                    <div class="grid-3">
+                        <div class="form-group"><label>Frequência (Quantas vezes ao dia/Fraldas):</label><input type="text" id="hab-diu-vezes" placeholder="Ex: 5 fraldas pesadas/dia"></div>
+                        <div class="form-group"><label>Cor característica da diurese:</label><input type="text" id="hab-diu-cor" placeholder="Ex: Amarelo claro, transparente"></div>
+                        <div class="form-group"><label>Apresenta disúria, odor forte ou alterações?</label><select id="hab-diu-alt-sel" onchange="toggleBox(this.value, 'box-diu-alt', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-diu-alt" class="hidden-field"><input type="text" id="hab-diu-alt-txt" placeholder="Especifique a alteração e o tempo"></div></div>
+                    </div>
+
+                    <h4>Sexualidade</h4>
+                    <div class="form-group" style="background: var(--box-bg); padding: 15px; border-radius: 8px;">
+                        <label>A criança demonstra interesse, curiosidade atípica ou brincadeiras sexuais para a idade?</label>
+                        <select id="hab-sex-sel" onchange="toggleBox(this.value, 'box-sex', 'Sim')"><option>Não</option><option>Sim</option></select>
+                        <div id="box-sex" class="hidden-field" style="background: var(--input-bg);"><input type="text" id="hab-sex-txt" placeholder="Especifique detalhadamente o comportamento observado"></div>
+                    </div>
+
+                    <h4>Ambiente</h4>
+                    <div class="grid-3">
+                        <div class="form-group"><label>Quem compõe o núcleo familiar que reside na casa?</label><input type="text" id="hab-amb-reside" placeholder="Mãe, pai, 2 irmãos, avó materna..."></div>
+                        <div class="form-group"><label>Endereço de residência (Contato):</label><input type="text" id="hab-amb-end" placeholder="Rua, Número, Bairro, Cidade"></div>
+                        <div class="form-group"><label>Localização demográfica da moradia:</label><select id="hab-amb-local"><option>Zona Urbana</option><option>Zona Rural</option><option>Comunidade Ribeirinha/Aldeia</option></select></div>
+                        <div class="form-group"><label>Possui Animais de estimação em convívio íntimo?</label><select id="hab-amb-pet-sel" onchange="toggleBox(this.value, 'box-pet', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-pet" class="hidden-field"><input type="text" id="hab-amb-pet-txt" placeholder="Quais animais (Cães, Gatos, Aves)?"></div></div>
+                        <div class="form-group"><label>Há algum Tabagista residindo no domicílio?</label><select id="hab-amb-tab-sel" onchange="toggleBox(this.value, 'box-tab', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-tab" class="hidden-field"><input type="text" id="hab-amb-tab-txt" placeholder="O paciente inala fumaça de segunda mão?"></div></div>
+                    </div>
+                </section>
+
+                <section class="card" id="sec-isda">
+                    <h3>ISDA (Interrogatório Sintomatológico)</h3>
+                    <p style="font-size:0.9em; opacity:0.8;">Revise de forma sistemática os demais aparelhos (Geral, Cabeça/Pescoço, Ap. Respiratório, Ap. Digestório, etc.).</p>
+                    <textarea id="isda-texto" rows="4" placeholder="Descreva os achados pertinentes do ISDA não abordados na HMA..."></textarea>
+                </section>
+
+                <section class="card" id="sec-exame" style="border-top: 5px solid var(--primary);">
+                    <h2 style="margin-bottom: 20px; color: var(--primary);"><i class="fa-solid fa-stethoscope"></i> Exame Físico</h2>
+
+                    <h4>Sinais Vitais e Antropometria (Alertas Automáticos)</h4>
+                    
+                    <div class="grid-4">
+                        <div class="form-group">
+                            <label>FC (bpm):</label>
+                            <input type="number" id="sv-fc" oninput="verificarSinais()" placeholder="Ex: 110">
+                            <span id="alert-fc" class="alert-text"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>FR (irpm):</label>
+                            <input type="number" id="sv-fr" oninput="verificarSinais()" placeholder="Ex: 30">
+                            <span id="alert-fr" class="alert-text"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Temp (°C):</label>
+                            <input type="number" step="0.1" id="sv-temp" oninput="verificarSinais()" placeholder="Ex: 36.5">
+                            <span id="alert-temp" class="alert-text"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>PA Sistólica:</label>
+                            <input type="number" id="sv-pas" oninput="verificarSinais()" placeholder="PAS mmHG">
+                            <span id="alert-pas" class="alert-text"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Saturação (%):</label>
+                            <input type="number" id="sv-sat" oninput="verificarSinais()" placeholder="Ex: 98">
+                            <span id="alert-sat" class="alert-text"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>TEC (segundos):</label>
+                            <input type="number" id="sv-tec" oninput="verificarSinais()" placeholder="Ex: 2">
+                            <span id="alert-tec" class="alert-text"></span>
+                        </div>
+                        <div class="form-group"><label>Peso (kg):</label><input type="number" step="0.1" id="ex-peso" onchange="calcularIMC()"></div>
+                        <div class="form-group"><label>Altura (cm):</label><input type="number" step="0.1" id="ex-altura" onchange="calcularIMC()"></div>
+                        <div class="form-group"><label>IMC (Auto):</label><input type="text" id="ex-imc" readonly style="background:var(--box-bg); font-weight:bold; color: var(--primary);"></div>
+                        <div class="form-group"><label>Perím. Encefálico (cm):</label><input type="text" id="ex-pc"></div>
+                    </div>
+                    
+                    <div style="background: var(--box-bg); border: 1px dashed var(--border); padding: 15px; border-radius: 8px; margin-top: 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="flex:1; padding-right:15px;">
+                                <label>Análise das Curvas (Peso/Estatura/IMC da OMS):</label>
+                                <input type="text" id="ex-curvas" placeholder="Ex: Escore Z entre -1 e +1 (Adequado)">
+                            </div>
+                            <button class="btn btn-secondary" style="width: auto; margin-top: 0;" onclick="abrirModalCurvas()"><i class="fa-solid fa-chart-line"></i> Abrir Curvas da SBP</button>
+                        </div>
+                    </div>
+
+                    <h4 style="margin-top: 30px;">Estado Geral e Ectoscopia</h4>
+                    <div class="grid-3">
+                        <div class="form-group"><label>Escala de Glasgow (SNC):</label><input type="number" id="ex-glasgow" min="3" max="15" value="15"></div>
+                        <div class="form-group"><label>Hidratação das Mucosas:</label><input type="text" id="ex-mucosa" value="Coradas e úmidas"></div>
+                        <div class="form-group"><label>Fácies:</label><select id="ex-facies"><option selected>Atípica</option><option>hipocrática</option><option>renal</option><option>cushingoide</option><option>mixedematosa</option><option>basedowiana</option><option>acromegálica</option><option>leonina</option><option>parkinsoniana</option><option>adenoideana</option><option>mongoloide</option><option>miastênica</option><option>tetânica</option><option>febril</option><option>dolorosa</option><option>Atônica</option><option>Sofrimento</option></select></div>
+                        <div class="form-group"><label>Padrão Respiratório:</label><select id="ex-resp"><option selected>Eupneica</option><option>Taquipneica</option><option>Bradipneica</option><option>Dispneica</option><option>Ortopneica</option><option>Apneica</option><option>Hiperpneica</option><option>Hipopneica</option><option>Respiração de Cheyne-Stokes</option><option>Respiração de Kussmaul</option><option>Respiração de Biot</option></select></div>
+                        <div class="form-group"><label>Estado Geral (BEG/REG/MEG):</label><select id="ex-beg"><option>Bom estado geral</option><option>Estado geral afetado</option></select></div>
+                        <div class="form-group"><label>Atividade Psicomotora:</label><select id="ex-ativ"><option>Ativo</option><option>Inerte</option></select></div>
+                        <div class="form-group"><label>Atitude / Responsividade:</label><select id="ex-atit"><option>Reativo ao meio</option><option>Letárgico</option></select></div>
+                        <div class="form-group" style="grid-column: span 2;"><label>Aspecto Geral Descritivo:</label><input type="text" id="ex-aspecto" placeholder="Apresentação geral complementar"></div>
+                    </div>
+
+                    <h4 style="margin-top: 20px;">Exame Físico Específico (Objetivo)</h4>
+                    <p style="font-size:0.85em; color:var(--text); opacity:0.7;"><i class="fa-solid fa-circle-info"></i> Desmarque a caixa de seleção se o exame não foi realizado.</p>
+                    
+                    <div class="box-exame">
+                        <label><input type="checkbox" id="chk-oro" checked onchange="toggleBox(this.checked, 'txt-oro', true)"> Oroscopia</label>
+                        <input type="text" id="txt-oro" value="Sem alterações." style="margin-top:5px;">
+                        
+                        <label style="margin-top:15px;"><input type="checkbox" id="chk-oto" checked onchange="toggleBox(this.checked, 'txt-oto', true)"> Otoscopia</label>
+                        <input type="text" id="txt-oto" value="Sem alterações." style="margin-top:5px;">
+                    </div>
+                    
+                    <div class="box-exame">
+                        <label><input type="checkbox" id="chk-linfo" checked onchange="toggleBox(this.checked, 'txt-linfo', true)"> Palpação Linfonodal</label>
+                        <input type="text" id="txt-linfo" value="Cadeias cervicais, supraclaviculares, axilares e inguinais sem linfonodomegalias palpáveis." style="margin-top:5px;">
+                    </div>
+                    
+                    <div class="box-exame">
+                        <label><input type="checkbox" id="chk-ar" checked onchange="toggleBox(this.checked, 'box-ar-inputs', true)"> Aparelho Respiratório (AR)</label>
+                        <div id="box-ar-inputs" style="margin-top:10px;">
+                            <label>Inspeção:</label><input type="text" id="ar-insp" value="Tórax simétrico, expansibilidade preservada, sem retrações." style="margin-bottom:8px;">
+                            <label>Palpação:</label><input type="text" id="ar-palp" value="Sem abaulamentos." style="margin-bottom:8px;">
+                            <label>Percussão:</label><input type="text" id="ar-perc" value="Som claro pulmonar difuso." style="margin-bottom:8px;">
+                            <label>Ausculta:</label><input type="text" id="ar-ausc" value="Murmúrio vesicular universalmente audível e ruídos adventícios ausentes.">
+                        </div>
+                    </div>
+                    
+                    <div class="box-exame">
+                        <label><input type="checkbox" id="chk-acv" checked onchange="toggleBox(this.checked, 'box-acv-inputs', true)"> Aparelho Cardiovascular (ACV)</label>
+                        <div id="box-acv-inputs" style="margin-top:10px;">
+                            <label>Ausculta:</label><input type="text" id="acv-ausc" value="Bulhas rítmicas normofonéticas em 2 tempos, sem sopros audíveis." style="margin-bottom:8px;">
+                            <label>ICTUS:</label><input type="text" id="acv-ictus" value="Visível e palpável no 4º espaço intercostal, linha hemiclavicular esquerda.">
+                        </div>
+                    </div>
+                    
+                    <div class="box-exame">
+                        <label><input type="checkbox" id="chk-abd" checked onchange="toggleBox(this.checked, 'box-abd-inputs', true)"> Abdômen</label>
+                        <div id="box-abd-inputs" style="margin-top:10px;">
+                            <label>Inspeção:</label><input type="text" id="abd-insp" value="Plano, simétrico, cicatriz umbilical intrusa." style="margin-bottom:8px;">
+                            <label>Ausculta:</label><input type="text" id="abd-ausc" value="RHA presentes normoativos." style="margin-bottom:8px;">
+                            <label>Palpação Superficial:</label><input type="text" id="abd-palpsup" value="Indolor, sem massas." style="margin-bottom:8px;">
+                            <label>Palpação Profunda:</label><input type="text" id="abd-palpprof" value="Sem visceromegalias (fígado e baço impalpáveis)." style="margin-bottom:8px;">
+                            <label>Percussão:</label><input type="text" id="abd-perc" value="Som timpânico." style="margin-bottom:8px;">
+                            <label>Manobras:</label><input type="text" id="abd-manobras" value="Negativas.">
+                        </div>
+                    </div>
+
+                    <div class="box-exame">
+                        <label><input type="checkbox" id="chk-reflexos" checked onchange="toggleBox(this.checked, 'txt-reflexos', true)"> Reflexos</label>
+                        <input type="text" id="txt-reflexos" value="Reflexos neurológicos profundos e superficiais preservados." style="margin-top:5px;">
+                    </div>
+                    
+                    <div class="box-exame">
+                        <label><input type="checkbox" id="chk-genital" checked onchange="toggleBox(this.checked, 'txt-genital', true)"> Genitália</label>
+                        <input type="text" id="txt-genital" value="Masculino típico, pênis sem lesões, testículos tópicos na bolsa escrotal, estadiamento puberal de Tanner G1P1." style="margin-top:5px;">
+                    </div>
+                </section>
+
+                <section class="card" id="sec-avaliacao">
+                    <h2>Avaliação Final (Conclusão Clínica)</h2>
+                    <div class="grid-2">
+                        <div class="form-group"><label>Estado Nutricional:</label><input type="text" id="av-nutri" placeholder="Eutrófico, Risco de Sobrepeso..."></div>
+                        <div class="form-group"><label>Desenvolvimento / Crescimento:</label><input type="text" id="av-cresc" placeholder="Adequado, Baixa Estatura..."></div>
+                        <div class="form-group"><label>Padrão de Alimentação:</label><input type="text" id="av-alim" placeholder="Boa aceitação, recusa alimentar seletiva..."></div>
+                        <div class="form-group"><label>Integração do DNPM:</label><input type="text" id="av-dnpm" placeholder="Apropriado para a idade cronológica..."></div>
+                        <div class="form-group"><label>Ambiente Social e Emocional:</label><input type="text" id="av-soc" placeholder="Ambiente familiar favorável..."></div>
+                        <div class="form-group"><label>Situação Vacinal:</label><input type="text" id="av-vac" placeholder="Atualizada / Necessita reforços"></div>
+                        <div class="form-group"><label>Diagnósticos Patológicos (Hipotéticos/Confirmados):</label><input type="text" id="av-pat" placeholder="Ex: IVAS, Asma controlada, Nenhum achado agudo"></div>
+                        
+                        <div class="form-group"><label style="color:var(--primary);"><i class="fa-solid fa-tag"></i> CID-10 Principal:</label><input type="text" id="av-cid" placeholder="Ex: K59.0 - Constipação" style="border-color: var(--primary);"></div>
+                    </div>
+                </section>
+
+                <section class="card" id="sec-plano" style="border-top: 5px solid #28a745;">
+                    <h2 style="color: #28a745;">Plano (Conduta)</h2>
+                    <p style="font-size:0.9em; opacity:0.8; margin-bottom: 20px;">Descreva a conduta, medicações prescritas, exames solicitados e orientações.</p>
+                    <div class="form-group">
+                        <textarea id="plano-texto" rows="6" placeholder="Ex: Prescrito Paracetamol 200mg/ml, 1 gota/kg se febre. Solicitado Hemograma completo. Retorno em 15 dias..."></textarea>
+                    </div>
+                </section>
+                
+            </main>
+        </div>
+    </div>
+</div>
+
+<div id="page-soap" class="page">
+    <div class="container-app">
+        <div class="card" style="max-width: 1000px; margin: 0 auto;">
+            <h1 style="text-align: center; border-bottom: none;"><i class="fa-solid fa-file-medical"></i> PRONTUÁRIO FINALIZADO</h1>
+            <p style="color:var(--text); opacity:0.8; text-align: center; margin-bottom: 30px; font-size: 1.1em;">Revise as informações (S.O.A.P). Você pode editar o texto livremente antes de exportar ou imprimir.</p>
+            
+            <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 25px;">
+                <button class="btn btn-print" onclick="atualizarImpressao(); window.print()"><i class="fa-solid fa-print"></i> IMPRIMIR PDF</button>
+                <button class="btn btn-nuvem" onclick="salvarNoBanco()" style="background-color: #28a745; width: auto; padding: 12px 24px; font-weight: bold; color: white; border: none; border-radius: 8px; cursor: pointer;"><i class="fa-solid fa-cloud-arrow-up"></i> SALVAR NA NUVEM</button>
+                <button class="btn btn-word" onclick="exportarWord()"><i class="fa-solid fa-file-word"></i> BAIXAR WORD</button>
+            </div>
+            
+            <div class="soap-box">
+                <h2 style="margin-top: 0; color: var(--primary); font-size: 1.4em; border:none; background:none;">[S] Subjetivo (Anamnese)</h2>
+                <textarea id="soap-s" rows="16"></textarea>
+                <div style="text-align: right;"><button class="btn btn-copy" onclick="copiarTexto('soap-s', this)"><i class="fa-regular fa-copy"></i> COPIAR</button></div>
+            </div>
+
+            <div class="soap-box">
+                <h2 style="margin-top: 0; color: var(--primary); font-size: 1.4em; border:none; background:none;">[O] Objetivo (Exame Físico)</h2>
+                <textarea id="soap-o" rows="18"></textarea>
+                <div style="text-align: right;"><button class="btn btn-copy" onclick="copiarTexto('soap-o', this)"><i class="fa-regular fa-copy"></i> COPIAR</button></div>
+            </div>
+
+            <div class="soap-box">
+                <h2 style="margin-top: 0; color: var(--primary); font-size: 1.4em; border:none; background:none;">[A] Avaliação (Conclusão)</h2>
+                <textarea id="soap-a" rows="8"></textarea>
+                <div style="text-align: right;"><button class="btn btn-copy" onclick="copiarTexto('soap-a', this)"><i class="fa-regular fa-copy"></i> COPIAR</button></div>
+            </div>
+
+            <div class="soap-box" style="border-color: #c3e6cb; background: #d4edda;">
+                <h2 style="margin-top: 0; color: #155724; font-size: 1.4em; border:none; background:none;">[P] Plano (Conduta)</h2>
+                <textarea id="soap-p" rows="8" style="border-color: #c3e6cb;"></textarea>
+                <div style="text-align: right;"><button class="btn btn-copy" onclick="copiarTexto('soap-p', this)"><i class="fa-regular fa-copy"></i> COPIAR</button></div>
+            </div>
+
+            <button class="btn btn-secondary" onclick="voltarConsulta()" style="padding: 15px; font-size: 1.1em;"><i class="fa-solid fa-arrow-left"></i> VOLTAR PARA A EDIÇÃO</button>
+        </div>
+    </div>
+</div>
+
+<div id="page-lista" class="page">
+    <div class="container-app" style="max-width: 900px;">
+        <h1 style="text-align: center;"><i class="fa-solid fa-folder-open"></i> Meus Pacientes Atendidos</h1>
+        
+        <div style="display: flex; gap: 15px; margin-bottom: 20px; align-items: center;">
+            <button class="btn btn-secondary" style="width: auto; margin-top: 0;" onclick="voltarAoDashboard()"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
+            <div style="position: relative; flex: 1;">
+                <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 15px; top: 15px; color: #aaa;"></i>
+                <input type="text" id="search-paciente" placeholder="Buscar paciente pelo nome..." onkeyup="filtrarProntuarios()" style="margin: 0; font-size: 1.1em; padding-left: 45px;">
+            </div>
+        </div>
+        
+        <div id="area-dos-prontuarios" style="display: flex; flex-direction: column; gap: 15px;"></div>
+    </div>
+</div>
+
+<div id="print-area">
+    <div class="print-header">
+        <h1>Fundação Educacional do Município de Assis (FEMA)</h1>
+        <h2>Ambulatório de Pediatria - Prontuário Eletrônico</h2>
+        <p>Data do Atendimento: <span id="print-data"></span></p>
+    </div>
+    <div class="print-section">
+        <h3>[S] Subjetivo (Anamnese)</h3>
+        <p id="print-subj"></p>
+    </div>
+    <div class="print-section">
+        <h3>[O] Objetivo (Exame Físico)</h3>
+        <p id="print-obj"></p>
+    </div>
+    <div class="print-section">
+        <h3>[A] Avaliação</h3>
+        <p id="print-ava"></p>
+    </div>
+    <div class="print-section">
+        <h3>[P] Plano (Conduta)</h3>
+        <p id="print-plano"></p>
+    </div>
+    <div class="print-footer">
+        <div class="signature-line"></div>
+        <p>Assinatura / Carimbo do Preceptor</p>
+    </div>
+</div>
+
+<div id="modal-oms" class="modal">
+    <div class="modal-content" style="max-width: 600px; text-align: center;">
+        <span class="close-modal" onclick="fecharModalCurvas()">&times;</span>
+        <div style="width: 60px; height: 60px; background-color: rgba(0,86,179,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto;">
+            <i class="fa-solid fa-chart-line" style="font-size: 25px; color: var(--primary);"></i>
+        </div>
+        <h2 style="margin-bottom: 15px; color: var(--primary);">Curvas de Crescimento (SBP)</h2>
+        <p style="margin-bottom: 25px; color: var(--text); opacity: 0.9; font-size: 1.05em; line-height: 1.5;">
+            Acesse o portal da <strong>Sociedade Brasileira de Pediatria (SBP)</strong> para consultar os gráficos oficiais de Peso, Estatura, IMC e Perímetro Cefálico (OMS e CDC) para meninos e meninas.
+        </p>
+        <a href="https://www.sbp.com.br/departamentos/endocrinologia/graficos-de-crescimento/" target="_blank" class="btn" style="text-decoration: none; padding: 15px 30px; font-size: 1.1em; display: inline-block; background-color: var(--primary); box-sizing: border-box; width: 100%;">
+            Acessar Portal da SBP <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+    </div>
+</div>
+
+<script>
+    let origemSoap = 'consulta'; 
+    let prontuarioAberto = null; 
+
+    window.onload = function() {
+        if(localStorage.getItem('theme') === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); }
+        const logado = localStorage.getItem('usuarioLogadoNome');
+        if(logado) {
+            document.getElementById('dash-user-name').innerText = logado.split(' ')[0];
+            document.getElementById('page-login').classList.remove('active-page');
+            document.getElementById('page-dashboard').classList.add('active-page');
+            restaurarDadosSalvos();
+        }
+    };
+
+    function showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        
+        let icone = type === 'success' ? '<i class="fa-solid fa-circle-check"></i>' : (type === 'danger' ? '<i class="fa-solid fa-circle-xmark"></i>' : '<i class="fa-solid fa-triangle-exclamation"></i>');
+        
+        toast.innerHTML = `${icone} ${message}`;
+        container.appendChild(toast);
+
+        setTimeout(() => toast.classList.add('show'), 10);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    function toggleDarkMode() {
+        if(document.documentElement.getAttribute('data-theme') === 'dark') {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+
+    document.body.addEventListener('input', salvarDadosAutomaticamente);
+    document.body.addEventListener('change', salvarDadosAutomaticamente);
+
+    function mascaraCelular(v) {
+        v = v.replace(/\D/g, ""); 
+        if (v.length > 11) v = v.slice(0, 11); 
+        v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); 
+        v = v.replace(/(\d)(\d{4})$/, "$1-$2"); 
+        return v;
+    }
+
+    function salvarDadosAutomaticamente(e) {
+        if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'SELECT' && e.target.tagName !== 'TEXTAREA') return;
+        if (e.target.type === 'password' || e.target.id === 'login-user' || e.target.id === 'search-paciente') return; 
+
+        const inputs = document.querySelectorAll('input, select, textarea');
+        const dados = {};
+        inputs.forEach(el => {
+            if(el.id && el.type !== 'password' && el.id !== 'login-user' && el.id !== 'search-paciente') {
+                if(el.type === 'checkbox' || el.type === 'radio') { dados[el.id + '_' + el.value] = el.checked; } 
+                else { dados[el.id] = el.value; }
+            }
+        });
+        localStorage.setItem('prontuarioData', JSON.stringify(dados));
+    }
+
+    function restaurarDadosSalvos() {
+        const dados = JSON.parse(localStorage.getItem('prontuarioData'));
+        if(!dados) return;
+
+        if(dados['qtd-alunos']) { document.getElementById('qtd-alunos').value = dados['qtd-alunos']; gerarCamposAlunos(); }
+
+        const inputs = document.querySelectorAll('input, select, textarea');
+        inputs.forEach(el => {
+            if(el.id && el.type !== 'password' && el.id !== 'login-user' && el.id !== 'search-paciente') {
+                if(el.type === 'checkbox' || el.type === 'radio') {
+                    if(dados[el.id + '_' + el.value] !== undefined) el.checked = dados[el.id + '_' + el.value];
+                } else {
+                    if(dados[el.id] !== undefined) el.value = dados[el.id];
+                }
+                if(el.tagName === 'SELECT' || el.type === 'checkbox') el.dispatchEvent(new Event('change'));
+            }
+        });
+        
+        if(document.getElementById('data-nasc').value) calcularIdades();
+        if(document.getElementById('ex-peso').value) calcularIMC();
+    }
+
+    function limparProntuario() {
+        if(confirm("ATENÇÃO: Isso vai APAGAR TODOS os dados preenchidos no formulário atual que ainda não foram exportados. Deseja mesmo continuar?")) {
+            localStorage.removeItem('prontuarioData');
+            location.reload();
+        }
+    }
+
+    function fazerLogin() {
+        const user = document.getElementById('login-user').value;
+        const pass = document.getElementById('login-pass').value;
+
+        document.getElementById('login-error').innerText = "Autenticando no servidor...";
+        document.getElementById('login-error').classList.remove('text-danger');
+        document.getElementById('login-error').style.color = "#0056b3";
+
+        fetch('http://localhost:8080/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: user, senha: pass })
+        })
+        .then(resposta => {
+            if(resposta.ok) return resposta.json();
+            throw new Error("Credenciais incorretas!"); 
+        })
+        .then(dadosUsuario => {
+            localStorage.setItem('usuarioLogadoNome', dadosUsuario.nomeCompleto);
+            localStorage.setItem('ambulato_token', dadosUsuario.token);
+            document.getElementById('dash-user-name').innerText = dadosUsuario.nomeCompleto.split(' ')[0];
+            
+            document.getElementById('page-login').classList.remove('active-page');
+            document.getElementById('page-dashboard').classList.add('active-page');
+            document.getElementById('login-error').innerText = "";
+            
+            gerarCamposAlunos();
+            restaurarDadosSalvos();
+            showToast("Login realizado com sucesso!", "success");
+        })
+        .catch(erro => {
+            document.getElementById('login-error').style.color = "";
+            document.getElementById('login-error').classList.add('text-danger');
+            document.getElementById('login-error').innerText = '[ALERTA] ' + erro.message;
+        });
+    }
+
+    function sairDaConta() {
+        localStorage.removeItem('usuarioLogadoNome');
+        localStorage.removeItem('ambulato_token');
+        document.getElementById('login-user').value = '';
+        document.getElementById('login-pass').value = '';
+        
+        document.querySelector('.active-page').classList.remove('active-page');
+        document.getElementById('page-login').classList.add('active-page');
+        showToast("Você saiu da conta.", "warning");
+    }
+
+    function irParaSetup() {
+        prontuarioAberto = null; 
+        document.querySelector('.active-page').classList.remove('active-page');
+        document.getElementById('page-setup').classList.add('active-page');
+    }
+
+    function voltarAoDashboard() {
+        document.querySelector('.active-page').classList.remove('active-page');
+        document.getElementById('page-dashboard').classList.add('active-page');
+    }
+
+    function gerarCamposAlunos() {
+        const qtd = document.getElementById('qtd-alunos').value;
+        const container = document.getElementById('campos-alunos');
+        let valoresAntigos = [];
+        
+        for(let j=1; j<=5; j++) {
+            let ipt = document.getElementById('aluno-'+j);
+            if(ipt) valoresAntigos.push(ipt.value);
+        }
+
+        container.innerHTML = '';
+        const nomeLogado = localStorage.getItem('usuarioLogadoNome') || "Aluno";
+
+        for (let i = 1; i <= qtd; i++) {
+            let val = valoresAntigos[i-1] || '';
+            let extraAttrs = "";
+            let extraStyle = "margin-bottom:8px;";
+
+            if(i === 1) {
+                val = nomeLogado; 
+                extraAttrs = "readonly"; 
+                extraStyle += " background-color: var(--border); cursor: not-allowed; font-weight: bold; border-color: #aaa;";
+            }
+
+            container.innerHTML += `<input type="text" id="aluno-${i}" value="${val}" placeholder="Nome do Aluno ${i}" style="${extraStyle}" ${extraAttrs}>`;
+        }
+    }
+
+    function iniciarConsulta() {
+        let aluno1 = document.getElementById('aluno-1') ? document.getElementById('aluno-1').value.trim() : "";
+        let materia = document.getElementById('materia').value.trim();
+        let turma = document.getElementById('turma').value.trim();
+        let semestre = document.getElementById('semestre').value.trim();
+        let pacNome = document.getElementById('paciente-nome').value.trim();
+
+        if(!aluno1 || !materia || !turma || !semestre || !pacNome) {
+            showToast("Preencha o nome do paciente e turma.", "danger");
+            return;
+        }
+
+        let alunos = [];
+        for (let i = 1; i <= document.getElementById('qtd-alunos').value; i++) {
+            if(document.getElementById(`aluno-${i}`).value) alunos.push(document.getElementById(`aluno-${i}`).value);
+        }
+        document.getElementById('auto-alunos').innerText = alunos.join(', ');
+        document.getElementById('auto-paciente').innerText = pacNome;
+        document.getElementById('auto-etapa').innerText = semestre + 'º Semestre';
+        document.getElementById('auto-turma').innerText = turma;
+        document.getElementById('auto-materia').innerText = materia;
+        document.getElementById('auto-data').innerText = new Date().toLocaleDateString('pt-BR');
+        
+        document.getElementById('page-setup').classList.remove('active-page');
+        document.getElementById('page-consulta').classList.add('active-page');
+    }
+
+    function toggleBox(val, targetId, triggerVal) {
+        let el = document.getElementById(targetId);
+        if(el) el.style.display = (val === triggerVal || val === true) ? 'block' : 'none';
+    }
+
+    function calcularIdades() {
+        const dob = new Date(document.getElementById('data-nasc').value);
+        if(isNaN(dob)) return;
+        const hoje = new Date();
+        let anos = hoje.getFullYear() - dob.getFullYear();
+        let meses = hoje.getMonth() - dob.getMonth();
+        let dias = hoje.getDate() - dob.getDate();
+        if (dias < 0) { meses--; dias += 30; }
+        if (meses < 0) { anos--; meses += 12; }
+        
+        document.getElementById('idade-display').value = `${anos} anos, ${meses} meses e ${dias} dias`;
+        let mesesTotal = (anos * 12) + meses;
+        document.getElementById('idade-meses-hidden').value = mesesTotal;
+        
+        let aviso = `A idade calculada é de ${mesesTotal} meses. `;
+        if (mesesTotal >= 0 && mesesTotal < 2) aviso += "Espera-se respostas reflexas e interação visual básica (sorriso social).";
+        else if (mesesTotal >= 2 && mesesTotal < 4) aviso += "Espera-se sustentar a cabeça de bruços, sorrir espontaneamente e balbuciar.";
+        else if (mesesTotal >= 4 && mesesTotal < 6) aviso += "Espera-se sustentar cabeça com antebraços e passar da posição de lado para linha média.";
+        else if (mesesTotal >= 6 && mesesTotal < 9) aviso += "Espera-se rolar, tentar sentar sem apoio e virar a cabeça ativamente para fontes sonoras.";
+        else if (mesesTotal >= 9 && mesesTotal < 12) aviso += "Espera-se sentar sozinho firmemente e realizar o movimento de pinça (polegar-indicador).";
+        else if (mesesTotal >= 12 && mesesTotal < 18) aviso += "Espera-se engatinhar/andar com apoio, usar palavras-frase com sentido e fazer gestos típicos (tchau/não).";
+        else if (mesesTotal >= 18 && mesesTotal < 36) aviso += "Espera-se correr, subir degraus, falar frases curtas e iniciar processos de autocuidado e desfralde.";
+        else if (mesesTotal >= 36 && mesesTotal < 72) aviso += "Espera-se brincar ativamente com outras crianças, coordenação fina madura e linguagem complexa.";
+        else aviso += "Foco no desenvolvimento psicossocial da escolaridade e independência motora.";
+        
+        const boxDnpm = document.getElementById('box-aviso-dnpm');
+        document.getElementById('aviso-dnpm').innerText = aviso;
+        
+        if(document.documentElement.getAttribute('data-theme') === 'dark'){
+            boxDnpm.style.background = "rgba(40, 167, 69, 0.2)";
+            document.getElementById('aviso-dnpm').style.color = "#4ade80";
+        } else {
+            boxDnpm.style.background = "#e6f4ea";
+            document.getElementById('aviso-dnpm').style.color = "#137333";
+        }
+        boxDnpm.style.borderLeftColor = "#28a745";
+
+        verificarSinais();
+    }
+
+    function aplicarFeedbackVisual(inputElement, msgElement, msg, isDanger) {
+        msgElement.innerText = msg;
+        inputElement.classList.remove('input-danger', 'input-warning');
+        msgElement.classList.remove('text-danger', 'text-warning');
+        if (msg !== "") {
+            let tipo = isDanger ? 'danger' : 'warning';
+            inputElement.classList.add('input-' + tipo);
+            msgElement.classList.add('text-' + tipo);
+        }
+    }
+
+    function verificarSinais() {
+        let meses = parseInt(document.getElementById('idade-meses-hidden').value);
+        let anos = meses / 12;
+        if(isNaN(meses)) return;
+
+        let iptFc = document.getElementById('sv-fc'); let msgFc = document.getElementById('alert-fc');
+        let iptFr = document.getElementById('sv-fr'); let msgFr = document.getElementById('alert-fr');
+        let iptTemp = document.getElementById('sv-temp'); let msgTemp = document.getElementById('alert-temp');
+        let iptPas = document.getElementById('sv-pas'); let msgPas = document.getElementById('alert-pas');
+        let iptSat = document.getElementById('sv-sat'); let msgSat = document.getElementById('alert-sat');
+        let iptTec = document.getElementById('sv-tec'); let msgTec = document.getElementById('alert-tec');
+
+        let fc = iptFc.value; let fr = iptFr.value; let temp = iptTemp.value;
+        let pas = iptPas.value; let sat = iptSat.value; let tec = iptTec.value;
+
+        let msgF = "", isDF = false;
+        if(fc) { 
+            if(fc > 160 && meses <= 12) { msgF = "[ALERTA] Taquicardia Neonatal!"; isDF = true; }
+            else if(fc > 140 && meses > 12) { msgF = "[ALERTA] Taquicardia Pediátrica!"; isDF = true; }
+        }
+        aplicarFeedbackVisual(iptFc, msgFc, msgF, isDF);
+
+        let msgR = "", isDR = false;
+        if(fr) {
+            if(fr > 60 && meses <= 2) { msgR = "[ALERTA] Taquipneia Grave!"; isDR = true; }
+            else if(fr > 50 && meses > 2 && meses <= 12) { msgR = "[ALERTA] Taquipneia!"; isDR = true; }
+            else if(fr > 40 && meses > 12) { msgR = "[ALERTA] Taquipneia!"; isDR = true; }
+        }
+        aplicarFeedbackVisual(iptFr, msgFr, msgR, isDR);
+
+        let msgT = "", isDT = false;
+        if(temp) {
+            if(temp >= 37.8) { msgT = "[ALERTA] Estado Febril!"; isDT = true; }
+            else if(temp < 36.0) { msgT = "[ALERTA] Hipotermia!"; isDT = true; }
+        }
+        aplicarFeedbackVisual(iptTemp, msgTemp, msgT, isDT);
+
+        let msgS = "", isDS = false;
+        if(sat) { if(sat < 92) { msgS = "[ALERTA] Hipoxemia!"; isDS = true; } }
+        aplicarFeedbackVisual(iptSat, msgSat, msgS, isDS);
+
+        let msgTc = "", isDTc = false;
+        if(tec) { if(tec > 3) { msgTc = "[ALERTA] Má perfusão periférica!"; isDTc = true; } }
+        aplicarFeedbackVisual(iptTec, msgTec, msgTc, isDTc);
+
+        let msgP = "", isDP = false;
+        if(pas && anos >= 1 && anos <= 10) { 
+            let pasMin = 70 + (2 * Math.floor(anos));
+            if(pas < pasMin) { msgP = `[ALERTA] Risco de Hipotensão! (Mín: ${pasMin})`; isDP = true; }
+        }
+        aplicarFeedbackVisual(iptPas, msgPas, msgP, isDP);
+    }
+
+    function gerarResumo() {
+        const g = document.getElementById('neo-g').value;
+        const p = document.getElementById('neo-p').value;
+        const a = document.getElementById('neo-a').value;
+        const parto = document.getElementById('neo-parto').value;
+        const ig = document.getElementById('neo-ig').value;
+        const apgar = document.getElementById('neo-apgar').value;
+        const local = document.getElementById('neo-local').value;
+        const aler = document.getElementById('neo-aler').value || 'nenhuma';
+        
+        const teveInt = document.getElementById('neo-int-select').value;
+        const descInt = teveInt === 'Sim' ? document.getElementById('neo-int-txt').value : 'não apresentou';
+        
+        document.getElementById('resumo-gerado').value = `G${g}P${p}A${a}, parto ${parto.toLowerCase()}, intercorrência: ${descInt}, pré-natal // ${local}, IG ${ig} semanas, APGAR ${apgar}. // AP: Vacinação em dia. Alergias: ${aler}.`;
+    }
+
+    function calcularIMC() {
+        const p = parseFloat(document.getElementById('ex-peso').value);
+        const a = parseFloat(document.getElementById('ex-altura').value) / 100;
+        if (p && a) document.getElementById('ex-imc').value = (p / (a * a)).toFixed(2);
+    }
+
+    function abrirModalCurvas() { document.getElementById('modal-oms').style.display = 'block'; }
+    function fecharModalCurvas() { document.getElementById('modal-oms').style.display = 'none'; }
+    
+    window.onclick = function(event) {
+        let modal = document.getElementById('modal-oms');
+        if (event.target == modal) modal.style.display = "none";
+    }
+
+    // O CÉREBRO LIMPO DO SOAP (OMITE N/I)
+    function gerarSOAP() {
+        origemSoap = 'consulta'; 
+        prontuarioAberto = null; 
+
+        let v = (id) => {
+            let el = document.getElementById(id);
+            if (!el) return null;
+            let val = el.value.trim();
+            if (val === "" || val === "Selecione" || val === "N/I") return null;
+            return val;
+        };
+
+        // ================= SUBJETIVO =================
+        let tipoSangue = document.querySelector('input[name="sangue-tipo"]:checked') ? document.querySelector('input[name="sangue-tipo"]:checked').value : "";
+        let fatorRh = document.querySelector('input[name="sangue-fator"]:checked') ? document.querySelector('input[name="sangue-fator"]:checked').value : "";
+        let tipagemCompleta = (tipoSangue || fatorRh) ? (tipoSangue + fatorRh) : null;
+        let acomp = v('id-mae-acomp') === 'Sim' ? 'Mãe Biológica' : (v('id-acomp-nome') ? `${v('id-acomp-nome')} (${v('id-acomp-parente')})` : null);
+        let conv = v('id-tem-conv') === 'Sim' ? v('id-convenio') : 'SUS';
+
+        let idenStr = `IDENTIFICAÇÃO: Paciente ${v('paciente-nome') || "Não informado"}, ${v('idade-display') || ""}. `;
+        if(v('id-mae')) idenStr += `Mãe: ${v('id-mae')} `;
+        if(v('id-celular')) idenStr += `(Contato: ${v('id-celular')}). `;
+        if(v('id-cor') || v('id-etnia')) idenStr += `Cor/Etnia: ${v('id-cor')||""}/${v('id-etnia')||""}. `;
+        if(v('id-religiao')) idenStr += `Religião: ${v('id-religiao')}. `;
+        if(tipagemCompleta) idenStr += `Tipagem Sanguínea: ${tipagemCompleta}. `;
+        if(acomp) idenStr += `Acompanhado por: ${acomp}. `;
+        if(conv) idenStr += `Convênio: ${conv}. `;
+
+        let subj = idenStr.trim() + "\n\n";
+
+        let qp = v('qp-tipo') === 'Outro' ? v('qp-texto') : 'Consulta de rotina';
+        if(qp) subj += `QUEIXA PRINCIPAL: ${qp}.\n\n`;
+
+        let hmaParts = [];
+        if(v('hma-inicio')) hmaParts.push(`Início ${v('hma-inicio')}`);
+        if(v('hma-local')) hmaParts.push(`localizado no(a) ${v('hma-local')}`);
+        if(v('hma-int')) hmaParts.push(`intensidade ${v('hma-int')}/10`);
+        if(v('hma-tipo')) hmaParts.push(`dor tipo ${v('hma-tipo')}`);
+        if(v('hma-freq')) hmaParts.push(`com frequência ${v('hma-freq')}`);
+        if(v('hma-momento')) hmaParts.push(`no momento atual: ${v('hma-momento')}`);
+        if(v('hma-irradia')) hmaParts.push(`irradia para ${v('hma-irradia')}`);
+        if(v('hma-melhora')) hmaParts.push(`melhora com ${v('hma-melhora')}`);
+        if(v('hma-piora')) hmaParts.push(`piora com ${v('hma-piora')}`);
+        if(v('hma-assoc')) hmaParts.push(`sintomas associados: ${v('hma-assoc')}`);
+        
+        let hmaConstruida = hmaParts.length > 0 ? `Paciente apresenta quadro com ${hmaParts.join(', ')}. ` : "";
+        if(v('hma-med-qual')) hmaConstruida += `Fez uso prévio de ${v('hma-med-qual')} (${v('hma-med-qtd')||""}) por ${v('hma-med-tempo')||""}. `;
+        if(v('hma-alt-texto')) hmaConstruida += `Relata alterações: ${v('hma-alt-texto')}. `;
+        if(v('hma-cons-quando')) hmaConstruida += `Consultou previamente em ${v('hma-cons-quando')} no ${v('hma-cons-onde')||""} com diagnóstico de ${v('hma-cons-diag')||""}. `;
+        if(v('hma-doentes') === 'Sim') hmaConstruida += `Relata contato com pessoas doentes. `;
+
+        let hmaLivre = v('hma-desc-livre');
+        if(hmaConstruida || hmaLivre) {
+            subj += `HMA: ${hmaConstruida}\n${hmaLivre || ""}\n\n`;
+        }
+
+        let ap = v('resumo-gerado');
+        if(ap) subj += `ANTECEDENTES PESSOAIS E FISIOLÓGICOS: ${ap}\n\n`;
+
+        let dnpm = [];
+        if(v('dnpm-anda') === 'Sim') dnpm.push(`Anda/Engatinha: Sim (${v('dnpm-anda-quando')||""})`);
+        if(v('dnpm-fala') === 'Sim') dnpm.push(`Fala: Sim (${v('dnpm-fala-quando')||""})`);
+        if(v('dnpm-dente')) dnpm.push(`Dentição: ${v('dnpm-dente')}`);
+        if(v('dnpm-fralda') && v('dnpm-fralda') !== 'Não') dnpm.push(`Desfralde: ${v('dnpm-fralda')} (${v('dnpm-fralda-quando')||""})`);
+        if(dnpm.length > 0) subj += `DNPM: ${dnpm.join(' | ')}.\n\n`;
+
+        let pat = [];
+        if(v('pat-trauma')) pat.push(`Traumas: ${v('pat-trauma')}`);
+        if(v('pat-icte') === 'Sim') pat.push(`Icterícia prévia`);
+        if(v('pat-cirurgia')) pat.push(`Cirurgias: ${v('pat-cirurgia')}`);
+        if(v('pat-interna')) pat.push(`Internações: ${v('pat-interna')}`);
+        if(v('pat-base')) pat.push(`Doença de Base: ${v('pat-base')}`);
+        if(pat.length > 0) subj += `HISTÓRICO PATOLÓGICO: ${pat.join(' | ')}.\n\n`;
+
+        let fam = [];
+        if(v('fam-pai')) fam.push(`Pai: ${v('fam-pai')}`);
+        if(v('fam-mae')) fam.push(`Mãe: ${v('fam-mae')}`);
+        if(v('fam-irmaos')) fam.push(`Irmãos: ${v('fam-irmaos')}`);
+        if(fam.length > 0) subj += `FAMILIAR: ${fam.join(' | ')}.\n\n`;
+
+        let soc = [];
+        if(v('soc-casa')) soc.push(`Casa de ${v('soc-casa')}`);
+        if(v('soc-sane') === 'Sim') soc.push(`Saneamento Básico`);
+        if(v('soc-agua') === 'Sim') soc.push(`Água tratada`);
+        if(v('hab-amb-reside')) soc.push(`Residem: ${v('hab-amb-reside')}`);
+        if(v('hab-amb-end')) soc.push(`Endereço: ${v('hab-amb-end')} (${v('hab-amb-local')||""})`);
+        if(v('hab-amb-pet-sel') === 'Sim') soc.push(`Animais: ${v('hab-amb-pet-txt')}`);
+        if(v('hab-amb-tab-sel') === 'Sim') soc.push(`Tabagista: ${v('hab-amb-tab-txt')}`);
+        if(soc.length > 0) subj += `SOCIOECONÔMICO E AMBIENTE: ${soc.join('. ')}.\n\n`;
+
+        let hab = "HÁBITOS:\n";
+        let hasHab = false;
+        if(v('hab-alim-rotina')) { hab += `- Alimentação: ${v('hab-alim-rotina')} (${v('hab-alim-vezes')||""}). Água: ${v('hab-alim-agua')||""}.\n`; hasHab=true; }
+        if(v('hab-med-cont')) { hab += `- Medicações: ${v('hab-med-cont')}.\n`; hasHab=true; }
+        if(v('hab-sono-horas')) { hab += `- Sono: ${v('hab-sono-horas')} horas. ${v('hab-sono-agi-sel')==='Sim' ? 'Agitado/Acorda: '+v('hab-sono-motivo') : 'Tranquilo'}.\n`; hasHab=true; }
+        if(v('hab-telas-tempo')) { hab += `- Telas: ${v('hab-telas-tempo')} (${v('hab-telas-cont')||""}).\n`; hasHab=true; }
+        if(v('hab-evac-vezes')) { hab += `- Evacuação: ${v('hab-evac-vezes')}. Bristol: ${v('hab-evac-bristol')||""}. ${v('hab-evac-alt-sel')==='Sim' ? 'Alt: '+v('hab-evac-alt-txt') : ''}\n`; hasHab=true; }
+        if(v('hab-diu-vezes')) { hab += `- Diurese: ${v('hab-diu-vezes')}. Cor: ${v('hab-diu-cor')||""}. ${v('hab-diu-alt-sel')==='Sim' ? 'Alt: '+v('hab-diu-alt-txt') : ''}\n`; hasHab=true; }
+        
+        if(hasHab) subj += hab + "\n";
+        if(v('isda-texto')) subj += `ISDA: ${v('isda-texto')}\n`;
+
+        // ================= OBJETIVO =================
+        let obj = "";
+        let sv = [];
+        if(v('sv-temp')) sv.push(`Temp: ${v('sv-temp')} °C`);
+        if(v('sv-fc')) sv.push(`FC: ${v('sv-fc')} bpm`);
+        if(v('sv-fr')) sv.push(`FR: ${v('sv-fr')} irpm`);
+        if(v('sv-pas')) sv.push(`PAS: ${v('sv-pas')} mmHg`);
+        if(v('sv-sat')) sv.push(`SatO2: ${v('sv-sat')}%`);
+        if(v('sv-tec')) sv.push(`TEC: ${v('sv-tec')}s`);
+        if(v('ex-peso')) sv.push(`Peso: ${v('ex-peso')} kg`);
+        if(v('ex-altura')) sv.push(`Altura: ${v('ex-altura')} cm`);
+        if(v('ex-imc')) sv.push(`IMC: ${v('ex-imc')}`);
+        if(v('ex-pc')) sv.push(`PC: ${v('ex-pc')}`);
+        
+        if(sv.length > 0) obj += `SINAIS VITAIS E ANTROPOMETRIA:\n${sv.join(' | ')}\n`;
+        if(v('ex-curvas')) obj += `Curvas: ${v('ex-curvas')}\n`;
+        
+        let ecto = [];
+        if(v('ex-glasgow')) ecto.push(`Glasgow: ${v('ex-glasgow')}`);
+        if(v('ex-beg')) ecto.push(v('ex-beg'));
+        if(v('ex-facies')) ecto.push(`fácies ${v('ex-facies').toLowerCase()}`);
+        if(v('ex-mucosa')) ecto.push(`mucosas ${v('ex-mucosa').toLowerCase()}`);
+        if(v('ex-resp')) ecto.push(v('ex-resp').toLowerCase());
+        if(v('ex-ativ')) ecto.push(v('ex-ativ').toLowerCase());
+        if(v('ex-atit')) ecto.push(v('ex-atit').toLowerCase());
+        
+        if(ecto.length > 0) obj += `\nECTOSCOPIA E ESTADO GERAL:\n${ecto.join(', ')}.\n`;
+        if(v('ex-aspecto')) obj += `Aspecto complementar: ${v('ex-aspecto')}\n`;
+        
+        obj += "\nEXAME FÍSICO ESPECÍFICO:\n";
+        if(document.getElementById('chk-oro').checked && v('txt-oro')) obj += `- Oroscopia: ${v('txt-oro')}\n`;
+        if(document.getElementById('chk-oto').checked && v('txt-oto')) obj += `- Otoscopia: ${v('txt-oto')}\n`;
+        if(document.getElementById('chk-linfo').checked && v('txt-linfo')) obj += `- Linfonodos: ${v('txt-linfo')}\n`;
+        
+        if(document.getElementById('chk-ar').checked) {
+            let arParts = [];
+            if(v('ar-insp')) arParts.push(`Inspeção: ${v('ar-insp')}`);
+            if(v('ar-palp')) arParts.push(`Palpação: ${v('ar-palp')}`);
+            if(v('ar-perc')) arParts.push(`Percussão: ${v('ar-perc')}`);
+            if(v('ar-ausc')) arParts.push(`Ausculta: ${v('ar-ausc')}`);
+            if(arParts.length > 0) obj += `- Aparelho Respiratório:\n  ${arParts.join('\n  ')}\n`;
+        }
+
+        if(document.getElementById('chk-acv').checked) {
+            let acvParts = [];
+            if(v('acv-ausc')) acvParts.push(`Ausculta: ${v('acv-ausc')}`);
+            if(v('acv-ictus')) acvParts.push(`ICTUS: ${v('acv-ictus')}`);
+            if(acvParts.length > 0) obj += `- Aparelho Cardiovascular:\n  ${acvParts.join('\n  ')}\n`;
+        }
+
+        if(document.getElementById('chk-abd').checked) {
+            let abdParts = [];
+            if(v('abd-insp')) abdParts.push(`Inspeção: ${v('abd-insp')}`);
+            if(v('abd-ausc')) abdParts.push(`Ausculta: ${v('abd-ausc')}`);
+            if(v('abd-palpsup')) abdParts.push(`Palpação Superficial: ${v('abd-palpsup')}`);
+            if(v('abd-palpprof')) abdParts.push(`Palpação Profunda: ${v('abd-palpprof')}`);
+            if(v('abd-perc')) abdParts.push(`Percussão: ${v('abd-perc')}`);
+            if(v('abd-manobras')) abdParts.push(`Manobras: ${v('abd-manobras')}`);
+            if(abdParts.length > 0) obj += `- Abdômen:\n  ${abdParts.join('\n  ')}\n`;
+        }
+
+        if(document.getElementById('chk-reflexos').checked && v('txt-reflexos')) obj += `- Reflexos: ${v('txt-reflexos')}\n`;
+        if(document.getElementById('chk-genital').checked && v('txt-genital')) obj += `- Genitália: ${v('txt-genital')}\n`;
+
+        // ================= AVALIAÇÃO =================
+        let ava = "";
+        let addItem = (label, val) => val ? `- ${label}: ${val}\n` : "";
+        ava += addItem("Nutricional", v('av-nutri'));
+        ava += addItem("Crescimento", v('av-cresc'));
+        ava += addItem("Alimentação", v('av-alim'));
+        ava += addItem("DNPM", v('av-dnpm'));
+        ava += addItem("Social e Emocional", v('av-soc'));
+        ava += addItem("Vacinas", v('av-vac'));
+        ava += addItem("Patologias", v('av-pat'));
+
+        // ================= PLANO =================
+        let plano = v('plano-texto') || "";
+        if(v('av-cid')) plano += `\n\nCID-10 Principal: ${v('av-cid')}`; 
+
+        document.getElementById('soap-s').value = subj.trim();
+        document.getElementById('soap-o').value = obj.trim();
+        document.getElementById('soap-a').value = ava.trim();
+        document.getElementById('soap-p').value = plano.trim();
+
+        const dataAtendimento = new Date().toLocaleDateString('pt-BR');
+        document.getElementById('print-data').innerText = dataAtendimento;
+
+        document.querySelector('.active-page').classList.remove('active-page');
+        document.getElementById('page-soap').classList.add('active-page');
+        window.scrollTo(0,0);
+    }
+
+    function atualizarImpressao() {
+        document.getElementById('print-subj').innerText = document.getElementById('soap-s').value;
+        document.getElementById('print-obj').innerText = document.getElementById('soap-o').value;
+        document.getElementById('print-ava').innerText = document.getElementById('soap-a').value;
+        document.getElementById('print-plano').innerText = document.getElementById('soap-p').value;
+    }
+
+    function voltarConsulta() {
+        document.getElementById('page-soap').classList.remove('active-page');
+        if(origemSoap === 'lista') {
+            document.getElementById('page-lista').classList.add('active-page');
+        } else {
+            document.getElementById('page-consulta').classList.add('active-page');
+        }
+    }
+
+    function copiarTexto(idElemento, btn) {
+        let texto = document.getElementById(idElemento);
+        texto.select();
+        texto.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(texto.value);
+        
+        let textoAntigo = btn.innerHTML;
+        btn.innerHTML = "<i class='fa-solid fa-check'></i> COPIADO!";
+        btn.style.backgroundColor = "#218838";
+        setTimeout(() => {
+            btn.innerHTML = textoAntigo;
+            btn.style.backgroundColor = "#28a745";
+        }, 2000);
+    }
+
+    function exportarWord() {
+        atualizarImpressao();
+        
+        const dataAtendimento = document.getElementById('print-data').innerText;
+        const subj = document.getElementById('soap-s').value;
+        const obj = document.getElementById('soap-o').value;
+        const ava = document.getElementById('soap-a').value;
+        const plano = document.getElementById('soap-p').value;
+
+        const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+            "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+            "xmlns='http://www.w3.org/TR/REC-html40'>" +
+            "<head><meta charset='utf-8'><title>Prontuário</title></head><body>";
+        
+        const footer = "</body></html>";
+        const formatText = (text) => text.replace(/\n/g, '<br>');
+
+        const content = `
+            <div style="text-align: center; font-family: Arial, sans-serif;">
+                <h1 style="font-size: 16pt;">Fundação Educacional do Município de Assis (FEMA)</h1>
+                <h2 style="font-size: 13pt;">Ambulatório de Pediatria - Prontuário Eletrônico</h2>
+                <p style="font-size: 11pt; color: #555;">Data do Atendimento: ${dataAtendimento}</p>
+            </div>
+            <hr>
+            <div style="font-family: Arial, sans-serif; font-size: 11pt; line-height: 1.5;">
+                <h3 style="color: #004085; font-size: 13pt; margin-bottom: 5px;">[S] Subjetivo (Anamnese)</h3>
+                <p>${formatText(subj)}</p>
+                <br>
+                <h3 style="color: #004085; font-size: 13pt; margin-bottom: 5px;">[O] Objetivo (Exame Físico)</h3>
+                <p>${formatText(obj)}</p>
+                <br>
+                <h3 style="color: #004085; font-size: 13pt; margin-bottom: 5px;">[A] Avaliação</h3>
+                <p>${formatText(ava)}</p>
+                <br>
+                <h3 style="color: #004085; font-size: 13pt; margin-bottom: 5px;">[P] Plano (Conduta)</h3>
+                <p>${formatText(plano)}</p>
+                
+                <br><br><br>
+                <div style="text-align: center;">
+                    <hr style="width: 300px; display: inline-block;">
+                    <p>Assinatura / Carimbo do Preceptor</p>
+                </div>
+            </div>
+        `;
+
+        const sourceHTML = header + content + footer;
+        const source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+        const link = document.createElement('a');
+        
+        let nomePaciente = document.getElementById('auto-paciente').innerText;
+        if (!nomePaciente || nomePaciente === "") nomePaciente = prontuarioAberto ? prontuarioAberto.pacienteNome : "Paciente";
+
+        const nomeArquivo = `Prontuario_${nomePaciente.replace(/\s+/g, '_')}.doc`;
+        
+        link.href = source;
+        link.download = nomeArquivo;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    function salvarNoBanco() {
+        let dadosProntuario;
+
+        if (prontuarioAberto) {
+            dadosProntuario = prontuarioAberto;
+            dadosProntuario.subjetivo = document.getElementById('soap-s').value;
+            dadosProntuario.objetivo = document.getElementById('soap-o').value;
+            dadosProntuario.avaliacao = document.getElementById('soap-a').value;
+            dadosProntuario.plano = document.getElementById('soap-p').value;
+            dadosProntuario.dadosGeraisJson = localStorage.getItem('prontuarioData');
+        } else {
+            dadosProntuario = {
+                pacienteNome: document.getElementById('paciente-nome').value || "Não informado",
+                celularContato: document.getElementById('id-celular').value || "Não informado",
+                subjetivo: document.getElementById('soap-s').value || "",
+                objetivo: document.getElementById('soap-o').value || "",
+                avaliacao: document.getElementById('soap-a').value || "",
+                plano: document.getElementById('soap-p').value || "",
+                nomeAluno: document.getElementById('aluno-1') ? document.getElementById('aluno-1').value : "Aluno não informado",
+                turma: document.getElementById('turma').value || "T16",
+                dadosGeraisJson: localStorage.getItem('prontuarioData')
+            };
+        }
+
+        const btn = document.querySelector('.btn-nuvem');
+        const textoOriginal = btn.innerHTML;
+        btn.innerHTML = "<i class='fa-solid fa-spinner fa-spin'></i> SALVANDO...";
+
+        fetch('http://localhost:8080/api/prontuarios/salvar', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('ambulato_token')
+            },
+            body: JSON.stringify(dadosProntuario)
+        })
+        .then(resposta => resposta.text())
+        .then(mensagem => {
+            showToast("Prontuário salvo na nuvem com sucesso!", "success");
+            btn.innerHTML = "<i class='fa-solid fa-check'></i> SALVO NA NUVEM!";
+            btn.style.backgroundColor = "#218838"; 
+        })
+        .catch(erro => {
+            showToast("Erro de conexão com o banco de dados.", "danger");
+            btn.innerHTML = textoOriginal;
+        });
+    }
+
+    function buscarMeusProntuarios() {
+        let nomeAluno = localStorage.getItem('usuarioLogadoNome');
+
+        if(!nomeAluno) {
+            showToast("Por favor, faça o login primeiro.", "warning");
+            return;
+        }
+
+        const linkNgrok = 'http://localhost:8080';
+
+        fetch(linkNgrok + '/api/prontuarios/meus', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('ambulato_token')
+            }
+        })
+        .then(resposta => {
+            if(!resposta.ok) throw new Error("Erro na rede");
+            return resposta.json();
+        })
+        .then(lista => {
+            window.prontuariosSalvos = lista; 
+
+            let area = document.getElementById('area-dos-prontuarios');
+            area.innerHTML = ""; 
+            document.getElementById('search-paciente').value = ""; 
+            
+            if(lista.length === 0) {
+                area.innerHTML = "<p style='text-align:center;'><i class='fa-solid fa-box-open' style='font-size: 3em; color: #ccc; margin-bottom: 10px; display: block;'></i>Nenhum prontuário encontrado.</p>";
+            } else {
+                lista.forEach(pront => {
+                    let dataFormatada = new Date(pront.dataAtendimento).toLocaleDateString('pt-BR');
+                    let matchMae = pront.subjetivo ? pront.subjetivo.match(/Mãe:\s(.*?)\s\(/) : null;
+                    let nomeMae = matchMae ? matchMae[1] : "Não informada";
+
+                    area.innerHTML += `
+                        <div class="card card-paciente" data-nome="${pront.pacienteNome.toLowerCase()}" style="border-left: 5px solid var(--primary); display: flex; justify-content: space-between; align-items: center; padding: 20px;">
+                            <div>
+                                <h3 style="margin-bottom: 5px; border: none; background:none; padding:0; color: var(--primary);">${pront.pacienteNome}</h3>
+                                <p style="margin-top: 0; font-size: 0.9em; opacity: 0.8;"><strong>Data:</strong> ${dataFormatada} &nbsp;|&nbsp; <strong>Mãe:</strong> ${nomeMae}</p>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="btn" style="background-color: #dc3545; width: auto; margin-top: 0; padding: 10px 20px;" onclick="excluirProntuario(${pront.id})"><i class="fa-solid fa-trash-can"></i> Excluir</button>
+                                <button class="btn" style="background-color: #28a745; width: auto; margin-top: 0; padding: 10px 20px;" onclick="abrirProntuarioSalvo(${pront.id})"><i class="fa-solid fa-file-medical"></i> Abrir</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            document.querySelector('.active-page').classList.remove('active-page');
+            document.getElementById('page-lista').classList.add('active-page');
+        })
+        .catch(erro => showToast("Erro ao buscar no banco de dados.", "danger"));
+    }
+
+    function filtrarProntuarios() {
+        const textoBusca = document.getElementById('search-paciente').value.toLowerCase();
+        const cartoes = document.querySelectorAll('.card-paciente');
+        
+        cartoes.forEach(cartao => {
+            const nomePaciente = cartao.getAttribute('data-nome');
+            if(nomePaciente.includes(textoBusca)) {
+                cartao.style.display = "flex";
+            } else {
+                cartao.style.display = "none";
+            }
+        });
+    }
+
+    function excluirProntuario(id) {
+        if(confirm("Tem certeza que deseja EXCLUIR DEFINITIVAMENTE este prontuário? Esta ação não poderá ser desfeita.")) {
+            fetch('http://localhost:8080/api/prontuarios/deletar/' + id, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('ambulato_token')
+                }
+            })
+            .then(resposta => {
+                if(resposta.ok) {
+                    showToast("Prontuário excluído com sucesso.", "success");
+                    buscarMeusProntuarios(); 
+                } else {
+                    showToast("Erro ao tentar excluir o prontuário.", "danger");
+                }
+            })
+            .catch(erro => showToast("Erro de conexão com o servidor.", "danger"));
+        }
+    }
+
+    function abrirProntuarioSalvo(id) {
+        let pront = window.prontuariosSalvos.find(p => p.id === id);
+        
+        if(pront) {
+            prontuarioAberto = pront; 
+
+            document.getElementById('soap-s').value = pront.subjetivo || "";
+            document.getElementById('soap-o').value = pront.objetivo || "";
+            document.getElementById('soap-a').value = pront.avaliacao || "";
+            document.getElementById('soap-p').value = pront.plano || "";
+            
+            document.getElementById('print-data').innerText = new Date(pront.dataAtendimento).toLocaleDateString('pt-BR');
+            
+            if(pront.dadosGeraisJson) {
+                localStorage.setItem('prontuarioData', pront.dadosGeraisJson);
+                restaurarDadosSalvos();
+            }
+
+            origemSoap = 'lista'; 
+
+            document.querySelector('.active-page').classList.remove('active-page');
+            document.getElementById('page-soap').classList.add('active-page');
+            window.scrollTo(0,0);
+        }
+    }
+</script>
+</body>
+</html>

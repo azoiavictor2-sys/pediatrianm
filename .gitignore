@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### H2 Database (dados locais - não versionar!) ###
+*.mv.db
+*.trace.db

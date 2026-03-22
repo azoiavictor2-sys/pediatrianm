@@ -8,6 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-    // Busca no banco se existe alguém com esse usuário E com essa senha exata
-    Optional<Usuario> findByUsernameAndSenha(String username, String senha);
+    Optional<Usuario> findByUsername(String username);
 }

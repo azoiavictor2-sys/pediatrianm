@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambulato — Dashboard | FEMA T16 Pediatria</title>
+    <meta name="description" content="Dashboard de prontuários médicos pediátricos — FEMA T16.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dashboard-page">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span class="logo-icon">🏥</span>
+            <span class="sidebar-title">Ambulato</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" id="navNovoProntuario" onclick="showSection('novo')">
+                <span>📋</span> Novo Prontuário
+            </a>
+            <a href="#" class="nav-item" id="navMeusProntuarios" onclick="showSection('lista')">
+                <span>📁</span> Meus Prontuários
+            </a>
+        </nav>
+
+        <div class="sidebar-user" id="sidebarUser">
+            <div class="user-avatar" id="userAvatar">?</div>
+            <div class="user-info">
+                <strong id="userNome">Carregando...</strong>
+                <small id="userTurma">---</small>
+            </div>
+        </div>
+
+        <button class="btn-logout" id="btnLogout" onclick="logout()">
+            🚪 Sair
+        </button>
+    </aside>
+
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <button class="hamburger" id="hamburger" onclick="toggleSidebar()">☰</button>
+        <span>🏥 Ambulato</span>
+        <button class="btn-logout-small" onclick="logout()">🚪</button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- SEÇÃO: Novo Prontuário -->
+        <section id="sectionNovo" class="content-section active">
+            <div class="section-header">
+                <h2 class="section-title">📋 Novo Prontuário</h2>
+                <p class="section-desc">Registre um atendimento pediátrico utilizando o formato SOAP.</p>
+            </div>
+
+            <form id="prontuarioForm" class="prontuario-form" novalidate>
+
+                <!-- Dados do Paciente -->
+                <div class="card">
+                    <h3 class="card-title">👶 Dados do Paciente</h3>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="pacienteNome">Nome do Paciente *</label>
+                            <input type="text" id="pacienteNome" name="pacienteNome" placeholder="Nome completo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="celularContato">Celular de Contato</label>
+                            <input type="text" id="celularContato" name="celularContato" placeholder="(11) 99999-9999">
+                        </div>
+                        <div class="form-group">
+                            <label for="tipagemSanguinea">Tipagem Sanguínea</label>
+                            <select id="tipagemSanguinea" name="tipagemSanguinea">
+                                <option value="">Selecione...</option>
+                                <option>A+</option><option>A-</option>
+                                <option>B+</option><option>B-</option>
+                                <option>AB+</option><option>AB-</option>
+                                <option>O+</option><option>O-</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DNPM -->
+                <div class="card">
+                    <h3 class="card-title">🧠 DNPM — Desenvolvimento Neuropsicomotor</h3>
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label for="dnpmAndarQuando">Quando andou</label>
+                            <input type="text" id="dnpmAndarQuando" name="dnpmAndarQuando" placeholder="Ex: 12 meses">
+                        </div>
+                        <div class="form-group">
+                            <label for="dnpmFalaQuando">Quando falou</label>
+                            <input type="text" id="dnpmFalaQuando" name="dnpmFalaQuando" placeholder="Ex: 18 meses">
+                        </div>
+                        <div class="form-group">
+                            <label for="dnpmDesfraldeQuando">Quando desfralhou</label>
+                            <input type="text" id="dnpmDesfraldeQuando" name="dnpmDesfraldeQuando" placeholder="Ex: 2 anos">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SOAP -->
+                <div class="card">
+                    <h3 class="card-title">📝 Evolução SOAP</h3>
+                    <div class="soap-grid">
+                        <div class="form-group soap-item">
+                            <label for="subjetivo">
+                                <span class="soap-badge soap-s">S</span>
+                                Subjetivo — Queixa principal
+                            </label>
+                            <textarea id="subjetivo" name="subjetivo" rows="4"
+                                placeholder="Relato do paciente / responsável sobre queixas e histórico..."></textarea>
+                        </div>
+                        <div class="form-group soap-item">
+                            <label for="objetivo">
+                                <span class="soap-badge soap-o">O</span>
+                                Objetivo — Dados do exame
+                            </label>
+                            <textarea id="objetivo" name="objetivo" rows="4"
+                                placeholder="Dados observados: peso, altura, FC, FR, sinais vitais, exame físico..."></textarea>
+                        </div>
+                        <div class="form-group soap-item">
+                            <label for="avaliacao">
+                                <span class="soap-badge soap-a">A</span>
+                                Avaliação — Hipótese diagnóstica
+                            </label>
+                            <textarea id="avaliacao" name="avaliacao" rows="4"
+                                placeholder="Impressão clínica, hipóteses diagnósticas, CID..."></textarea>
+                        </div>
+                        <div class="form-group soap-item">
+                            <label for="plano">
+                                <span class="soap-badge soap-p">P</span>
+                                Plano — Conduta
+                            </label>
+                            <textarea id="plano" name="plano" rows="4"
+                                placeholder="Prescrições, exames solicitados, retorno, orientações..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="formError" class="error-message hidden" role="alert">
+                    ⚠️ <span id="formErrorText"></span>
+                </div>
+                <div id="formSuccess" class="success-message hidden" role="alert">
+                    ✅ <span id="formSuccessText">Prontuário salvo com sucesso!</span>
+                </div>
+
+                <div class="form-actions">
+                    <button type="reset" class="btn btn-secondary">🗑️ Limpar</button>
+                    <button type="submit" class="btn btn-primary" id="saveBtn">
+                        <span class="btn-text">💾 Salvar Prontuário</span>
+                        <span class="btn-loading hidden"><span class="spinner"></span> Salvando...</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- SEÇÃO: Meus Prontuários -->
+        <section id="sectionLista" class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">📁 Meus Prontuários</h2>
+                <p class="section-desc">Histórico de todos os seus atendimentos registrados.</p>
+            </div>
+
+            <div id="listaLoading" class="loading-state">
+                <div class="spinner large"></div>
+                <p>Carregando prontuários...</p>
+            </div>
+
+            <div id="listaVazia" class="empty-state hidden">
+                <span class="empty-icon">📭</span>
+                <p>Nenhum prontuário registrado ainda.</p>
+                <button class="btn btn-primary" onclick="showSection('novo')">Registrar primeiro atendimento</button>
+            </div>
+
+            <div id="listaProntuarios" class="prontuarios-grid hidden"></div>
+        </section>
+
+    </main>
+
+    <!-- Modal de Detalhes -->
+    <div class="modal-overlay hidden" id="modalOverlay" onclick="closeModal()">
+        <div class="modal glass" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
