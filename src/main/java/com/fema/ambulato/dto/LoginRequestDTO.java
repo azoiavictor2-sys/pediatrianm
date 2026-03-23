@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 public class LoginRequestDTO {
 
     @NotBlank(message = "Username (CPF) e obrigatorio")
-    @Pattern(regexp = "\\d{11}", message = "CPF deve conter exatamente 11 digitos numericos")
     private String username;
 
     @NotBlank(message = "Senha e obrigatoria")

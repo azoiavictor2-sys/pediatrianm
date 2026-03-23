@@ -23,7 +23,8 @@ public class AuthService {
     private JwtUtil jwtUtil;
 
     public LoginResponseDTO login(LoginRequestDTO request) {
-        Usuario usuario = usuarioRepository.findByUsername(request.getUsername())
+        String cpfLimpo = request.getUsername().replaceAll("\\D", "");
+        Usuario usuario = usuarioRepository.findByUsername(cpfLimpo)
                 .orElseThrow(() -> new BadCredentialsException("Usuario ou senha incorretos."));
 
         if (!passwordEncoder.matches(request.getSenha(), usuario.getSenha())) {
