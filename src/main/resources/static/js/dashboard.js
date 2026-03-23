@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:8080';
+const API_BASE = 'https://web-production-bdd82.up.railway.app';
 const token = localStorage.getItem('ambulato_token');
 const userRaw = localStorage.getItem('ambulato_user');
 

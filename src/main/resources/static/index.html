@@ -3154,7 +3154,7 @@
             // Faz logout no servidor para invalidar o token
             var token = localStorage.getItem('ambulato_token');
             if (token) {
-                fetch('http://localhost:8080/api/auth/logout', {
+                fetch('https://web-production-bdd82.up.railway.app/api/auth/logout', {
                     method: 'POST',
                     headers: { 'Authorization': 'Bearer ' + token }
                 }).catch(function () { });
