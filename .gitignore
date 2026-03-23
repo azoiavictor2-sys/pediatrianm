@@ -37,5 +37,11 @@ build/
 *.trace.db
 *.lock.db
 
-### Credenciais dos usuários - NUNCA versionar! ###
+### Credenciais dos usuarios - NUNCA versionar! ###
 usuarios.properties
+dados_ambulato*.db
+
+# Temporary scripts
+replace.js
+replace.py
+replace_dados.py

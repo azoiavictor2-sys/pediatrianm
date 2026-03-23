@@ -1635,27 +1635,54 @@
                                 <span id="alert-tec" class="alert-text"></span>
                             </div>
                             <div class="form-group"><label>Peso (kg):</label><input type="number" step="0.1"
-                                    id="ex-peso" onchange="calcularIMC()"></div>
+                                    id="ex-peso" onchange="calcularIMC(); preencherAvaliacaoAutomatica();"></div>
                             <div class="form-group"><label>Altura (cm):</label><input type="number" step="0.1"
-                                    id="ex-altura" onchange="calcularIMC()"></div>
+                                    id="ex-altura" onchange="calcularIMC(); preencherAvaliacaoAutomatica();"></div>
                             <div class="form-group"><label>IMC (Auto):</label><input type="text" id="ex-imc" readonly
                                     style="background:var(--box-bg); font-weight:bold; color: var(--primary);"></div>
-                            <div class="form-group"><label>Perím. Encefálico (cm):</label><input type="text" id="ex-pc">
+                            <div class="form-group"><label>Perim. Encefalico (cm):</label><input type="text" id="ex-pc"
+                                    onchange="preencherAvaliacaoAutomatica()">
                             </div>
                         </div>
 
                         <div
-                            style="background: var(--box-bg); border: 1px dashed var(--border); padding: 15px; border-radius: 8px; margin-top: 10px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <div style="flex:1; padding-right:15px;">
-                                    <label>Análise das Curvas (Peso/Estatura/IMC da OMS):</label>
-                                    <input type="text" id="ex-curvas"
-                                        placeholder="Ex: Escore Z entre -1 e +1 (Adequado)">
-                                </div>
+                            style="background: var(--box-bg); border: 1px dashed var(--border); padding: 20px; border-radius: 8px; margin-top: 10px;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                <label style="margin: 0; font-size: 1em; color: var(--primary); font-weight: 700;"><i
+                                        class="fa-solid fa-chart-line"></i> Analise das Curvas de Crescimento
+                                    (OMS)</label>
                                 <button class="btn btn-secondary" style="width: auto; margin-top: 0;"
-                                    onclick="abrirModalCurvas()"><i class="fa-solid fa-chart-line"></i> Abrir Curvas da
-                                    SBP</button>
+                                    onclick="abrirCurvasOMS()"><i class="fa-solid fa-chart-line"></i> Ver Curvas
+                                    OMS</button>
                             </div>
+                            <div class="grid-2">
+                                <div class="form-group" style="margin-bottom: 8px;">
+                                    <label style="font-size: 0.8em; opacity: 0.7;">IMC x Idade:</label>
+                                    <input type="text" id="curva-imc" readonly
+                                        style="background: var(--box-bg); font-weight: bold; font-size: 0.9em;"
+                                        placeholder="Preencha peso e altura">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 8px;">
+                                    <label style="font-size: 0.8em; opacity: 0.7;">Peso x Idade:</label>
+                                    <input type="text" id="curva-peso" readonly
+                                        style="background: var(--box-bg); font-weight: bold; font-size: 0.9em;"
+                                        placeholder="Preencha peso">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 8px;">
+                                    <label style="font-size: 0.8em; opacity: 0.7;">Estatura x Idade:</label>
+                                    <input type="text" id="curva-altura" readonly
+                                        style="background: var(--box-bg); font-weight: bold; font-size: 0.9em;"
+                                        placeholder="Preencha altura">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 8px;">
+                                    <label style="font-size: 0.8em; opacity: 0.7;">PC x Idade:</label>
+                                    <input type="text" id="curva-pc" readonly
+                                        style="background: var(--box-bg); font-weight: bold; font-size: 0.9em;"
+                                        placeholder="Preencha perimetro cefalico">
+                                </div>
+                            </div>
+                            <input type="hidden" id="ex-curvas" value="">
                         </div>
 
                         <h4 style="margin-top: 30px;">Estado Geral e Ectoscopia</h4>
@@ -2767,6 +2794,94 @@
                 document.querySelector('.active-page').classList.remove('active-page');
                 document.getElementById('page-soap').classList.add('active-page');
                 window.scrollTo(0, 0);
+            }
+        }
+        function preencherAvaliacaoAutomatica() {
+            var pac = getCurvasDadosPaciente();
+            if (isNaN(pac.meses) || pac.meses < 0) return;
+
+            // --- IMC x Idade ---
+            var dadosIMC = OMS_DATA['imc_' + pac.sexo];
+            if (dadosIMC && !isNaN(pac.imc)) {
+                var ip3 = curvasInterpolar(dadosIMC.meses, dadosIMC.p3, pac.meses);
+                var ip15 = curvasInterpolar(dadosIMC.meses, dadosIMC.p15, pac.meses);
+                var ip50 = curvasInterpolar(dadosIMC.meses, dadosIMC.p50, pac.meses);
+                var ip85 = curvasInterpolar(dadosIMC.meses, dadosIMC.p85, pac.meses);
+                var ip97 = curvasInterpolar(dadosIMC.meses, dadosIMC.p97, pac.meses);
+                var resIMC = curvasClassificar(pac.imc, ip3, ip15, ip50, ip85, ip97, 'imc');
+
+                var elCurvaIMC = document.getElementById('curva-imc');
+                if (elCurvaIMC) elCurvaIMC.value = resIMC.faixa;
+
+                var elNutri = document.getElementById('av-nutri');
+                if (elNutri) {
+                    elNutri.value = resIMC.faixa;
+                    elNutri.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            }
+
+            // --- Peso x Idade ---
+            var dadosPeso = OMS_DATA['peso_' + pac.sexo];
+            if (dadosPeso && !isNaN(pac.peso)) {
+                var pp3 = curvasInterpolar(dadosPeso.meses, dadosPeso.p3, pac.meses);
+                var pp15 = curvasInterpolar(dadosPeso.meses, dadosPeso.p15, pac.meses);
+                var pp50 = curvasInterpolar(dadosPeso.meses, dadosPeso.p50, pac.meses);
+                var pp85 = curvasInterpolar(dadosPeso.meses, dadosPeso.p85, pac.meses);
+                var pp97 = curvasInterpolar(dadosPeso.meses, dadosPeso.p97, pac.meses);
+                var resPeso = curvasClassificar(pac.peso, pp3, pp15, pp50, pp85, pp97, 'peso');
+
+                var elCurvaPeso = document.getElementById('curva-peso');
+                if (elCurvaPeso) elCurvaPeso.value = resPeso.faixa;
+            }
+
+            // --- Estatura x Idade ---
+            var dadosAlt = OMS_DATA['altura_' + pac.sexo];
+            if (dadosAlt && !isNaN(pac.altura)) {
+                var ap3 = curvasInterpolar(dadosAlt.meses, dadosAlt.p3, pac.meses);
+                var ap15 = curvasInterpolar(dadosAlt.meses, dadosAlt.p15, pac.meses);
+                var ap50 = curvasInterpolar(dadosAlt.meses, dadosAlt.p50, pac.meses);
+                var ap85 = curvasInterpolar(dadosAlt.meses, dadosAlt.p85, pac.meses);
+                var ap97 = curvasInterpolar(dadosAlt.meses, dadosAlt.p97, pac.meses);
+                var resAlt = curvasClassificar(pac.altura, ap3, ap15, ap50, ap85, ap97, 'altura');
+
+                var elCurvaAlt = document.getElementById('curva-altura');
+                if (elCurvaAlt) elCurvaAlt.value = resAlt.faixa;
+
+                var elCresc = document.getElementById('av-cresc');
+                if (elCresc) {
+                    elCresc.value = resAlt.faixa;
+                    elCresc.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            }
+
+            // --- PC x Idade ---
+            var dadosPC = OMS_DATA['pc_' + pac.sexo];
+            if (dadosPC && !isNaN(pac.pc)) {
+                var cp3 = curvasInterpolar(dadosPC.meses, dadosPC.p3, pac.meses);
+                var cp15 = curvasInterpolar(dadosPC.meses, dadosPC.p15, pac.meses);
+                var cp50 = curvasInterpolar(dadosPC.meses, dadosPC.p50, pac.meses);
+                var cp85 = curvasInterpolar(dadosPC.meses, dadosPC.p85, pac.meses);
+                var cp97 = curvasInterpolar(dadosPC.meses, dadosPC.p97, pac.meses);
+                var resPC = curvasClassificar(pac.pc, cp3, cp15, cp50, cp85, cp97, 'pc');
+
+                var elCurvaPC = document.getElementById('curva-pc');
+                if (elCurvaPC) elCurvaPC.value = resPC.faixa;
+            }
+
+            // Preenche o campo hidden ex-curvas com um resumo
+            var exCurvas = document.getElementById('ex-curvas');
+            if (exCurvas) {
+                var resumo = [];
+                var ci = document.getElementById('curva-imc');
+                var cp = document.getElementById('curva-peso');
+                var ca = document.getElementById('curva-altura');
+                var cpc = document.getElementById('curva-pc');
+                if (ci && ci.value) resumo.push('IMC: ' + ci.value);
+                if (cp && cp.value) resumo.push('Peso: ' + cp.value);
+                if (ca && ca.value) resumo.push('Estatura: ' + ca.value);
+                if (cpc && cpc.value) resumo.push('PC: ' + cpc.value);
+                exCurvas.value = resumo.join(' | ');
+                exCurvas.dispatchEvent(new Event('change', { bubbles: true }));
             }
         }
     </script>

@@ -24,14 +24,39 @@ public class AuthService {
 
     public LoginResponseDTO login(LoginRequestDTO request) {
         Usuario usuario = usuarioRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new BadCredentialsException("Usuário ou senha incorretos."));
+                .orElseThrow(() -> new BadCredentialsException("Usuario ou senha incorretos."));
 
         if (!passwordEncoder.matches(request.getSenha(), usuario.getSenha())) {
-            throw new BadCredentialsException("Usuário ou senha incorretos.");
+            throw new BadCredentialsException("Usuario ou senha incorretos.");
         }
 
+        // Gera um novo token
         String token = jwtUtil.generateToken(usuario.getUsername());
 
+        // Salva o token como o unico ativo — invalida qualquer sessao anterior
+        usuario.setTokenAtivo(token);
+        usuarioRepository.save(usuario);
+
         return new LoginResponseDTO(token, usuario.getId(), usuario.getNomeCompleto(), usuario.getTurma());
+    }
+
+    /**
+     * Verifica se o token enviado e o token ativo do usuario.
+     * Se nao for, significa que outro dispositivo fez login depois.
+     */
+    public boolean isTokenAtivo(String username, String token) {
+        return usuarioRepository.findByUsername(username)
+                .map(u -> token.equals(u.getTokenAtivo()))
+                .orElse(false);
+    }
+
+    /**
+     * Invalida o token do usuario (logout).
+     */
+    public void logout(String username) {
+        usuarioRepository.findByUsername(username).ifPresent(u -> {
+            u.setTokenAtivo(null);
+            usuarioRepository.save(u);
+        });
     }
 }
