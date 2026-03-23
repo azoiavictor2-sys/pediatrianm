@@ -3085,8 +3085,8 @@
         }
 
         function fazerLogin() {
-            const user = document.getElementById('login-user').value.replace(/\D/g, '');
-            const user = userRaw.replace(/\D/g, ""); // Pega só os 11 números para o backend
+            const userRaw = document.getElementById('login-user').value;
+            const user = userRaw.replace(/\D/g, '');
             const pass = document.getElementById('login-pass').value;
 
             const btnLogin = document.querySelector('#page-login .btn');
