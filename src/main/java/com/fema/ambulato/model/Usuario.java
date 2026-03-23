@@ -2,6 +2,7 @@ package com.fema.ambulato.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "usuarios")
@@ -12,6 +13,7 @@ public class Usuario {
     private Long id;
 
     @NotBlank(message = "Username (CPF) é obrigatório")
+    @Pattern(regexp = "\\d{11}", message = "CPF deve conter exatamente 11 dígitos numéricos")
     @Column(unique = true, nullable = false)
     private String username;
 

@@ -210,7 +210,7 @@
             <h2 style="margin-top: 15px; margin-bottom: 5px;">Ambulatório FEMA</h2>
             <p style="color: var(--text); opacity: 0.7; margin-top: 0;">Prontuário Eletrônico</p>
         </div>
-        <div class="form-group"><label>CPF do Usuário:</label><input type="tel" id="login-user" placeholder="Digite seu CPF" oninput="this.value=this.value.replace(/[^0-9]/g,'')" maxlength="11" onkeypress="if(event.key === 'Enter') fazerLogin()"></div>
+        <div class="form-group"><label>CPF do Usuário:</label><input type="tel" id="login-user" placeholder="Digite seu CPF" maxlength="14" onkeypress="if(event.key === 'Enter') fazerLogin()"></div>
         <div class="form-group"><label>Senha:</label><div style="position: relative;">
             <input type="password" id="login-pass" placeholder="Digite sua senha" onkeypress="if(event.key === 'Enter') fazerLogin()" style="padding-right: 45px;">
             <button type="button" onclick="toggleSenha()" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:transparent; border:none; cursor:pointer; color:var(--text); opacity:0.6; font-size:1.1em; padding:0;" title="Mostrar/Ocultar senha"><i class="fa-solid fa-eye" id="toggle-senha-icon"></i></button>
@@ -227,7 +227,25 @@
                 <i class="fa-solid fa-user-doctor" style="font-size: 35px; color: var(--primary);"></i>
             </div>
             <h1 style="color: var(--primary); margin-bottom: 10px;">Olá, <span id="dash-user-name">Aluno</span>!</h1>
-            <p style="color: var(--text); opacity: 0.8; font-size: 1.1em; margin-bottom: 40px;">Bem-vindo(a) ao seu painel pessoal de controle.</p>
+            <p style="color: var(--text); opacity: 0.8; font-size: 1.1em; margin-bottom: 20px;">Bem-vindo(a) ao seu painel pessoal de controle.</p>
+
+            <div class="grid-3" style="margin-bottom: 30px;">
+                <div class="dash-card" style="padding: 20px;">
+                    <i class="fa-solid fa-file-waveform" style="font-size: 25px; color: var(--primary); margin-bottom: 10px;"></i>
+                    <h3 style="font-size: 1.5em; margin: 0; padding: 0; background: none; border: none; color: var(--text);" id="stat-total">--</h3>
+                    <p style="font-size: 0.8em; opacity: 0.7; margin: 5px 0 0 0;">Total de Prontuários</p>
+                </div>
+                <div class="dash-card" style="padding: 20px;">
+                    <i class="fa-solid fa-clock-rotate-left" style="font-size: 25px; color: var(--primary); margin-bottom: 10px;"></i>
+                    <h3 style="font-size: 1.2em; margin: 0; padding: 0; background: none; border: none; color: var(--text);" id="stat-data">--/--/----</h3>
+                    <p style="font-size: 0.8em; opacity: 0.7; margin: 5px 0 0 0;">Último Registro</p>
+                </div>
+                <div class="dash-card" style="padding: 20px;">
+                    <i class="fa-solid fa-person-breastfeeding" style="font-size: 25px; color: var(--primary); margin-bottom: 10px;"></i>
+                    <h3 style="font-size: 1.2em; margin: 0; padding: 0; background: none; border: none; color: var(--text);" id="stat-nome">--</h3>
+                    <p style="font-size: 0.8em; opacity: 0.7; margin: 5px 0 0 0;">Último Paciente</p>
+                </div>
+            </div>
 
             <div class="grid-2">
                 <div class="dash-card" onclick="irParaSetup()">
@@ -264,7 +282,7 @@
             <div class="grid-3">
                 <div class="form-group"><label>Semestre:</label><select id="semestre"><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></div>
                 <div class="form-group"><label>Turma:</label><input type="text" id="turma" value="T16"></div>
-                <div class="form-group"><label>Matéria:</label><input type="text" id="materia" value="Pediatria"></div>
+                <div class="form-group"><label>Matéria:</label><select id="materia"><option>IESC Ciclo Básico</option><option>Habilidades</option><option selected>Pediatria</option><option>Ginecologia Obstétrica (GO)</option><option>Clínico</option></select></div>
             </div>
         </div>
 
@@ -273,7 +291,7 @@
             <hr style="border: 0; border-top: 1px solid var(--border); margin-bottom: 15px;">
             <div class="grid-2">
                 <div class="form-group"><label>Nome do Paciente:</label><input type="text" id="paciente-nome" placeholder="Nome completo"></div>
-                <div class="form-group"><label>Sexo Biológico:</label><select id="paciente-sexo"><option>Masculino</option><option>Feminino</option></select></div>
+                <div class="form-group"><label>Sexo Biológico:</label><select id="paciente-sexo" onchange="atualizarSexoGenitalia()"><option>Masculino</option><option>Feminino</option></select></div>
             </div>
         </div>
 
@@ -297,7 +315,8 @@
 
         <div class="app-layout">
             <aside class="sidebar">
-                <a href="javascript:void(0)" class="btn-meus-prontuarios" onclick="buscarMeusProntuarios()"><i class="fa-solid fa-folder-open"></i> VER PRONTUÁRIOS</a>
+                <a href="javascript:void(0)" class="btn-meus-prontuarios" style="background:#6c757d;" onclick="voltarAoDashboard()"><i class="fa-solid fa-arrow-left"></i> VOLTAR AO PAINEL</a>
+                <a href="javascript:void(0)" class="btn-meus-prontuarios" onclick="buscarMeusProntuariosFromConsulta()"><i class="fa-solid fa-folder-open"></i> VER PRONTUÁRIOS</a>
                 
                 <h3 style="font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; opacity: 0.6;">Navegação</h3>
                 <a href="#sec-identificacao"><i class="fa-regular fa-id-card"></i> Identificação</a>
@@ -317,13 +336,13 @@
                 <hr style="border-color: var(--border); width: 100%; margin: 15px 0;">
                 
                 <a href="javascript:void(0)" onclick="toggleDarkMode()"><i class="fa-solid fa-moon"></i> Alternar Tema</a>
-                <a href="javascript:void(0)" onclick="limparProntuario()" style="color: #dc3545; font-weight: bold;"><i class="fa-solid fa-trash-can"></i> Limpar Dados</a>
+                <a href="javascript:void(0)" onclick="limparProntuario()" style="color: #dc3545; font-weight: bold;"><i class="fa-solid fa-trash-can" style="color:#dc3545;"></i> Limpar Dados</a>
                 <a href="javascript:void(0)" class="btn-finalizar" onclick="gerarSOAP()"><i class="fa-solid fa-check-double"></i> FINALIZAR SOAP</a>
             </aside>
 
             <main class="main-content">
                 <section class="card" id="sec-identificacao">
-                    <h3>Identificação</h3>
+                    <h3 onclick="toggleCard(this)" style="cursor:pointer; user-select:none;">Identificação <i class="fa-solid fa-chevron-up card-toggle-icon" style="float:right; font-size:0.7em; transition:transform 0.3s;"></i></h3>
                     <div class="grid-2">
                         <div class="form-group"><label>Data de Nascimento:</label><input type="date" id="data-nasc" onchange="calcularIdades()"></div>
                         <div class="form-group"><label>Idade Calculada:</label><input type="text" id="idade-display" readonly style="background: var(--box-bg); border:none; font-weight:bold; color: var(--primary);"><input type="hidden" id="idade-meses-hidden"></div>
@@ -332,7 +351,7 @@
                         <div class="form-group"><label>Nome da Mãe:</label><input type="text" id="id-mae"></div>
                         <div class="form-group"><label>Celular para contato:</label><input type="text" id="id-celular" oninput="this.value = mascaraCelular(this.value)" placeholder="(XX) XXXXX-XXXX" maxlength="15"></div>
                         <div class="form-group"><label>Cor:</label><input type="text" id="id-cor"></div>
-                        <div class="form-group"><label>Etnia:</label><input type="text" id="id-etnia"></div>
+                        <div class="form-group"><label>Nacionalidade:</label><input type="text" id="id-etnia"></div>
                         <div class="form-group"><label>Religião:</label><input type="text" id="id-religiao"></div>
                         <div class="form-group">
                             <label>Tipagem Sanguínea:</label>
@@ -351,13 +370,16 @@
                         <label>É a mãe biológica que está acompanhando?</label>
                         <select id="id-mae-acomp" onchange="toggleBox(this.value, 'box-acompanhante', 'Não')"><option>Sim</option><option>Não</option></select>
                         <div id="box-acompanhante" class="hidden-field" style="background: var(--input-bg);">
-                            <div class="grid-2"><input type="text" id="id-acomp-nome" placeholder="Nome do acompanhante"><input type="text" id="id-acomp-parente" placeholder="Parentesco com o paciente"></div>
+                            <div class="grid-2" style="gap:15px;">
+                                <div class="form-group" style="margin-bottom:0;"><label>Nome do acompanhante:</label><input type="text" id="id-acomp-nome" placeholder="Nome completo do acompanhante"></div>
+                                <div class="form-group" style="margin-bottom:0;"><label>Parentesco com o paciente:</label><input type="text" id="id-acomp-parente" placeholder="Ex: Avó materna, Tia..."></div>
+                            </div>
                         </div>
                     </div>
                 </section>
 
                 <section class="card" id="sec-qp">
-                    <h3>Queixa Principal (QP)</h3>
+                    <h3 onclick="toggleCard(this)" style="cursor:pointer; user-select:none;">Queixa Principal (QP) <i class="fa-solid fa-chevron-up card-toggle-icon" style="float:right; font-size:0.7em; transition:transform 0.3s;"></i></h3>
                     <div class="form-group">
                         <label>Qual o motivo primário da consulta?</label>
                         <select id="qp-tipo" onchange="toggleBox(this.value, 'box-qp', 'Outro')"><option>Consulta de rotina</option><option>Outro</option></select>
@@ -366,14 +388,25 @@
                 </section>
 
                 <section class="card" id="sec-hma">
-                    <h3>História da Doença Atual (HMA)</h3>
+                    <h3 onclick="toggleCard(this)" style="cursor:pointer; user-select:none;">História da Doença Atual (HMA) <i class="fa-solid fa-chevron-up card-toggle-icon" style="float:right; font-size:0.7em; transition:transform 0.3s;"></i></h3>
                     <div class="grid-3">
                         <div class="form-group"><label>Quando começou:</label><input type="text" id="hma-inicio"></div>
                         <div class="form-group"><label>Onde é a Dor:</label><input type="text" id="hma-local"></div>
                         <div class="form-group"><label>Intensidade (0-10):</label><select id="hma-int"><option selected>Selecione</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
                         <div class="form-group"><label>Frequência:</label><input type="text" id="hma-freq"></div>
                         <div class="form-group"><label>Tipo da Dor:</label><input type="text" id="hma-tipo"></div>
-                        <div class="form-group"><label>Dor no momento atual:</label><input type="text" id="hma-momento"></div>
+                        <div class="form-group">
+                            <label>Dor no momento atual:</label>
+                            <select id="hma-momento" onchange="toggleBox(this.value, 'box-dor-momento', 'Sim')">
+                                <option>Não</option><option>Sim</option>
+                            </select>
+                            <div id="box-dor-momento" class="hidden-field">
+                                <div class="grid-2" style="margin-bottom:8px;">
+                                    <div class="form-group" style="margin-bottom:0;"><label>O que está sentindo:</label><input type="text" id="hma-momento-desc" placeholder="Descreva a dor atual..."></div>
+                                    <div class="form-group" style="margin-bottom:0;"><label>Intensidade (0-10):</label><select id="hma-momento-int"><option selected>Selecione</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <hr style="border:0; border-top:1px dashed var(--border); margin: 20px 0;">
                     <div class="grid-2">
@@ -405,9 +438,10 @@
                             <div class="grid-3" style="margin-bottom: 10px;">
                                 <input type="text" id="hma-cons-quando" placeholder="Quando foi?"><input type="text" id="hma-cons-onde" placeholder="Onde consultou?"><input type="text" id="hma-cons-diag" placeholder="Qual foi o diagnóstico?">
                             </div>
-                            <div class="form-group" style="margin-bottom:0; background:var(--input-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
-                                <label>Foi prescrito medicamento nesta consulta anterior?</label>
-                                <select onchange="toggleBox(this.value, 'box-med-ant', 'Sim')"><option>Não</option><option>Sim</option></select>
+                            <div class="form-group" style="margin-bottom:10px;"><label>Houve alguma melhora depois?</label><input type="text" id="hma-cons-melhora" placeholder="Descreva se houve melhora..."></div>
+                            <div class="form-group" style="margin-bottom:0; background:var(--input-bg); padding:12px; border-radius:8px; border:2px solid var(--primary); box-shadow: 0 0 0 3px rgba(0,86,179,0.1);">
+                                <label><i class="fa-solid fa-prescription-bottle-medical"></i> Foi prescrito medicamento nesta consulta anterior?</label>
+                                <select onchange="toggleBox(this.value, 'box-med-ant', 'Sim')" style="border:2px solid var(--primary);"><option>Não</option><option>Sim</option></select>
                                 <div id="box-med-ant" class="hidden-field"><input type="text" id="hma-cons-med" placeholder="Medicação / Quantidade / Tempo de uso"></div>
                             </div>
                         </div>
@@ -421,28 +455,48 @@
                 </section>
 
                 <section class="card" id="sec-antecedentes">
-                    <h3>Antecedentes Pessoais e Fisiológicos</h3>
+                    <h3 onclick="toggleCard(this)" style="cursor:pointer; user-select:none;">Antecedentes Pessoais e Fisiológicos <i class="fa-solid fa-chevron-up card-toggle-icon" style="float:right; font-size:0.7em; transition:transform 0.3s;"></i></h3>
                     <p style="font-size:0.9em; opacity:0.8; margin-bottom: 20px;">Preencha os dados neonatais e gestacionais para compor o histórico.</p>
                     <div class="grid-3">
                         <div class="form-group"><label>Peso ao nascer:</label><input type="text" id="neo-peso" placeholder="Ex: 3200g"></div>
                         <div class="form-group"><label>Estatura ao nascer:</label><input type="text" id="neo-altura" placeholder="Ex: 49cm"></div>
-                        <div class="form-group"><label>Amamentação:</label><input type="text" id="neo-ama" placeholder="LME, Fórmula..."></div>
-                        <div class="form-group"><label>APGAR 1º e 5º min:</label><input type="text" id="neo-apgar" placeholder="Ex: 8/9"></div>
+                        <div class="form-group"><label>Amamentação:</label><input type="text" id="neo-ama" list="lista-amamentacao" placeholder="LME, Fórmula..."></div>
+                        <div class="form-group">
+                            <label>APGAR 1º e 5º min:</label>
+                            <input type="text" id="neo-apgar" placeholder="Ex: 8/9">
+                        </div>
                         <div class="form-group"><label>Necessitou Fototerapia?</label><select onchange="toggleBox(this.value, 'box-foto', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-foto" class="hidden-field"><input type="text" id="neo-foto-tempo" placeholder="Por quanto tempo?"></div></div>
                         <div class="form-group"><label>Local do parto:</label><input type="text" id="neo-local" placeholder="Hospital/Maternidade"></div>
                         <div class="form-group"><label>Virose ou Diabetes Gestacional?</label><select id="neo-virose"><option>Não</option><option>Sim</option></select></div>
-                        <div class="form-group"><label>Alergias conhecidas?</label><select onchange="toggleBox(this.value, 'box-aler', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-aler" class="hidden-field"><input type="text" id="neo-aler" placeholder="Qual alergia?"></div></div>
+                        <div class="form-group"><label>Alergias conhecidas?</label><select id="neo-aler-sel" onchange="toggleBox(this.value, 'box-aler', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-aler" class="hidden-field"><input type="text" id="neo-aler" placeholder="Qual alergia?"></div></div>
                         <div class="form-group"><label>Possui irmãos?</label><select onchange="toggleBox(this.value, 'box-irmaos-neo', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-irmaos-neo" class="hidden-field"><input type="text" id="neo-irmaos-ordem" placeholder="Qual a ordem do paciente?"></div></div>
-                        <div class="form-group"><label>Histórico de Aborto materno?</label><select onchange="toggleBox(this.value, 'box-aborto', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-aborto" class="hidden-field"><input type="text" id="neo-aborto-motivo" placeholder="Causa conhecida?"></div></div>
+                        <div class="form-group"><label>Histórico de Aborto materno?</label><select id="neo-aborto-sel" onchange="toggleBox(this.value, 'box-aborto', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-aborto" class="hidden-field"><input type="text" id="neo-aborto-motivo" placeholder="Causa conhecida?"></div></div>
                         <div class="form-group"><label>Via de parto:</label><select id="neo-parto"><option>Normal</option><option>Cesárea</option></select></div>
                         <div class="form-group"><label>Idade Gest. (Semanas):</label><input type="number" id="neo-ig"></div>
                         <div class="form-group"><label>Gestações (G):</label><input type="number" id="neo-g" value="1"></div>
                         <div class="form-group"><label>Partos (P):</label><input type="number" id="neo-p" value="1"></div>
                         <div class="form-group"><label>Abortos (A):</label><input type="number" id="neo-a" value="0"></div>
                         <div class="form-group"><label>A gravidez foi planejada?</label><select id="neo-planejada"><option>Sim</option><option>Não</option></select></div>
-                        <div class="form-group"><label>Álcool/Drogas na Gestação?</label><select onchange="toggleBox(this.value, 'box-drogas', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-drogas" class="hidden-field"><input type="text" id="neo-drogas-txt" placeholder="Qual substância e tempo?"></div></div>
-                        <div class="form-group"><label>Calendário Vacinal em dia?</label><select onchange="toggleBox(this.value, 'box-vac', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-vac" class="hidden-field"><input type="text" id="neo-vac-txt" placeholder="Quais vacinas aplicadas?"></div></div>
-                        <div class="form-group"><label>Fez suplementação gestacional?</label><select onchange="toggleBox(this.value, 'box-sup', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-sup" class="hidden-field"><input type="text" id="neo-sup-txt" placeholder="Ferro, Ácido fólico...?"></div></div>
+                        <div class="form-group"><label>Álcool/Drogas na Gestação?</label><select id="neo-drogas-sel" onchange="toggleBox(this.value, 'box-drogas', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-drogas" class="hidden-field"><input type="text" id="neo-drogas-txt" placeholder="Qual substância e tempo?"></div></div>
+                        <div class="form-group">
+                            <label>Calendário Vacinal em dia?</label>
+                            <select id="neo-vac-sel" onchange="toggleVacinal(this.value)">
+                                <option>Sim e comprovado</option>
+                                <option>Sim, mas sem comprovação</option>
+                                <option>Não e comprovada</option>
+                                <option>Não</option>
+                            </select>
+                            <div id="box-vac-comprovada" class="hidden-field" style="background:var(--input-bg);">
+                                <a href="javascript:void(0)" onclick="abrirVacinasFaltantes()" style="display:block; font-size:0.85em; margin-top:6px; color:var(--primary); cursor:pointer; font-weight:600;">Adicionar vacinas do paciente</a>
+                                <div id="box-vacinas-faltantes" style="display:none; margin-top:10px;"></div>
+                            </div>
+                            <div id="box-vac-nao" class="hidden-field" style="background:var(--input-bg);">
+                                <input type="text" id="neo-vac-txt" placeholder="Quais vacinas o paciente NÃO tomou?">
+                            </div>
+                            <a href="javascript:void(0)" onclick="toggleCalendarioVacinal()" style="display:block; font-size:0.85em; margin-top:6px; color:var(--primary); cursor:pointer; font-weight:600;">Calendário vacinal</a>
+                            <div id="box-calendario-vacinal" style="display:none; margin-top:10px; padding:14px; background:var(--input-bg); border-radius:8px; border:1px solid var(--border); max-height:600px; overflow-y:auto;"></div>
+                        </div>
+                        <div class="form-group"><label>Fez suplementação gestacional?</label><select id="neo-sup-sel" onchange="toggleBox(this.value, 'box-sup', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-sup" class="hidden-field"><input type="text" id="neo-sup-txt" placeholder="Ferro, Ácido fólico...?"></div></div>
                         <div class="form-group"><label>Teve Intercorrência na Gestação?</label><select id="neo-int-select" onchange="toggleBox(this.value, 'box-int-gest', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-int-gest" class="hidden-field"><input type="text" id="neo-int-txt" placeholder="Qual intercorrência?"></div></div>
                         <div class="form-group"><label>Realizou Pré-natal adequado?</label><select id="neo-prenatal"><option>Sim</option><option>Não</option></select></div>
                     </div>
@@ -451,7 +505,7 @@
                 </section>
 
                 <section class="card" id="sec-dnpm">
-                    <h3>Desenvolvimento Psicomotor (DNPM)</h3>
+                    <h3 onclick="toggleCard(this)" style="cursor:pointer; user-select:none;">Desenvolvimento Psicomotor (DNPM) <i class="fa-solid fa-chevron-up card-toggle-icon" style="float:right; font-size:0.7em; transition:transform 0.3s;"></i></h3>
                     <div id="box-aviso-dnpm" style="background: rgba(255,193,7,0.15); border-left:4px solid #ffc107; padding:15px; margin-bottom:20px; border-radius:4px; display:flex; align-items:center; gap:10px;">
                         <i class="fa-solid fa-lightbulb" style="color: #ffc107; font-size: 1.5em;"></i>
                         <span id="aviso-dnpm" style="font-weight:600; color: var(--text);">O alerta de desenvolvimento esperado aparecerá após o cálculo da idade na seção de Identificação.</span>
@@ -486,10 +540,32 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Regressão -->
+                    <div class="form-group" style="background:var(--box-bg); padding:15px; border-radius:8px; margin-top:15px;">
+                        <label><i class="fa-solid fa-triangle-exclamation" style="color:#e67e22;"></i> Você notou se em algum momento ele parou de fazer alguma coisa que ele já sabia fazer?</label>
+                        <select id="dnpm-regressao" onchange="toggleBox(this.value, 'box-dnpm-regressao', 'Sim')">
+                            <option>Não</option><option>Sim</option>
+                        </select>
+                        <div id="box-dnpm-regressao" class="hidden-field" style="background:var(--input-bg);">
+                            <input type="text" id="dnpm-regressao-txt" placeholder="Descreva o que parou de fazer e quando percebeu...">
+                        </div>
+                    </div>
+
+                    <!-- Puericultura -->
+                    <div style="display:flex; gap:15px; align-items:flex-start; margin-top:15px;">
+                        <button class="btn" onclick="abrirPuericultura()" style="width:auto; background:#17a2b8; padding:10px 20px;"><i class="fa-solid fa-clipboard-check"></i> Puericultura</button>
+                        <div class="form-group" style="flex:1; margin:0;"><input type="text" id="dnpm-info-adicional" placeholder="Informações adicionais importantes sobre o desenvolvimento..."></div>
+                    </div>
+                    <div id="box-puericultura" style="display:none; margin-top:15px; padding:15px; background:var(--input-bg); border-radius:8px; border:2px solid var(--primary);">
+                        <h5 style="margin:0 0 10px 0; color:var(--primary);"><i class="fa-solid fa-clipboard-check"></i> Marcos do Desenvolvimento por Idade</h5>
+                        <p id="puericultura-aviso" style="font-size:0.85em; opacity:0.7; font-style:italic; margin-bottom:10px;"><i class="fa-solid fa-circle-info"></i> Preencha a data de nascimento para filtrar as perguntas adequadas.</p>
+                        <div id="puericultura-checklist" style="display:flex; flex-direction:column; gap:6px;"></div>
+                    </div>
                 </section>
 
                 <section class="card" id="sec-patologico">
-                    <h3>Histórico Patológico Pregresso</h3>
+                    <h3 onclick="toggleCard(this)" style="cursor:pointer; user-select:none;">Histórico Patológico Pregresso <i class="fa-solid fa-chevron-up card-toggle-icon" style="float:right; font-size:0.7em; transition:transform 0.3s;"></i></h3>
                     <div class="grid-2">
                         <div class="form-group"><label>Sofreu algum trauma físico?</label><select onchange="toggleBox(this.value, 'box-trauma', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-trauma" class="hidden-field"><input type="text" id="pat-trauma" placeholder="Qual tipo de trauma?"></div></div>
                         <div class="form-group"><label>Teve Icterícia neonatal/tardia?</label><select id="pat-icte"><option>Não</option><option>Sim</option></select></div>
@@ -500,7 +576,7 @@
                 </section>
 
                 <section class="card" id="sec-familiar">
-                    <h3>Antecedentes Familiares</h3>
+                    <h3 onclick="toggleCard(this)" style="cursor:pointer; user-select:none;">Antecedentes Familiares <i class="fa-solid fa-chevron-up card-toggle-icon" style="float:right; font-size:0.7em; transition:transform 0.3s;"></i></h3>
                     <div class="grid-3">
                         <div class="form-group"><label>Pai biológico possui doença?</label><select onchange="toggleBox(this.value, 'box-pai', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-pai" class="hidden-field"><input type="text" id="fam-pai" placeholder="Qual patologia?"></div></div>
                         <div class="form-group"><label>Mãe biológica possui doença?</label><select onchange="toggleBox(this.value, 'box-mae', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-mae" class="hidden-field"><input type="text" id="fam-mae" placeholder="Qual patologia?"></div></div>
@@ -509,7 +585,7 @@
                 </section>
 
                 <section class="card" id="sec-socio">
-                    <h3>Socioeconômico</h3>
+                    <h3 onclick="toggleCard(this)" style="cursor:pointer; user-select:none;">Socioeconômico <i class="fa-solid fa-chevron-up card-toggle-icon" style="float:right; font-size:0.7em; transition:transform 0.3s;"></i></h3>
                     <div class="grid-3">
                         <div class="form-group"><label>Tipo de moradia (Casa):</label><select id="soc-casa"><option>Alvenaria</option><option>Madeira</option><option>Pau-a-pique</option></select></div>
                         <div class="form-group"><label>Possui Saneamento Básico?</label><select id="soc-sane"><option>Sim</option><option>Não</option></select></div>
@@ -520,7 +596,7 @@
                 </section>
 
                 <section class="card" id="sec-habitos">
-                    <h3>Hábitos de Vida</h3>
+                    <h3 onclick="toggleCard(this)" style="cursor:pointer; user-select:none;">Hábitos de Vida <i class="fa-solid fa-chevron-up card-toggle-icon" style="float:right; font-size:0.7em; transition:transform 0.3s;"></i></h3>
                     
                     <h4>Alimentação</h4>
                     <div class="grid-2">
@@ -575,7 +651,18 @@
                     <div class="grid-2">
                         <div class="form-group"><label>Frequência de evacuações (Vezes/dia ou Semana):</label><input type="text" id="hab-evac-vezes" placeholder="Ex: 1x ao dia, a cada 2 dias..."></div>
                         <div class="form-group"><label>Data/Momento da última evacuação:</label><input type="text" id="hab-evac-ultima" placeholder="Ex: Hoje de manhã"></div>
-                        <div class="form-group"><label>Padrão das fezes segundo a Escala de Bristol:</label><select id="hab-evac-bristol"><option>Tipo 1 (Bolinhas duras)</option><option>Tipo 2 (Salsicha segmentada)</option><option>Tipo 3 (Salsicha com rachaduras)</option><option selected>Tipo 4 (Salsicha lisa/mole)</option><option>Tipo 5 (Pedaços moles c/ bordas nítidas)</option><option>Tipo 6 (Massa pastosa, bordas irregulares)</option><option>Tipo 7 (Totalmente líquida)</option></select></div>
+                        <div class="form-group">
+                            <label>Escala de Bristol:<i class="fa-solid fa-circle-info help-icon" title="Classifica a forma das fezes humanas em 7 categorias. Tipo 1/2: Constipação. Tipo 3/4: Ideal. Tipo 5/6/7: Diarreia."></i></label>
+                            <select id="hab-evac-bristol">
+                                <option>Tipo 1 (Bolinhas duras)</option>
+                                <option>Tipo 2 (Salsicha segmentada)</option>
+                                <option>Tipo 3 (Salsicha com rachaduras)</option>
+                                <option selected>Tipo 4 (Salsicha lisa/mole)</option>
+                                <option>Tipo 5 (Pedaços moles c/ bordas nítidas)</option>
+                                <option>Tipo 6 (Massa pastosa, bordas irregulares)</option>
+                                <option>Tipo 7 (Totalmente líquida)</option>
+                            </select>
+                        </div>
                         <div class="form-group"><label>Notou alguma alteração recente nas fezes?</label><select id="hab-evac-alt-sel" onchange="toggleBox(this.value, 'box-evac-alt', 'Sim')"><option>Não</option><option>Sim</option></select><div id="box-evac-alt" class="hidden-field"><input type="text" id="hab-evac-alt-txt" placeholder="Sangue, muco, dor? Há quanto tempo?"></div></div>
                     </div>
 
@@ -604,13 +691,13 @@
                 </section>
 
                 <section class="card" id="sec-isda">
-                    <h3>ISDA (Interrogatório Sintomatológico)</h3>
+                    <h3 onclick="toggleCard(this)" style="cursor:pointer; user-select:none;">ISDA (Interrogatório Sintomatológico) <i class="fa-solid fa-chevron-up card-toggle-icon" style="float:right; font-size:0.7em; transition:transform 0.3s;"></i></h3>
                     <p style="font-size:0.9em; opacity:0.8;">Revise de forma sistemática os demais aparelhos (Geral, Cabeça/Pescoço, Ap. Respiratório, Ap. Digestório, etc.).</p>
                     <textarea id="isda-texto" rows="4" placeholder="Descreva os achados pertinentes do ISDA não abordados na HMA..."></textarea>
                 </section>
 
                 <section class="card" id="sec-exame" style="border-top: 5px solid var(--primary);">
-                    <h2 style="margin-bottom: 20px; color: var(--primary);"><i class="fa-solid fa-stethoscope"></i> Exame Físico</h2>
+                    <h2 onclick="toggleCard(this)" style="margin-bottom: 20px; color: var(--primary); cursor:pointer; user-select:none;">Exame Físico <i class="fa-solid fa-chevron-up card-toggle-icon" style="float:right; font-size:0.7em; transition:transform 0.3s;"></i></h2>
 
                     <h4>Sinais Vitais e Antropometria (Alertas Automáticos)</h4>
                     
@@ -648,7 +735,11 @@
                         <div class="form-group"><label>Peso (kg):</label><input type="number" step="0.1" id="ex-peso" onchange="calcularIMC()"></div>
                         <div class="form-group"><label>Altura (cm):</label><input type="number" step="0.1" id="ex-altura" onchange="calcularIMC()"></div>
                         <div class="form-group"><label>IMC (Auto):</label><input type="text" id="ex-imc" readonly style="background:var(--box-bg); font-weight:bold; color: var(--primary);"></div>
-                        <div class="form-group"><label>Perím. Encefálico (cm):</label><input type="text" id="ex-pc"></div>
+                        <div class="form-group" id="box-pc">
+                            <label>Perím. Encefálico (cm):</label>
+                            <input type="text" id="ex-pc">
+                            <span id="aviso-pc" class="alert-text" style="display:none; color:#dc3545; font-size:0.82em; margin-top:4px;"><i class="fa-solid fa-triangle-exclamation"></i> Não realizar medição do Perímetro encefálico em maior de 2 anos.</span>
+                        </div>
                     </div>
                     
                     <div style="background: var(--box-bg); border: 1px dashed var(--border); padding: 15px; border-radius: 8px; margin-top: 10px;">
@@ -685,8 +776,48 @@
                     </div>
                     
                     <div class="box-exame">
-                        <label><input type="checkbox" id="chk-linfo" checked onchange="toggleBox(this.checked, 'txt-linfo', true)"> Palpação Linfonodal</label>
-                        <input type="text" id="txt-linfo" value="Cadeias cervicais, supraclaviculares, axilares e inguinais sem linfonodomegalias palpáveis." style="margin-top:5px;">
+                        <label><input type="checkbox" id="chk-linfo" checked onchange="toggleBox(this.checked, 'box-linfo-cadeias', true)"> Palpação Linfonodal</label>
+                        <div id="box-linfo-cadeias" style="margin-top:10px; padding:10px; background:var(--input-bg); border-radius:8px;">
+                            <p style="font-size:0.85em; opacity:0.7; margin-bottom:10px;"><i class="fa-solid fa-circle-info"></i> Selecione as cadeias de linfonodos palpadas:</p>
+                            <div class="grid-2" style="gap:10px;">
+                                <!-- Cervicais -->
+                                <div style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                    <label><input type="checkbox" id="chk-linfo-cervicais" checked onchange="toggleLinfoOpcoes('cervicais')"> Cervicais</label>
+                                    <div id="box-linfo-cervicais" style="margin-top:8px; padding-left:10px;">
+                                        <label style="display:block; margin-bottom:4px;"><input type="radio" name="linfo-cervicais-status" value="sem" checked onchange="toggleLinfoTexto('cervicais')"> Sem alterações</label>
+                                        <label style="display:block;"><input type="radio" name="linfo-cervicais-status" value="alterado" onchange="toggleLinfoTexto('cervicais')"> Alterado</label>
+                                        <div id="box-linfo-cervicais-txt" style="display:none; margin-top:6px;"><input type="text" id="txt-linfo-cervicais" placeholder="Descreva os achados cervicais..."></div>
+                                    </div>
+                                </div>
+                                <!-- Supraclaviculares -->
+                                <div style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                    <label><input type="checkbox" id="chk-linfo-supraclaviculares" checked onchange="toggleLinfoOpcoes('supraclaviculares')"> Supraclaviculares</label>
+                                    <div id="box-linfo-supraclaviculares" style="margin-top:8px; padding-left:10px;">
+                                        <label style="display:block; margin-bottom:4px;"><input type="radio" name="linfo-supraclaviculares-status" value="sem" checked onchange="toggleLinfoTexto('supraclaviculares')"> Sem alterações</label>
+                                        <label style="display:block;"><input type="radio" name="linfo-supraclaviculares-status" value="alterado" onchange="toggleLinfoTexto('supraclaviculares')"> Alterado</label>
+                                        <div id="box-linfo-supraclaviculares-txt" style="display:none; margin-top:6px;"><input type="text" id="txt-linfo-supraclaviculares" placeholder="Descreva os achados supraclaviculares..."></div>
+                                    </div>
+                                </div>
+                                <!-- Axilares -->
+                                <div style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                    <label><input type="checkbox" id="chk-linfo-axilares" checked onchange="toggleLinfoOpcoes('axilares')"> Axilares</label>
+                                    <div id="box-linfo-axilares" style="margin-top:8px; padding-left:10px;">
+                                        <label style="display:block; margin-bottom:4px;"><input type="radio" name="linfo-axilares-status" value="sem" checked onchange="toggleLinfoTexto('axilares')"> Sem alterações</label>
+                                        <label style="display:block;"><input type="radio" name="linfo-axilares-status" value="alterado" onchange="toggleLinfoTexto('axilares')"> Alterado</label>
+                                        <div id="box-linfo-axilares-txt" style="display:none; margin-top:6px;"><input type="text" id="txt-linfo-axilares" placeholder="Descreva os achados axilares..."></div>
+                                    </div>
+                                </div>
+                                <!-- Inguinais -->
+                                <div style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                    <label><input type="checkbox" id="chk-linfo-inguinais" checked onchange="toggleLinfoOpcoes('inguinais')"> Inguinais</label>
+                                    <div id="box-linfo-inguinais" style="margin-top:8px; padding-left:10px;">
+                                        <label style="display:block; margin-bottom:4px;"><input type="radio" name="linfo-inguinais-status" value="sem" checked onchange="toggleLinfoTexto('inguinais')"> Sem alterações</label>
+                                        <label style="display:block;"><input type="radio" name="linfo-inguinais-status" value="alterado" onchange="toggleLinfoTexto('inguinais')"> Alterado</label>
+                                        <div id="box-linfo-inguinais-txt" style="display:none; margin-top:6px;"><input type="text" id="txt-linfo-inguinais" placeholder="Descreva os achados inguinais..."></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="box-exame">
@@ -720,8 +851,222 @@
                     </div>
 
                     <div class="box-exame">
-                        <label><input type="checkbox" id="chk-reflexos" checked onchange="toggleBox(this.checked, 'txt-reflexos', true)"> Reflexos</label>
-                        <input type="text" id="txt-reflexos" value="Reflexos neurológicos profundos e superficiais preservados." style="margin-top:5px;">
+                        <label><input type="checkbox" id="chk-reflexos" checked onchange="toggleBox(this.checked, 'box-reflexos-conteudo', true)"> Reflexos</label>
+                        <div id="box-reflexos-conteudo" style="margin-top:10px;">
+
+                            <!-- REFLEXOS PRIMITIVOS -->
+                            <div style="background:var(--input-bg); padding:12px; border-radius:8px; margin-bottom:12px;">
+                                <h5 style="margin:0 0 5px 0; color:var(--primary);">Reflexos Primitivos</h5>
+                                <p style="font-size:0.82em; opacity:0.7; margin-bottom:10px; font-style:italic;"><i class="fa-solid fa-circle-info"></i> Estão presentes ao nascimento, mas devem ser inibidos ao longo dos meses.</p>
+                                <div style="display:flex; flex-direction:column; gap:8px;" id="box-reflexos-primitivos">
+
+                                    <!-- 1. Reflexo de Busca -->
+                                    <div class="reflexo-item" style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                        <label><input type="checkbox" id="chk-ref-busca" class="chk-reflexo-prim" data-max-meses="2"> Reflexo de Busca</label>
+                                        <span id="aviso-ref-busca" class="aviso-reflexo" style="display:none;"></span>
+                                        <a href="javascript:void(0)" class="link-como-realizar" onclick="toggleComoRealizar('ref-busca')" style="display:block; font-size:0.82em; margin-top:4px; color:var(--primary); cursor:pointer;">Como realizar e o que será observado</a>
+                                        <div id="info-ref-busca" style="display:none; margin-top:6px; padding:8px; background:rgba(0,86,179,0.06); border-radius:6px; font-size:0.85em; line-height:1.5;">
+                                            O reflexo é desencadeado pelo toque no canto da boca e como resposta a criança irá virar a cabeça em busca do dedo, ele também irá reduzir os lábios inferiores e movimentará a língua em direção do estímulo.
+                                            <br><strong>Desaparece:</strong> até 2 meses de idade.
+                                        </div>
+                                    </div>
+
+                                    <!-- 2. Reflexo de Sucção -->
+                                    <div class="reflexo-item" style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                        <label><input type="checkbox" id="chk-ref-succao" class="chk-reflexo-prim" data-max-meses="6"> Reflexo de Sucção</label>
+                                        <span id="aviso-ref-succao" class="aviso-reflexo" style="display:none;"></span>
+                                        <a href="javascript:void(0)" class="link-como-realizar" onclick="toggleComoRealizar('ref-succao')" style="display:block; font-size:0.82em; margin-top:4px; color:var(--primary); cursor:pointer;">Como realizar e o que será observado</a>
+                                        <div id="info-ref-succao" style="display:none; margin-top:6px; padding:8px; background:rgba(0,86,179,0.06); border-radius:6px; font-size:0.85em; line-height:1.5;">
+                                            Estimule os lábios da criança colocando os dedos entre eles e, como resposta, a criança começará a sucção rigorosa.
+                                            <br><strong>Desaparece:</strong> até 6 meses de idade.
+                                        </div>
+                                    </div>
+
+                                    <!-- 3. Apoio Plantar -->
+                                    <div class="reflexo-item" style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                        <label><input type="checkbox" id="chk-ref-apoioplantar" class="chk-reflexo-prim" data-max-meses="2"> Apoio Plantar</label>
+                                        <span id="aviso-ref-apoioplantar" class="aviso-reflexo" style="display:none;"></span>
+                                        <a href="javascript:void(0)" class="link-como-realizar" onclick="toggleComoRealizar('ref-apoioplantar')" style="display:block; font-size:0.82em; margin-top:4px; color:var(--primary); cursor:pointer;">Como realizar e o que será observado</a>
+                                        <div id="info-ref-apoioplantar" style="display:none; margin-top:6px; padding:8px; background:rgba(0,86,179,0.06); border-radius:6px; font-size:0.85em; line-height:1.5;">
+                                            É desencadeado colocando o RN com apoio do pé sobre uma superfície rígida e horizontal, estando seguro pelas axilas e como resposta observará a extensão das pernas até a altura do joelho.
+                                            <br><strong>Desaparece:</strong> até 2 meses de idade.
+                                        </div>
+                                    </div>
+
+                                    <!-- 4. Marcha Reflexa -->
+                                    <div class="reflexo-item" style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                        <label><input type="checkbox" id="chk-ref-marcha" class="chk-reflexo-prim" data-max-meses="2"> Marcha Reflexa</label>
+                                        <span id="aviso-ref-marcha" class="aviso-reflexo" style="display:none;"></span>
+                                        <a href="javascript:void(0)" class="link-como-realizar" onclick="toggleComoRealizar('ref-marcha')" style="display:block; font-size:0.82em; margin-top:4px; color:var(--primary); cursor:pointer;">Como realizar e o que será observado</a>
+                                        <div id="info-ref-marcha" style="display:none; margin-top:6px; padding:8px; background:rgba(0,86,179,0.06); border-radius:6px; font-size:0.85em; line-height:1.5;">
+                                            Incline o tronco do RN após a obtenção do apoio plantar e, como resposta, observará o cruzamento das pernas, uma à frente da outra.
+                                            <br><strong>Desaparece:</strong> com 2 meses.
+                                        </div>
+                                    </div>
+
+                                    <!-- 5. Reflexo Esgrimista / Tônico-Cervical -->
+                                    <div class="reflexo-item" style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                        <label><input type="checkbox" id="chk-ref-esgrimista" class="chk-reflexo-prim" data-max-meses="4"> Reflexo Esgrimista (Tônico-Cervical)</label>
+                                        <span id="aviso-ref-esgrimista" class="aviso-reflexo" style="display:none;"></span>
+                                        <a href="javascript:void(0)" class="link-como-realizar" onclick="toggleComoRealizar('ref-esgrimista')" style="display:block; font-size:0.82em; margin-top:4px; color:var(--primary); cursor:pointer;">Como realizar e o que será observado</a>
+                                        <div id="info-ref-esgrimista" style="display:none; margin-top:6px; padding:8px; background:rgba(0,86,179,0.06); border-radius:6px; font-size:0.85em; line-height:1.5;">
+                                            Faça a rotação da cabeça do RN enquanto estabiliza o tronco dele em decúbito dorsal e, como resposta, ocorrerá a extensão dos membros do mesmo lado da rotação da cabeça e flexão dos membros do lado oposto.
+                                            <br><strong>Desaparece:</strong> com 4 meses.
+                                        </div>
+                                    </div>
+
+                                    <!-- 6. Reflexo Galant -->
+                                    <div class="reflexo-item" style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                        <label><input type="checkbox" id="chk-ref-galant" class="chk-reflexo-prim" data-max-meses="2"> Reflexo Galant</label>
+                                        <span id="aviso-ref-galant" class="aviso-reflexo" style="display:none;"></span>
+                                        <a href="javascript:void(0)" class="link-como-realizar" onclick="toggleComoRealizar('ref-galant')" style="display:block; font-size:0.82em; margin-top:4px; color:var(--primary); cursor:pointer;">Como realizar e o que será observado</a>
+                                        <div id="info-ref-galant" style="display:none; margin-top:6px; padding:8px; background:rgba(0,86,179,0.06); border-radius:6px; font-size:0.85em; line-height:1.5;">
+                                            Aplique um estímulo tátil na região dorso lateral com a criança suspensa e, como resposta, observará o encurvamento do tronco para o mesmo lado do estímulo.
+                                            <br><strong>Desaparece:</strong> com 2 meses.
+                                        </div>
+                                    </div>
+
+                                    <!-- 7. Preensão Palmar -->
+                                    <div class="reflexo-item" style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                        <label><input type="checkbox" id="chk-ref-palmar" class="chk-reflexo-prim" data-max-meses="4"> Preensão Palmar</label>
+                                        <span id="aviso-ref-palmar" class="aviso-reflexo" style="display:none;"></span>
+                                        <a href="javascript:void(0)" class="link-como-realizar" onclick="toggleComoRealizar('ref-palmar')" style="display:block; font-size:0.82em; margin-top:4px; color:var(--primary); cursor:pointer;">Como realizar e o que será observado</a>
+                                        <div id="info-ref-palmar" style="display:none; margin-top:6px; padding:8px; background:rgba(0,86,179,0.06); border-radius:6px; font-size:0.85em; line-height:1.5;">
+                                            Coloque um objeto, como o seu dedo, na palma da mão do bebê e, como resposta, observará a flexão dos dedos da criança.
+                                            <br><strong>Desaparece:</strong> aos 4 meses.
+                                        </div>
+                                    </div>
+
+                                    <!-- 8. Preensão Plantar -->
+                                    <div class="reflexo-item" style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                        <label><input type="checkbox" id="chk-ref-plantar" class="chk-reflexo-prim" data-max-meses="11"> Preensão Plantar</label>
+                                        <span id="aviso-ref-plantar" class="aviso-reflexo" style="display:none;"></span>
+                                        <a href="javascript:void(0)" class="link-como-realizar" onclick="toggleComoRealizar('ref-plantar')" style="display:block; font-size:0.82em; margin-top:4px; color:var(--primary); cursor:pointer;">Como realizar e o que será observado</a>
+                                        <div id="info-ref-plantar" style="display:none; margin-top:6px; padding:8px; background:rgba(0,86,179,0.06); border-radius:6px; font-size:0.85em; line-height:1.5;">
+                                            Faça pressão na base plantar dos dedos do pé do bebê com um objeto ou o seu dedo e, como resposta, observará a flexão dos dedos do pé.
+                                            <br><strong>Desaparece:</strong> aos 11 meses.
+                                        </div>
+                                    </div>
+
+                                    <!-- 9. Reflexo de Moro -->
+                                    <div class="reflexo-item" style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                        <label><input type="checkbox" id="chk-ref-moro" class="chk-reflexo-prim" data-max-meses="6"> Reflexo de Moro</label>
+                                        <span id="aviso-ref-moro" class="aviso-reflexo" style="display:none;"></span>
+                                        <a href="javascript:void(0)" class="link-como-realizar" onclick="toggleComoRealizar('ref-moro')" style="display:block; font-size:0.82em; margin-top:4px; color:var(--primary); cursor:pointer;">Como realizar e o que será observado</a>
+                                        <div id="info-ref-moro" style="display:none; margin-top:6px; padding:8px; background:rgba(0,86,179,0.06); border-radius:6px; font-size:0.85em; line-height:1.5;">
+                                            Provoque uma queda súbita da cabeça do bebê, sempre amparada pela sua mão, gerando um susto e, como resposta, haverá extensão e abdução dos membros superiores, abertura das mãos e choro, seguido da flexão das pernas.
+                                            <br><strong>Desaparece:</strong> em sua forma típica aos 3 meses e completamente aos 6 meses.
+                                        </div>
+                                    </div>
+
+                                    <!-- 10. Reflexo Placing -->
+                                    <div class="reflexo-item" style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                        <label><input type="checkbox" id="chk-ref-placing" class="chk-reflexo-prim" data-max-meses="6"> Reflexo Placing (Colocação)</label>
+                                        <span id="aviso-ref-placing" class="aviso-reflexo" style="display:none;"></span>
+                                        <a href="javascript:void(0)" class="link-como-realizar" onclick="toggleComoRealizar('ref-placing')" style="display:block; font-size:0.82em; margin-top:4px; color:var(--primary); cursor:pointer;">Como realizar e o que será observado</a>
+                                        <div id="info-ref-placing" style="display:none; margin-top:6px; padding:8px; background:rgba(0,86,179,0.06); border-radius:6px; font-size:0.85em; line-height:1.5;">
+                                            Faça um estímulo tátil no dorso do pé do bebê enquanto o segura de forma segura pelas axilas, encostando o pé na beirada de uma mesa e, como resposta, observará a elevação do pé como se a criança estivesse subindo um degrau de escada.
+                                            <br><strong>Desaparece:</strong> com 6 meses.
+                                        </div>
+                                    </div>
+
+                                    <!-- 11. Reflexo Cutâneo Plantar -->
+                                    <div class="reflexo-item" style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                        <label><input type="checkbox" id="chk-ref-cutaneo" class="chk-reflexo-prim" data-max-meses="999"> Reflexo Cutâneo Plantar (Palmoplantar)</label>
+                                        <span id="aviso-ref-cutaneo" class="aviso-reflexo" style="display:none;"></span>
+                                        <a href="javascript:void(0)" class="link-como-realizar" onclick="toggleComoRealizar('ref-cutaneo')" style="display:block; font-size:0.82em; margin-top:4px; color:var(--primary); cursor:pointer;">Como realizar e o que será observado</a>
+                                        <div id="info-ref-cutaneo" style="display:none; margin-top:6px; padding:8px; background:rgba(0,86,179,0.06); border-radius:6px; font-size:0.85em; line-height:1.5;">
+                                            Aplique um estímulo tátil na porção lateral do pé da criança, no sentido do calcanhar para os dedos, desenhando um "J" e, como resposta, observará a extensão do hálux durante o primeiro semestre de vida.
+                                            <br><strong>Nota:</strong> Este reflexo persiste por toda a vida, mas a resposta considerada normal muda para a flexão dos dedos após a aquisição da marcha independente.
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- REFLEXOS POSTURAIS -->
+                            <div style="background:var(--input-bg); padding:12px; border-radius:8px; margin-bottom:12px;">
+                                <h5 style="margin:0 0 5px 0; color:var(--primary);">Reflexos Posturais</h5>
+                                <p style="font-size:0.82em; opacity:0.7; margin-bottom:10px; font-style:italic;"><i class="fa-solid fa-circle-info"></i> São movimentos automáticos que mantêm a posição, postura e equilíbrio do corpo durante repouso ou movimento. Modulam a distribuição do tônus muscular nos membros e tronco.</p>
+                                <div style="display:flex; flex-direction:column; gap:8px;" id="box-reflexos-posturais">
+
+                                    <!-- 1. Reflexo de Landau -->
+                                    <div class="reflexo-item" style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                        <label><input type="checkbox" id="chk-ref-landau" class="chk-reflexo-post" data-min-meses="3" data-max-meses="24"> Reflexo de Landau</label>
+                                        <span id="aviso-ref-landau" class="aviso-reflexo" style="display:none;"></span>
+                                        <a href="javascript:void(0)" class="link-como-realizar" onclick="toggleComoRealizar('ref-landau')" style="display:block; font-size:0.82em; margin-top:4px; color:var(--primary); cursor:pointer;">Como realizar e o que será observado</a>
+                                        <div id="info-ref-landau" style="display:none; margin-top:6px; padding:8px; background:rgba(0,86,179,0.06); border-radius:6px; font-size:0.85em; line-height:1.5;">
+                                            Suspenda o bebê na posição prona e retificado, e em seguida flicta a cabeça dele. Como resposta, que ocorre em 2 tempos, primeiro observa-se a elevação da cabeça e extensão do tronco e pernas; ao fletir a cabeça do bebê, as pernas também se fletem.
+                                            <br><strong>Presente:</strong> a partir de 3 meses. <strong>Desaparece:</strong> entre 2 anos.
+                                        </div>
+                                    </div>
+
+                                    <!-- 2. Apoio Lateral -->
+                                    <div class="reflexo-item" style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                        <label><input type="checkbox" id="chk-ref-apoiolateral" class="chk-reflexo-post" data-min-meses="6" data-max-meses="999"> Apoio Lateral</label>
+                                        <span id="aviso-ref-apoiolateral" class="aviso-reflexo" style="display:none;"></span>
+                                        <a href="javascript:void(0)" class="link-como-realizar" onclick="toggleComoRealizar('ref-apoiolateral')" style="display:block; font-size:0.82em; margin-top:4px; color:var(--primary); cursor:pointer;">Como realizar e o que será observado</a>
+                                        <div id="info-ref-apoiolateral" style="display:none; margin-top:6px; padding:8px; background:rgba(0,86,179,0.06); border-radius:6px; font-size:0.85em; line-height:1.5;">
+                                            Lateralize o tronco do bebê enquanto ele estiver sentado e, como resposta, observará a extensão do braço do mesmo lado da queda, com o apoio da palma da mão na maca.
+                                            <br><strong>Presente:</strong> a partir de 6 meses de idade.
+                                        </div>
+                                    </div>
+
+                                    <!-- 3. Manobra do Paraquedas -->
+                                    <div class="reflexo-item" style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                        <label><input type="checkbox" id="chk-ref-paraquedas" class="chk-reflexo-post" data-min-meses="8" data-max-meses="999"> Manobra do Paraquedas</label>
+                                        <span id="aviso-ref-paraquedas" class="aviso-reflexo" style="display:none;"></span>
+                                        <a href="javascript:void(0)" class="link-como-realizar" onclick="toggleComoRealizar('ref-paraquedas')" style="display:block; font-size:0.82em; margin-top:4px; color:var(--primary); cursor:pointer;"><i class="fa-solid fa-stethoscope"></i> Como realizar e o que será observado</a>
+                                        <div id="info-ref-paraquedas" style="display:none; margin-top:6px; padding:8px; background:rgba(0,86,179,0.06); border-radius:6px; font-size:0.85em; line-height:1.5;">
+                                            Suspenda a criança colocando-a de ponta cabeça, garantindo que os pés saiam da maca e, como resposta, observará a extensão dos braços para frente, como se a criança estivesse pronta para amparar a queda.
+                                            <br><strong>Presente:</strong> a partir de 8 meses. Deve estar obrigatoriamente presente aos 12 meses.
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Campo de texto livre para observações adicionais -->
+                            <div style="margin-top:8px;">
+                                <label style="font-size:0.9em;">Observações adicionais sobre reflexos:</label>
+                                <input type="text" id="txt-reflexos" placeholder="Reflexos neurológicos profundos e superficiais preservados." style="margin-top:5px;">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- EXAME OSTEOARTICULAR -->
+                    <div class="box-exame">
+                        <label><input type="checkbox" id="chk-osteo" onchange="toggleBox(this.checked, 'box-osteo-conteudo', true)"> Exame Osteoarticular</label>
+                        <span id="aviso-osteo" class="aviso-reflexo" style="display:none;"></span>
+                        <p style="font-size:0.82em; opacity:0.7; margin-top:4px; font-style:italic;"><i class="fa-solid fa-circle-info"></i> Manobra deve ser feita até os 3 meses de idade. Ideal fazer o diagnóstico nas primeiras 6 semanas de vida. Objetivo: identificar displasia congênita de quadril. Fazer sempre em lactentes.</p>
+                        <div id="box-osteo-conteudo" style="display:none; margin-top:10px; padding:10px; background:var(--input-bg); border-radius:8px;">
+                            <div style="display:flex; flex-direction:column; gap:10px;">
+
+                                <!-- Manobra de Barlow -->
+                                <div style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                    <label><input type="checkbox" id="chk-osteo-barlow"> Manobra de Barlow</label>
+                                    <p style="font-size:0.8em; opacity:0.65; margin:4px 0 0 24px;">Detecta o deslizamento do quadril para fora do acetábulo.</p>
+                                    <a href="javascript:void(0)" class="link-como-realizar" onclick="toggleComoRealizar('osteo-barlow')" style="display:block; font-size:0.82em; margin-top:4px; color:var(--primary); cursor:pointer;">Como realizar a manobra</a>
+                                    <div id="info-osteo-barlow" style="display:none; margin-top:6px; padding:8px; background:rgba(0,86,179,0.06); border-radius:6px; font-size:0.85em; line-height:1.5;">
+                                        O quadril é retornado à posição inicial e, então, levemente abduzido (isto é, o joelho é puxado sobre o corpo, aplicando uma pequena pressão) e o quadril é movido posteriormente. Um clique indica que a cabeça do fêmur está se movendo para fora do acetábulo.
+                                        <br><img src="img/barlow_ortolani.png" alt="Manobras de Barlow e Ortolani" style="max-width:100%; margin-top:10px; border-radius:8px; border:1px solid var(--border);">
+                                    </div>
+                                </div>
+
+                                <!-- Manobra de Ortolani -->
+                                <div style="background:var(--box-bg); padding:10px; border-radius:6px; border:1px solid var(--border);">
+                                    <label><input type="checkbox" id="chk-osteo-ortolani"> Manobra de Ortolani</label>
+                                    <p style="font-size:0.8em; opacity:0.65; margin:4px 0 0 24px;">Detecta o deslizamento posterior do quadril para dentro do acetábulo.</p>
+                                    <a href="javascript:void(0)" class="link-como-realizar" onclick="toggleComoRealizar('osteo-ortolani')" style="display:block; font-size:0.82em; margin-top:4px; color:var(--primary); cursor:pointer;">Como realizar a manobra</a>
+                                    <div id="info-osteo-ortolani" style="display:none; margin-top:6px; padding:8px; background:rgba(0,86,179,0.06); border-radius:6px; font-size:0.85em; line-height:1.5;">
+                                        RN em decúbito dorsal, as coxas e joelhos são fletidos a 90° e a coxa do quadril em exame é abduzida (isto é, o joelho é movido longe da linha média na posição de perna de rã) e delicadamente puxada anteriormente. A instabilidade é indicada pela palpação, às vezes um clique audível da cabeça do fêmur movendo-se sobre o arco posterior do acetábulo e recolocação na cavidade.
+                                        <br><img src="img/barlow_ortolani.png" alt="Manobras de Barlow e Ortolani" style="max-width:100%; margin-top:10px; border-radius:8px; border:1px solid var(--border);">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="box-exame">
@@ -731,7 +1076,7 @@
                 </section>
 
                 <section class="card" id="sec-avaliacao">
-                    <h2>Avaliação Final (Conclusão Clínica)</h2>
+                    <h2 onclick="toggleCard(this)" style="cursor:pointer; user-select:none;">Avaliação Final (Conclusão Clínica) <i class="fa-solid fa-chevron-up card-toggle-icon" style="float:right; font-size:0.7em; transition:transform 0.3s;"></i></h2>
                     <div class="grid-2">
                         <div class="form-group"><label>Estado Nutricional:</label><input type="text" id="av-nutri" placeholder="Eutrófico, Risco de Sobrepeso..."></div>
                         <div class="form-group"><label>Desenvolvimento / Crescimento:</label><input type="text" id="av-cresc" placeholder="Adequado, Baixa Estatura..."></div>
@@ -746,7 +1091,7 @@
                 </section>
 
                 <section class="card" id="sec-plano" style="border-top: 5px solid #28a745;">
-                    <h2 style="color: #28a745;">Plano (Conduta)</h2>
+                    <h2 onclick="toggleCard(this)" style="color: #28a745; cursor:pointer; user-select:none;">Plano (Conduta) <i class="fa-solid fa-chevron-up card-toggle-icon" style="float:right; font-size:0.7em; transition:transform 0.3s;"></i></h2>
                     <p style="font-size:0.9em; opacity:0.8; margin-bottom: 20px;">Descreva a conduta, medicações prescritas, exames solicitados e orientações.</p>
                     <div class="form-group">
                         <textarea id="plano-texto" rows="6" placeholder="Ex: Prescrito Paracetamol 200mg/ml, 1 gota/kg se febre. Solicitado Hemograma completo. Retorno em 15 dias..."></textarea>
@@ -778,20 +1123,29 @@
 
             <div class="soap-box">
                 <h2 style="margin-top: 0; color: var(--primary); font-size: 1.4em; border:none; background:none;">[O] Objetivo (Exame Físico)</h2>
-                <textarea id="soap-o" rows="18"></textarea>
-                <div style="text-align: right;"><button class="btn btn-copy" onclick="copiarTexto('soap-o', this)"><i class="fa-regular fa-copy"></i> COPIAR</button></div>
+                <textarea id="soap-o" rows="18" oninput="updateCharCount(this)"></textarea>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span id="counter-soap-o" class="char-counter">0 / 4000</span>
+                    <button class="btn btn-copy" onclick="copiarTexto('soap-o', this)" style="margin-top:0;"><i class="fa-regular fa-copy"></i> COPIAR</button>
+                </div>
             </div>
 
             <div class="soap-box">
                 <h2 style="margin-top: 0; color: var(--primary); font-size: 1.4em; border:none; background:none;">[A] Avaliação (Conclusão)</h2>
-                <textarea id="soap-a" rows="8"></textarea>
-                <div style="text-align: right;"><button class="btn btn-copy" onclick="copiarTexto('soap-a', this)"><i class="fa-regular fa-copy"></i> COPIAR</button></div>
+                <textarea id="soap-a" rows="8" oninput="updateCharCount(this)"></textarea>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span id="counter-soap-a" class="char-counter">0 / 2000</span>
+                    <button class="btn btn-copy" onclick="copiarTexto('soap-a', this)" style="margin-top:0;"><i class="fa-regular fa-copy"></i> COPIAR</button>
+                </div>
             </div>
 
             <div class="soap-box" style="border-color: #c3e6cb; background: #d4edda;">
                 <h2 style="margin-top: 0; color: #155724; font-size: 1.4em; border:none; background:none;">[P] Plano (Conduta)</h2>
-                <textarea id="soap-p" rows="8" style="border-color: #c3e6cb;"></textarea>
-                <div style="text-align: right;"><button class="btn btn-copy" onclick="copiarTexto('soap-p', this)"><i class="fa-regular fa-copy"></i> COPIAR</button></div>
+                <textarea id="soap-p" rows="8" style="border-color: #c3e6cb;" oninput="updateCharCount(this)"></textarea>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span id="counter-soap-p" class="char-counter">0 / 2000</span>
+                    <button class="btn btn-copy" onclick="copiarTexto('soap-p', this)" style="margin-top:0;"><i class="fa-regular fa-copy"></i> COPIAR</button>
+                </div>
             </div>
 
             <button class="btn btn-secondary" onclick="voltarConsulta()" style="padding: 15px; font-size: 1.1em;"><i class="fa-solid fa-arrow-left"></i> VOLTAR PARA A EDIÇÃO</button>
@@ -799,12 +1153,21 @@
     </div>
 </div>
 
+<!-- Datalists para Autocompletar -->
+<datalist id="lista-amamentacao">
+    <option value="Aleitamento Materno Exclusivo (AME)">
+    <option value="Aleitamento Materno Predominante">
+    <option value="Aleitamento Materno Complementado">
+    <option value="Fórmula Infantil">
+    <option value="Leite de Vaca Integral">
+</datalist>
+
 <div id="page-lista" class="page">
     <div class="container-app" style="max-width: 900px;">
         <h1 style="text-align: center;"><i class="fa-solid fa-folder-open"></i> Meus Pacientes Atendidos</h1>
         
         <div style="display: flex; gap: 15px; margin-bottom: 20px; align-items: center;">
-            <button class="btn btn-secondary" style="width: auto; margin-top: 0;" onclick="voltarAoDashboard()"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
+            <button class="btn btn-secondary" style="width: auto; margin-top: 0;" onclick="voltarDaLista()"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
             <div style="position: relative; flex: 1;">
                 <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 15px; top: 15px; color: #aaa;"></i>
                 <input type="text" id="search-paciente" placeholder="Buscar paciente pelo nome..." onkeyup="filtrarProntuarios()" style="margin: 0; font-size: 1.1em; padding-left: 45px;">
@@ -862,6 +1225,7 @@
 <script>
     let origemSoap = 'consulta'; 
     let prontuarioAberto = null; 
+    let origemLista = 'dashboard';
 
     window.onload = function() {
         if(localStorage.getItem('theme') === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); }
@@ -911,6 +1275,21 @@
         v = v.replace(/(\d)(\d{4})$/, "$1-$2"); 
         return v;
     }
+
+    function mascaraCPF(v) {
+        v = v.replace(/\D/g, "");
+        if (v.length > 11) v = v.slice(0, 11);
+        v = v.replace(/(\d{3})(\d)/, "$1.$2");
+        v = v.replace(/(\d{3})(\d)/, "$1.$2");
+        v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+        return v;
+    }
+
+    // Listener para o input de CPF do login
+    document.getElementById('login-user').addEventListener('input', function(e) {
+        let cpf = e.target.value.replace(/\D/g, "").slice(0, 11); 
+        e.target.value = mascaraCPF(cpf);
+    });
 
     function salvarDadosAutomaticamente(e) {
         if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'SELECT' && e.target.tagName !== 'TEXTAREA') return;
@@ -969,8 +1348,14 @@
     }
 
     function fazerLogin() {
-        const user = document.getElementById('login-user').value.trim();
+        const userRaw = document.getElementById('login-user').value.trim();
+        const user = userRaw.replace(/\D/g, ""); // Pega só os 11 números para o backend
         const pass = document.getElementById('login-pass').value;
+
+        const btnLogin = document.querySelector('#page-login .btn');
+        const loginOriginalText = btnLogin.innerHTML;
+        btnLogin.innerHTML = "<i class='fa-solid fa-circle-notch fa-spin'></i> Entrando...";
+        btnLogin.disabled = true;
 
         document.getElementById('login-error').innerText = "Autenticando no servidor...";
         document.getElementById('login-error').classList.remove('text-danger');
@@ -988,21 +1373,49 @@
         .then(dadosUsuario => {
             localStorage.setItem('usuarioLogadoNome', dadosUsuario.nomeCompleto);
             localStorage.setItem('ambulato_token', dadosUsuario.token);
+            
             document.getElementById('dash-user-name').innerText = dadosUsuario.nomeCompleto.split(' ')[0];
-            
-            document.getElementById('page-login').classList.remove('active-page');
+            document.getElementById('setup-error').innerText = "";
+            document.querySelector('.active-page').classList.remove('active-page');
             document.getElementById('page-dashboard').classList.add('active-page');
-            document.getElementById('login-error').innerText = "";
+            btnLogin.innerHTML = loginOriginalText;
+            btnLogin.disabled = false;
             
+            carregarEstatisticasDashboard();
             gerarCamposAlunos();
             restaurarDadosSalvos();
             showToast("Login realizado com sucesso!", "success");
         })
         .catch(erro => {
-            document.getElementById('login-error').style.color = "";
-            document.getElementById('login-error').classList.add('text-danger');
-            document.getElementById('login-error').innerText = '[ALERTA] ' + erro.message;
+            document.getElementById('login-error').innerText = erro.message;
+            document.getElementById('login-error').style.color = "#dc3545";
+            btnLogin.innerHTML = loginOriginalText;
+            btnLogin.disabled = false;
         });
+    }
+
+    function carregarEstatisticasDashboard() {
+        const token = localStorage.getItem('ambulato_token');
+        if(!token) return;
+
+        fetch('/api/prontuarios/stats', {
+            method: 'GET',
+            headers: getAuthHeaders()
+        })
+        .then(resposta => {
+            if(resposta.ok) return resposta.json();
+            throw new Error("Não foi possível carregar estatísticas.");
+        })
+        .then(stats => {
+            document.getElementById('stat-total').innerText = stats.totalProntuarios;
+            document.getElementById('stat-nome').innerText = stats.ultimoPacienteNome || "--";
+            if(stats.ultimaDataAtendimento) {
+                document.getElementById('stat-data').innerText = new Date(stats.ultimaDataAtendimento).toLocaleDateString('pt-BR');
+            } else {
+                document.getElementById('stat-data').innerText = "--/--/----";
+            }
+        })
+        .catch(erro => console.error(erro));
     }
 
     function sairDaConta() {
@@ -1025,6 +1438,311 @@
     function voltarAoDashboard() {
         document.querySelector('.active-page').classList.remove('active-page');
         document.getElementById('page-dashboard').classList.add('active-page');
+    }
+
+    function buscarMeusProntuariosFromConsulta() {
+        origemLista = 'consulta';
+        buscarMeusProntuarios();
+    }
+
+    function voltarDaLista() {
+        document.querySelector('.active-page').classList.remove('active-page');
+        if(origemLista === 'consulta') {
+            document.getElementById('page-consulta').classList.add('active-page');
+        } else {
+            document.getElementById('page-dashboard').classList.add('active-page');
+        }
+        origemLista = 'dashboard';
+    }
+
+    function abrirPuericultura() {
+        const box = document.getElementById('box-puericultura');
+        if(box.style.display === 'block') { box.style.display = 'none'; return; }
+        box.style.display = 'block';
+
+        const container = document.getElementById('puericultura-checklist');
+        // If already has content, just show it (preserving selections)
+        if(container.children.length > 0) return;
+
+        const mesesTotal = parseInt(document.getElementById('idade-meses-hidden').value) || -1;
+        const avisoEl = document.getElementById('puericultura-aviso');
+
+        if(mesesTotal < 0) {
+            avisoEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:#e67e22;"></i> Preencha a data de nascimento primeiro para filtrar as perguntas.';
+            avisoEl.style.display = 'block';
+            return;
+        }
+
+        const marcos = [
+            { faixa: '1 a 2 Meses', min: 1, max: 2, itens: [
+                'Já levanta um pouquinho a cabeça',
+                'Fixa o olhar em rostos e acompanha ao se mover devagar',
+                'Se assusta com barulhos altos',
+                'Já sorri quando fala com ele'
+            ]},
+            { faixa: '3 a 4 Meses', min: 3, max: 4, itens: [
+                'A cabecinha já fica firme quando sentado no colo',
+                'Já tenta rolar de barriga para cima para ficar de lado',
+                'Já junta as mãozinhas no centro do corpo',
+                'Tenta bater nos brinquedos',
+                'Já dá gargalhadas ou faz barulhinhos como "aguu"'
+            ]},
+            { faixa: '6 Meses', min: 5, max: 6, itens: [
+                'Já senta sozinho sem cair para os lados',
+                'Já passa um brinquedo de uma mão para a outra',
+                'Já balbucia repetindo sons como "papapa" ou "mamama"',
+                'Vira a cabeça na direção de uma voz ou som'
+            ]},
+            { faixa: '9 Meses', min: 7, max: 9, itens: [
+                'Já se arrasta ou engatinha',
+                'Fica em pé segurando nos móveis',
+                'Pega objetos pequenos usando a ponta do polegar e do indicador',
+                'Dá tchau com a mãozinha',
+                'Brinca de "esconde-achou"',
+                'Procura um brinquedo que você escondeu'
+            ]},
+            { faixa: '12 Meses (1 ano)', min: 10, max: 12, itens: [
+                'Já anda ao redor dos móveis segurando neles',
+                'Dá os primeiros passos sozinho',
+                'Aponta com o dedinho para mostrar o que quer',
+                'Fala pelo menos uma palavra com sentido (ex: mamãe, água, dá)',
+                'Solta objetos de propósito dentro de um pote'
+            ]},
+            { faixa: '15 a 18 Meses (1 ano e meio)', min: 13, max: 18, itens: [
+                'Já anda bem sozinho sem cair toda hora',
+                'Já corre ou sobe degraus baixos',
+                'Empilha 2 a 3 blocos',
+                'Já rabisca o papel',
+                'Tenta tirar as próprias roupas ou sapatos sozinho',
+                'Leva a comida \u00e0 boca com a m\u00e3o ou colher',
+                'Fala palavras novas e aponta para partes do corpo'
+            ]},
+            { faixa: '24 Meses (2 anos)', min: 19, max: 24, itens: [
+                'Chuta uma bola sem perder o equil\u00edbrio',
+                'Empilha de 4 a 6 objetos',
+                'Junta duas palavras para pedir as coisas (ex: "quer \u00e1gua")',
+                'J\u00e1 avisa quando faz coc\u00f4 ou xixi'
+            ]},
+            { faixa: '3 a 4 Anos', min: 25, max: 48, itens: [
+                'Pula com os dois p\u00e9s juntos',
+                'Pula num p\u00e9 s\u00f3 por um momento',
+                'Usa frases completas para conversar',
+                'Diz o pr\u00f3prio nome e idade',
+                'Brinca junto com outras crian\u00e7as',
+                'J\u00e1 veste algumas roupas sozinho',
+                'J\u00e1 vai ao banheiro sozinho (desfralde)'
+            ]},
+            { faixa: '5 a 6 Anos', min: 49, max: 72, itens: [
+                'Desce escadas alternando os p\u00e9s',
+                'Pula alternando os p\u00e9s',
+                'Reconhece e fala o nome de mais de duas cores',
+                'Expressa as pr\u00f3prias ideias e o que prefere',
+                'Se veste e se limpa sozinho ap\u00f3s ir ao banheiro'
+            ]}
+        ];
+
+        const gruposFiltrados = marcos.filter(g => mesesTotal >= g.min && mesesTotal <= g.max);
+
+        if(gruposFiltrados.length === 0) {
+            avisoEl.innerHTML = `<i class="fa-solid fa-circle-info"></i> N\u00e3o h\u00e1 marcos de puericultura cadastrados para a idade de ${mesesTotal} meses.`;
+            avisoEl.style.display = 'block';
+            return;
+        }
+
+        avisoEl.innerHTML = `<i class="fa-solid fa-circle-info"></i> Marcos filtrados para a idade de ${mesesTotal} meses. Selecione os que o paciente j\u00e1 alcan\u00e7ou:`;
+        avisoEl.style.display = 'block';
+
+        gruposFiltrados.forEach(grupo => {
+            const titulo = document.createElement('h6');
+            titulo.style.cssText = 'margin:10px 0 5px 0; color:var(--primary); font-size:0.95em;';
+            titulo.textContent = grupo.faixa;
+            container.appendChild(titulo);
+
+            grupo.itens.forEach((item, idx) => {
+                const label = document.createElement('label');
+                label.style.cssText = 'display:flex; align-items:center; gap:8px; padding:6px 10px; background:var(--box-bg); border-radius:6px; border:1px solid var(--border); cursor:pointer; font-weight:normal; font-size:0.9em;';
+                const chkId = `puer-${grupo.faixa.replace(/\s/g,'')}-${idx}`;
+                label.innerHTML = `<input type="checkbox" id="${chkId}" class="chk-puericultura"> ${item}`;
+                container.appendChild(label);
+            });
+        });
+    }
+
+    function toggleCard(header) {
+        const section = header.closest('section.card');
+        if(!section) return;
+        const icon = header.querySelector('.card-toggle-icon');
+        const children = Array.from(section.children);
+        const isCollapsed = section.classList.toggle('card-collapsed');
+        children.forEach(child => {
+            if(child !== header) child.style.display = isCollapsed ? 'none' : '';
+        });
+        if(icon) icon.style.transform = isCollapsed ? 'rotate(180deg)' : 'rotate(0deg)';
+    }
+
+    function atualizarSexoGenitalia() {
+        const sexo = document.getElementById('paciente-sexo').value;
+        const txtGenital = document.getElementById('txt-genital');
+        if(txtGenital) {
+            if(sexo === 'Masculino') {
+                txtGenital.value = 'Masculino t\u00edpico, p\u00eanis sem les\u00f5es, test\u00edculos t\u00f3picos na bolsa escrotal e estadiamento puberal de Tanner G1P1.';
+            } else {
+                txtGenital.value = 'Feminina t\u00edpico, sem les\u00f5es e estadiamento puberal de Tanner G1P1.';
+            }
+        }
+    }
+
+    function toggleVacinal(valor) {
+        const boxComprovada = document.getElementById('box-vac-comprovada');
+        const boxNao = document.getElementById('box-vac-nao');
+        boxComprovada.style.display = 'none';
+        boxNao.style.display = 'none';
+        if(valor === 'N\u00e3o e comprovada') {
+            boxComprovada.style.display = 'block';
+        } else if(valor === 'N\u00e3o') {
+            boxNao.style.display = 'block';
+        }
+    }
+
+    function toggleCalendarioVacinal() {
+        const box = document.getElementById('box-calendario-vacinal');
+        if(box.style.display === 'block') { box.style.display = 'none'; return; }
+        box.style.display = 'block';
+        box.innerHTML = '';
+
+        const calendario = [
+            { idade: 'Ao nascer', meses: 0, vacinas: [
+                { nome: 'BCG (Dose \u00fanica)', desc: 'Protege contra formas graves de tuberculose (miliar e men\u00edngea).', particular: false },
+                { nome: 'Hepatite B (1\u00aa dose)', desc: 'Protege contra a hepatite B.', particular: false }
+            ]},
+            { idade: '2 meses', meses: 2, vacinas: [
+                { nome: 'Penta - DTP/HB/Hib (1\u00aa dose)', desc: 'Difteria, t\u00e9tano, coqueluche, hepatite B e Haemophilus influenzae tipo b.', particular: false },
+                { nome: 'Hexavalente (DTPa/HB/VIP/Hib)', desc: 'Vers\u00e3o acelular, menos rea\u00e7\u00f5es, inclui p\u00f3lio inativada.', particular: true },
+                { nome: 'Poliomielite Inativada - VIP (1\u00aa dose)', desc: 'Protege contra a paralisia infantil.', particular: false },
+                { nome: 'Pneumoc\u00f3cica 10-valente (1\u00aa dose)', desc: 'Pneumonia, meningite e otite (10 sorotipos).', particular: false },
+                { nome: 'Pneumoc\u00f3cica 13 ou 15-valente', desc: 'Amplia prote\u00e7\u00e3o para mais cepas.', particular: true },
+                { nome: 'Rotav\u00edrus (1\u00aa dose)', desc: 'Protege contra diarreia grave por rotav\u00edrus.', particular: false },
+                { nome: 'Rotav\u00edrus Pentavalente (VR5)', desc: 'Protege contra 5 cepas (SUS \u00e9 monovalente).', particular: true }
+            ]},
+            { idade: '3 meses', meses: 3, vacinas: [
+                { nome: 'Meningoc\u00f3cica C (1\u00aa dose)', desc: 'Protege contra meningite por sorogrupo C.', particular: false },
+                { nome: 'Meningoc\u00f3cica ACWY', desc: 'Amplia prote\u00e7\u00e3o para sorogrupos A, C, W e Y.', particular: true },
+                { nome: 'Meningoc\u00f3cica B (1\u00aa dose)', desc: 'Protege contra meningite por sorogrupo B.', particular: true }
+            ]},
+            { idade: '4 meses', meses: 4, vacinas: [
+                { nome: 'Penta (2\u00aa dose) ou Hexavalente', desc: 'Refor\u00e7o da vacina Penta/Hexavalente.', particular: false },
+                { nome: 'VIP (2\u00aa dose)', desc: 'Refor\u00e7o p\u00f3lio inativada.', particular: false },
+                { nome: 'Pneumoc\u00f3cica 10v (2\u00aa dose) ou 13/15v', desc: 'Refor\u00e7o pneumoc\u00f3cica.', particular: false },
+                { nome: 'Rotav\u00edrus (2\u00aa dose)', desc: 'Refor\u00e7o rotav\u00edrus.', particular: false }
+            ]},
+            { idade: '5 meses', meses: 5, vacinas: [
+                { nome: 'Meningoc\u00f3cica C (2\u00aa dose) ou ACWY', desc: 'Refor\u00e7o meningoc\u00f3cica.', particular: false },
+                { nome: 'Meningoc\u00f3cica B (2\u00aa dose)', desc: 'Refor\u00e7o meningoc\u00f3cica B.', particular: true }
+            ]},
+            { idade: '6 meses', meses: 6, vacinas: [
+                { nome: 'Penta (3\u00aa dose) ou Hexavalente', desc: 'Refor\u00e7o final da s\u00e9rie prim\u00e1ria.', particular: false },
+                { nome: 'VIP (3\u00aa dose)', desc: 'Refor\u00e7o p\u00f3lio.', particular: false },
+                { nome: 'Influenza (1\u00aa dose)', desc: 'Vacina anual contra gripe, a partir dos 6 meses.', particular: false },
+                { nome: 'Rotav\u00edrus Pentavalente (3\u00aa dose)', desc: 'Terceira dose no esquema privado (VR5).', particular: true },
+                { nome: 'Pneumoc\u00f3cica 13/15v (3\u00aa dose)', desc: 'Terceira dose no esquema privado.', particular: true }
+            ]},
+            { idade: '9 meses', meses: 9, vacinas: [
+                { nome: 'Febre Amarela (1\u00aa dose)', desc: 'Protege contra febre amarela.', particular: false }
+            ]},
+            { idade: '12 meses (1 ano)', meses: 12, vacinas: [
+                { nome: 'Tr\u00edplice Viral - SCR (1\u00aa dose)', desc: 'Sarampo, caxumba e rub\u00e9ola.', particular: false },
+                { nome: 'Pneumoc\u00f3cica 10v (Refor\u00e7o) ou 13/15v', desc: 'Refor\u00e7o pneumoc\u00f3cica.', particular: false },
+                { nome: 'Meningoc\u00f3cica C (Refor\u00e7o) ou ACWY', desc: 'Refor\u00e7o meningoc\u00f3cica.', particular: false },
+                { nome: 'Meningoc\u00f3cica B (Refor\u00e7o)', desc: 'Refor\u00e7o meningoc\u00f3cica B.', particular: true },
+                { nome: 'Hepatite A (1\u00aa dose)', desc: 'Rede privada: 2 doses (12 e 18m). SUS: dose \u00fanica aos 15m.', particular: true },
+                { nome: 'Varicela (1\u00aa dose)', desc: 'Rede privada aplica isolada com 1 ano.', particular: true }
+            ]},
+            { idade: '15 meses', meses: 15, vacinas: [
+                { nome: 'DTP (1\u00ba refor\u00e7o)', desc: 'Difteria, t\u00e9tano e coqueluche.', particular: false },
+                { nome: 'DTPa', desc: 'Vers\u00e3o acelular, menos rea\u00e7\u00f5es.', particular: true },
+                { nome: 'VOP (1\u00ba refor\u00e7o)', desc: 'Gotinha contra p\u00f3lio (atenuada oral).', particular: false },
+                { nome: 'VIP (substitui VOP)', desc: 'Rede privada usa apenas injet\u00e1vel.', particular: true },
+                { nome: 'Hepatite A (Dose \u00fanica SUS)', desc: 'Dose \u00fanica no SUS.', particular: false },
+                { nome: 'Tetra Viral - SCRV', desc: 'Sarampo, caxumba, rub\u00e9ola e varicela.', particular: false }
+            ]},
+            { idade: '4 anos', meses: 48, vacinas: [
+                { nome: 'DTP (2\u00ba refor\u00e7o) ou DTPa', desc: 'Segundo refor\u00e7o.', particular: false },
+                { nome: 'VOP (2\u00ba refor\u00e7o) ou VIP', desc: 'Segundo refor\u00e7o p\u00f3lio.', particular: false },
+                { nome: 'Varicela (2\u00aa dose)', desc: 'Para quem n\u00e3o recebeu tetra viral.', particular: false },
+                { nome: 'Dengue (Qdenga)', desc: '2 doses com 3 meses de intervalo (4-60 anos).', particular: true }
+            ]},
+            { idade: '9 a 11 anos', meses: 108, vacinas: [
+                { nome: 'HPV (2 doses)', desc: 'Contra HPV. SUS: 9-14 anos.', particular: false },
+                { nome: 'Meningoc\u00f3cica ACWY (refor\u00e7o)', desc: 'Refor\u00e7o pr\u00e9-adolesc\u00eancia.', particular: false },
+                { nome: 'dT (refor\u00e7o)', desc: 'Difteria e t\u00e9tano, repetir a cada 10 anos.', particular: false }
+            ]}
+        ];
+
+        calendario.forEach(grupo => {
+            const titulo = document.createElement('div');
+            titulo.style.cssText = 'margin:12px 0 0; padding:8px 12px; background:var(--primary); color:white; border-radius:6px; font-weight:bold; font-size:0.9em; cursor:pointer; user-select:none; display:flex; justify-content:space-between; align-items:center;';
+            titulo.innerHTML = `${grupo.idade} <i class="fa-solid fa-chevron-up" style="font-size:0.7em; transition:transform 0.3s; transform: rotate(180deg);"></i>`;
+            const vacinasContainer = document.createElement('div');
+            vacinasContainer.style.cssText = 'padding:4px 0; display:none;';
+
+            titulo.onclick = function() {
+                const isHidden = vacinasContainer.style.display === 'none';
+                vacinasContainer.style.display = isHidden ? 'block' : 'none';
+                const icon = titulo.querySelector('i');
+                if(icon) icon.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
+            };
+
+            box.appendChild(titulo);
+
+            grupo.vacinas.forEach(vac => {
+                const item = document.createElement('div');
+                item.style.cssText = `padding:8px 12px; margin:3px 0; border-radius:4px; font-size:0.85em; border-left:4px solid ${vac.particular ? '#adb5bd' : 'var(--primary)'}; background:${vac.particular ? 'rgba(173,181,189,0.08)' : 'rgba(0,86,179,0.06)'}; opacity:${vac.particular ? '0.75' : '1'};`;
+                item.innerHTML = `<strong>${vac.nome}</strong>${vac.particular ? ' <span style="font-size:0.78em; color:#6c757d;">[Particular]</span>' : ''}<br><span style="font-size:0.82em; opacity:0.8;">${vac.desc}</span>`;
+                vacinasContainer.appendChild(item);
+            });
+
+            box.appendChild(vacinasContainer);
+        });
+    }
+
+    function abrirVacinasFaltantes() {
+        const box = document.getElementById('box-vacinas-faltantes');
+        if(box.style.display === 'block') { box.style.display = 'none'; return; }
+        box.style.display = 'block';
+        box.innerHTML = '';
+
+        const mesesTotal = parseInt(document.getElementById('idade-meses-hidden').value) || 0;
+        const calendario = [
+            { idade: 'Ao nascer', meses: 0, vacinas: ['BCG', 'Hepatite B (1\u00aa dose)'] },
+            { idade: '2 meses', meses: 2, vacinas: ['Penta (1\u00aa dose)', 'VIP (1\u00aa dose)', 'Pneumo 10v (1\u00aa dose)', 'Rotav\u00edrus (1\u00aa dose)'] },
+            { idade: '3 meses', meses: 3, vacinas: ['Meningo C (1\u00aa dose)'] },
+            { idade: '4 meses', meses: 4, vacinas: ['Penta (2\u00aa dose)', 'VIP (2\u00aa dose)', 'Pneumo 10v (2\u00aa dose)', 'Rotav\u00edrus (2\u00aa dose)'] },
+            { idade: '5 meses', meses: 5, vacinas: ['Meningo C (2\u00aa dose)'] },
+            { idade: '6 meses', meses: 6, vacinas: ['Penta (3\u00aa dose)', 'VIP (3\u00aa dose)', 'Influenza (anual)'] },
+            { idade: '9 meses', meses: 9, vacinas: ['Febre Amarela (1\u00aa dose)'] },
+            { idade: '12 meses', meses: 12, vacinas: ['Tr\u00edplice Viral (1\u00aa dose)', 'Pneumo 10v (Refor\u00e7o)', 'Meningo C (Refor\u00e7o)'] },
+            { idade: '15 meses', meses: 15, vacinas: ['DTP (1\u00ba refor\u00e7o)', 'VOP (1\u00ba refor\u00e7o)', 'Hepatite A', 'Tetra Viral'] },
+            { idade: '4 anos', meses: 48, vacinas: ['DTP (2\u00ba refor\u00e7o)', 'VOP (2\u00ba refor\u00e7o)', 'Varicela (2\u00aa dose)'] },
+            { idade: '9 anos+', meses: 108, vacinas: ['HPV (2 doses)', 'Meningo ACWY', 'dT (refor\u00e7o)'] }
+        ];
+
+        const titulo = document.createElement('p');
+        titulo.style.cssText = 'font-size:0.85em; font-style:italic; opacity:0.7; margin-bottom:8px;';
+        titulo.textContent = 'Selecione as vacinas que o paciente J\u00c1 TOMOU:';
+        box.appendChild(titulo);
+
+        calendario.filter(g => mesesTotal >= g.meses).forEach(grupo => {
+            const h = document.createElement('strong');
+            h.style.cssText = 'display:block; margin:8px 0 4px; font-size:0.85em; color:var(--primary);';
+            h.textContent = grupo.idade;
+            box.appendChild(h);
+            grupo.vacinas.forEach((v, i) => {
+                const lbl = document.createElement('label');
+                lbl.style.cssText = 'display:flex; align-items:center; gap:6px; padding:4px 8px; font-weight:normal; font-size:0.85em; cursor:pointer;';
+                lbl.innerHTML = `<input type="checkbox" class="chk-vac-faltante" checked> ${v}`;
+                box.appendChild(lbl);
+            });
+        });
     }
 
     function gerarCamposAlunos() {
@@ -1078,13 +1796,65 @@
         document.getElementById('auto-materia').innerText = materia;
         document.getElementById('auto-data').innerText = new Date().toLocaleDateString('pt-BR');
         
+        recolherTodosCards();
+
         document.getElementById('page-setup').classList.remove('active-page');
         document.getElementById('page-consulta').classList.add('active-page');
+    }
+
+    function recolherTodosCards() {
+        document.querySelectorAll('section.card').forEach(sec => {
+            if(!sec.classList.contains('card-collapsed')) {
+                const header = sec.querySelector('h2, h3');
+                if(header) toggleCard(header);
+            }
+        });
     }
 
     function toggleBox(val, targetId, triggerVal) {
         let el = document.getElementById(targetId);
         if(el) el.style.display = (val === triggerVal || val === true) ? 'block' : 'none';
+    }
+
+    function toggleLinfoOpcoes(cadeia) {
+        const chk = document.getElementById('chk-linfo-' + cadeia);
+        const box = document.getElementById('box-linfo-' + cadeia);
+        if(box) box.style.display = chk.checked ? 'block' : 'none';
+    }
+
+    function toggleLinfoTexto(cadeia) {
+        const radio = document.querySelector(`input[name="linfo-${cadeia}-status"]:checked`);
+        const boxTxt = document.getElementById('box-linfo-' + cadeia + '-txt');
+        if(boxTxt) boxTxt.style.display = (radio && radio.value === 'alterado') ? 'block' : 'none';
+    }
+
+    function gerarTextoLinfonodal() {
+        const cadeias = ['cervicais', 'supraclaviculares', 'axilares', 'inguinais'];
+        let semAlteracao = [];
+        let comAlteracao = [];
+
+        cadeias.forEach(c => {
+            const chk = document.getElementById('chk-linfo-' + c);
+            if(!chk || !chk.checked) return;
+
+            const radio = document.querySelector(`input[name="linfo-${c}-status"]:checked`);
+            if(radio && radio.value === 'alterado') {
+                const txt = document.getElementById('txt-linfo-' + c);
+                let desc = (txt && txt.value.trim()) ? txt.value.trim() : 'alterações não especificadas';
+                comAlteracao.push(`${c}: ${desc}`);
+            } else {
+                semAlteracao.push(c);
+            }
+        });
+
+        let partes = [];
+        if(semAlteracao.length > 0) {
+            partes.push(`Cadeias ${semAlteracao.join(', ')} sem linfonodomegalias palpáveis`);
+        }
+        if(comAlteracao.length > 0) {
+            partes.push(comAlteracao.join('; '));
+        }
+        return partes.length > 0 ? partes.join('. ') + '.' : null;
     }
 
     function calcularIdades() {
@@ -1125,6 +1895,152 @@
         boxDnpm.style.borderLeftColor = "#28a745";
 
         verificarSinais();
+        atualizarRestricoesPorIdade(mesesTotal);
+    }
+
+    function toggleComoRealizar(id) {
+        const el = document.getElementById('info-' + id);
+        if(el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function atualizarRestricoesPorIdade(mesesTotal) {
+        // Perímetro Encefálico - desabilitar se > 24 meses
+        const pcInput = document.getElementById('ex-pc');
+        const avisoPC = document.getElementById('aviso-pc');
+        if(mesesTotal > 24) {
+            pcInput.disabled = true;
+            pcInput.value = '';
+            pcInput.style.opacity = '0.5';
+            pcInput.style.cursor = 'not-allowed';
+            avisoPC.style.display = 'block';
+        } else {
+            pcInput.disabled = false;
+            pcInput.style.opacity = '1';
+            pcInput.style.cursor = '';
+            avisoPC.style.display = 'none';
+        }
+
+        // Reflexos Primitivos — desabilitar se idade >= data-max-meses
+        document.querySelectorAll('.chk-reflexo-prim').forEach(chk => {
+            const maxM = parseInt(chk.dataset.maxMeses) || 999;
+            const aviso = document.getElementById('aviso-' + chk.id.replace('chk-',''));
+            const reflexoItem = chk.closest('.reflexo-item');
+            const linkComo = reflexoItem ? reflexoItem.querySelector('.link-como-realizar') : null;
+            if(maxM < 999 && mesesTotal >= maxM) {
+                chk.disabled = true;
+                chk.checked = false;
+                chk.parentElement.style.opacity = '0.5';
+                if(linkComo) linkComo.style.display = 'none';
+                if(aviso) {
+                    aviso.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Este reflexo desaparece até ${maxM} meses de idade.`;
+                    aviso.style.display = 'block';
+                    aviso.style.color = '#dc3545';
+                    aviso.style.fontSize = '0.82em';
+                    aviso.style.marginTop = '4px';
+                }
+            } else {
+                chk.disabled = false;
+                chk.parentElement.style.opacity = '1';
+                if(linkComo) linkComo.style.display = 'block';
+                if(aviso) aviso.style.display = 'none';
+            }
+        });
+
+        // Reflexos Posturais — desabilitar se idade < data-min-meses
+        document.querySelectorAll('.chk-reflexo-post').forEach(chk => {
+            const minM = parseInt(chk.dataset.minMeses) || 0;
+            const maxM = parseInt(chk.dataset.maxMeses) || 999;
+            const aviso = document.getElementById('aviso-' + chk.id.replace('chk-',''));
+            const reflexoItem = chk.closest('.reflexo-item');
+            const linkComo = reflexoItem ? reflexoItem.querySelector('.link-como-realizar') : null;
+            if(mesesTotal < minM) {
+                chk.disabled = true;
+                chk.checked = false;
+                chk.parentElement.style.opacity = '0.5';
+                if(linkComo) linkComo.style.display = 'none';
+                if(aviso) {
+                    aviso.innerHTML = `<i class="fa-solid fa-circle-info"></i> Reflexo ainda não presente nesta idade (aparece a partir de ${minM} meses).`;
+                    aviso.style.display = 'block';
+                    aviso.style.color = '#e67e22';
+                    aviso.style.fontSize = '0.82em';
+                    aviso.style.marginTop = '4px';
+                }
+            } else if(maxM < 999 && mesesTotal > maxM) {
+                chk.disabled = true;
+                chk.checked = false;
+                chk.parentElement.style.opacity = '0.5';
+                if(linkComo) linkComo.style.display = 'none';
+                if(aviso) {
+                    aviso.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Este reflexo desaparece até ${maxM} meses de idade.`;
+                    aviso.style.display = 'block';
+                    aviso.style.color = '#dc3545';
+                    aviso.style.fontSize = '0.82em';
+                    aviso.style.marginTop = '4px';
+                }
+            } else {
+                chk.disabled = false;
+                chk.parentElement.style.opacity = '1';
+                if(linkComo) linkComo.style.display = 'block';
+                if(aviso) aviso.style.display = 'none';
+            }
+        });
+
+        // Exame Osteoarticular — desabilitar se > 3 meses
+        const chkOsteo = document.getElementById('chk-osteo');
+        const avisoOsteo = document.getElementById('aviso-osteo');
+        if(mesesTotal > 3) {
+            chkOsteo.disabled = true;
+            chkOsteo.checked = false;
+            const boxOsteo = document.getElementById('box-osteo-conteudo');
+            if(boxOsteo) boxOsteo.style.display = 'none';
+            chkOsteo.parentElement.style.opacity = '0.5';
+            if(avisoOsteo) {
+                avisoOsteo.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Manobra não indicada para maiores de 3 meses.';
+                avisoOsteo.style.display = 'block';
+                avisoOsteo.style.color = '#dc3545';
+                avisoOsteo.style.fontSize = '0.82em';
+                avisoOsteo.style.marginTop = '4px';
+            }
+        } else {
+            chkOsteo.disabled = false;
+            chkOsteo.parentElement.style.opacity = '1';
+            if(avisoOsteo) avisoOsteo.style.display = 'none';
+        }
+    }
+
+    function gerarTextoReflexos() {
+        let partes = [];
+        const nomesPrim = {
+            'busca': 'Reflexo de Busca', 'succao': 'Reflexo de Sucção',
+            'apoioplantar': 'Apoio Plantar', 'marcha': 'Marcha Reflexa',
+            'esgrimista': 'Reflexo Esgrimista', 'galant': 'Reflexo Galant',
+            'palmar': 'Preensão Palmar', 'plantar': 'Preensão Plantar',
+            'moro': 'Reflexo de Moro', 'placing': 'Reflexo Placing',
+            'cutaneo': 'Reflexo Cutâneo Plantar'
+        };
+        const nomesPost = {
+            'landau': 'Reflexo de Landau', 'apoiolateral': 'Apoio Lateral',
+            'paraquedas': 'Manobra do Paraquedas'
+        };
+
+        let primPresentes = [];
+        for(let key in nomesPrim) {
+            const chk = document.getElementById('chk-ref-' + key);
+            if(chk && chk.checked) primPresentes.push(nomesPrim[key]);
+        }
+        if(primPresentes.length > 0) partes.push(`Primitivos presentes: ${primPresentes.join(', ')}`);
+
+        let postPresentes = [];
+        for(let key in nomesPost) {
+            const chk = document.getElementById('chk-ref-' + key);
+            if(chk && chk.checked) postPresentes.push(nomesPost[key]);
+        }
+        if(postPresentes.length > 0) partes.push(`Posturais presentes: ${postPresentes.join(', ')}`);
+
+        const obs = document.getElementById('txt-reflexos');
+        if(obs && obs.value.trim()) partes.push(obs.value.trim());
+
+        return partes.length > 0 ? partes.join('. ') + '.' : null;
     }
 
     function aplicarFeedbackVisual(inputElement, msgElement, msg, isDanger) {
@@ -1199,12 +2115,105 @@
         const ig = document.getElementById('neo-ig').value;
         const apgar = document.getElementById('neo-apgar').value;
         const local = document.getElementById('neo-local').value;
-        const aler = document.getElementById('neo-aler').value || 'nenhuma';
-        
+        const peso = document.getElementById('neo-peso').value;
+        const altura = document.getElementById('neo-altura').value;
+        const planejada = document.getElementById('neo-planejada').value;
+        const prenatal = document.getElementById('neo-prenatal').value;
+        const alerSel = document.getElementById('neo-aler-sel').value;
+        const aler = document.getElementById('neo-aler').value;
+        const abortoSel = document.getElementById('neo-aborto-sel').value;
+        const abortoMotivo = document.getElementById('neo-aborto-motivo').value;
+        const drogasSel = document.getElementById('neo-drogas-sel').value;
+        const drogasTxt = document.getElementById('neo-drogas-txt').value;
+        const supSel = document.getElementById('neo-sup-sel').value;
+        const supTxt = document.getElementById('neo-sup-txt').value;
+        const vacSel = document.getElementById('neo-vac-sel').value;
+
         const teveInt = document.getElementById('neo-int-select').value;
-        const descInt = teveInt === 'Sim' ? document.getElementById('neo-int-txt').value : 'não apresentou';
-        
-        document.getElementById('resumo-gerado').value = `G${g}P${p}A${a}, parto ${parto.toLowerCase()}, intercorrência: ${descInt}, pré-natal // ${local}, IG ${ig} semanas, APGAR ${apgar}. // AP: Vacinação em dia. Alergias: ${aler}.`;
+        const descInt = teveInt === 'Sim' ? document.getElementById('neo-int-txt').value : 'n\u00e3o apresentou';
+
+        let partes = [];
+
+        // 1. Gravidez planejada
+        partes.push(planejada === 'Sim' ? 'Gravidez planejada' : 'Gravidez n\u00e3o planejada');
+
+        // 2. Peso e estatura ao nascer
+        if(peso || altura) {
+            let pesoEstatura = [];
+            if(peso) pesoEstatura.push(`Peso ao nascer ${peso}`);
+            if(altura) pesoEstatura.push(`estatura ao nascer ${altura}`);
+            partes.push(pesoEstatura.join(', '));
+        }
+
+        // 3. GPA + aborto + parto + intercorrência + pré-natal
+        let gpa = `G${g}P${p}A${a}`;
+        if(abortoSel === 'Sim' && abortoMotivo) {
+            gpa += ` Possui hist\u00f3rico de aborto dado como ${abortoMotivo}`;
+        }
+        gpa += `, parto ${parto.toLowerCase()}`;
+        gpa += `, intercorr\u00eancia: ${descInt}`;
+        if(prenatal === 'Sim') {
+            gpa += `, realizou o pr\u00e9-natal de forma adequada e informou que foi nas consultas`;
+        } else {
+            gpa += `, relata que n\u00e3o fez o pr\u00e9-natal de forma adequada`;
+        }
+        partes.push(gpa);
+
+        // 4. Álcool/drogas + Suplementação
+        let gestacao = [];
+        if(drogasSel === 'Sim' && drogasTxt) {
+            gestacao.push(`m\u00e3e consta que fez uso de ${drogasTxt} durante a gesta\u00e7\u00e3o`);
+        } else {
+            gestacao.push(`m\u00e3e consta que n\u00e3o fez uso de subst\u00e2ncias nocivas ao feto durante a gesta\u00e7\u00e3o`);
+        }
+        if(supSel === 'Sim' && supTxt) {
+            gestacao.push(`tamb\u00e9m relatou que fez uso de suplementa\u00e7\u00e3o gestacional como: ${supTxt}`);
+        } else {
+            gestacao.push(`tamb\u00e9m relatou que n\u00e3o fez uso de suplementa\u00e7\u00e3o gestacional`);
+        }
+        partes.push(gestacao.join(', '));
+
+        // 5. Local do parto + IG + APGAR
+        let localIg = [];
+        if(local) localIg.push(`Parto realizado em ${local}`);
+        if(ig) localIg.push(`IG ${ig} semanas`);
+        if(apgar) localIg.push(`APGAR ${apgar}`);
+        if(localIg.length > 0) partes.push(localIg.join(', ') + '.');
+
+        // 6. Vacinas
+        let vacTxt = '';
+        if(vacSel === 'Sim e comprovado') {
+            vacTxt = 'AP: Vacina\u00e7\u00e3o em dia e comprovada';
+        } else if(vacSel === 'Sim, mas sem comprova\u00e7\u00e3o') {
+            vacTxt = 'AP: Vacina\u00e7\u00e3o em dia, mas sem comprova\u00e7\u00e3o (m\u00e3e n\u00e3o estava com a carteirinha de vacina\u00e7\u00e3o)';
+        } else if(vacSel === 'N\u00e3o e comprovada') {
+            // Pegar as vacinas NÃO marcadas na checklist
+            const checkboxes = document.querySelectorAll('.chk-vac-faltante');
+            let faltantes = [];
+            checkboxes.forEach(chk => {
+                if(!chk.checked) {
+                    const label = chk.parentElement.textContent.trim();
+                    faltantes.push(label);
+                }
+            });
+            if(faltantes.length > 0) {
+                vacTxt = `AP: Vacina\u00e7\u00e3o atrasada, faltando tais vacinas para serem tomadas ${faltantes.join(', ')}`;
+            } else {
+                vacTxt = 'AP: Vacina\u00e7\u00e3o atrasada (nenhuma vacina faltante selecionada)';
+            }
+        } else {
+            vacTxt = 'AP: Vacina\u00e7\u00e3o est\u00e1 atrasada e sem informa\u00e7\u00f5es das que faltam';
+        }
+        partes.push(vacTxt);
+
+        // 7. Alergias
+        if(alerSel === 'Sim' && aler) {
+            partes.push(`Paciente possui alergia ${aler}.`);
+        } else {
+            partes.push('Paciente n\u00e3o possui nenhum hist\u00f3rico de alergias.');
+        }
+
+        document.getElementById('resumo-gerado').value = partes.join(' // ');
     }
 
     function calcularIMC() {
@@ -1224,7 +2233,16 @@
     // O CÉREBRO LIMPO DO SOAP (OMITE N/I)
     function gerarSOAP() {
         origemSoap = 'consulta'; 
-        prontuarioAberto = null; 
+        // Retém o prontuarioAberto caso seja edição
+        
+        const btnNuvem = document.querySelector('.btn-nuvem');
+        if (btnNuvem) {
+            if (prontuarioAberto && prontuarioAberto.id) {
+                btnNuvem.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> SALVAR EDI\u00c7\u00c3O';
+            } else {
+                btnNuvem.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> SALVAR NA NUVEM';
+            }
+        } 
 
         let v = (id) => {
             let el = document.getElementById(id);
@@ -1244,7 +2262,7 @@
         let idenStr = `IDENTIFICAÇÃO: Paciente ${v('paciente-nome') || "Não informado"}, ${v('idade-display') || ""}. `;
         if(v('id-mae')) idenStr += `Mãe: ${v('id-mae')} `;
         if(v('id-celular')) idenStr += `(Contato: ${v('id-celular')}). `;
-        if(v('id-cor') || v('id-etnia')) idenStr += `Cor/Etnia: ${v('id-cor')||""}/${v('id-etnia')||""}. `;
+        if(v('id-cor') || v('id-etnia')) idenStr += `Cor/Nacionalidade: ${v('id-cor')||""}/${v('id-etnia')||""}. `;
         if(v('id-religiao')) idenStr += `Religião: ${v('id-religiao')}. `;
         if(tipagemCompleta) idenStr += `Tipagem Sanguínea: ${tipagemCompleta}. `;
         if(acomp) idenStr += `Acompanhado por: ${acomp}. `;
@@ -1261,7 +2279,14 @@
         if(v('hma-int')) hmaParts.push(`intensidade ${v('hma-int')}/10`);
         if(v('hma-tipo')) hmaParts.push(`dor tipo ${v('hma-tipo')}`);
         if(v('hma-freq')) hmaParts.push(`com frequência ${v('hma-freq')}`);
-        if(v('hma-momento')) hmaParts.push(`no momento atual: ${v('hma-momento')}`);
+        if(v('hma-momento') === 'Sim') {
+            let dorMomento = 'dor presente no momento atual';
+            if(v('hma-momento-desc')) dorMomento += ` (${v('hma-momento-desc')})`;
+            if(v('hma-momento-int') && v('hma-momento-int') !== 'Selecione') dorMomento += `, intensidade ${v('hma-momento-int')}/10`;
+            hmaParts.push(dorMomento);
+        } else if(v('hma-momento') === 'Não') {
+            hmaParts.push('sem dor no momento atual');
+        }
         if(v('hma-irradia')) hmaParts.push(`irradia para ${v('hma-irradia')}`);
         if(v('hma-melhora')) hmaParts.push(`melhora com ${v('hma-melhora')}`);
         if(v('hma-piora')) hmaParts.push(`piora com ${v('hma-piora')}`);
@@ -1270,7 +2295,8 @@
         let hmaConstruida = hmaParts.length > 0 ? `Paciente apresenta quadro com ${hmaParts.join(', ')}. ` : "";
         if(v('hma-med-qual')) hmaConstruida += `Fez uso prévio de ${v('hma-med-qual')} (${v('hma-med-qtd')||""}) por ${v('hma-med-tempo')||""}. `;
         if(v('hma-alt-texto')) hmaConstruida += `Relata alterações: ${v('hma-alt-texto')}. `;
-        if(v('hma-cons-quando')) hmaConstruida += `Consultou previamente em ${v('hma-cons-quando')} no ${v('hma-cons-onde')||""} com diagnóstico de ${v('hma-cons-diag')||""}. `;
+        if(v('hma-cons-quando')) hmaConstruida += `Consultou previamente em ${v('hma-cons-quando')} no ${v('hma-cons-onde')||""} com diagn\u00f3stico de ${v('hma-cons-diag')||"Sem diagn\u00f3stico"}. `;
+        if(v('hma-cons-melhora')) hmaConstruida += `Melhora após consulta anterior: ${v('hma-cons-melhora')}. `;
         if(v('hma-doentes') === 'Sim') hmaConstruida += `Relata contato com pessoas doentes. `;
 
         let hmaLivre = v('hma-desc-livre');
@@ -1286,6 +2312,7 @@
         if(v('dnpm-fala') === 'Sim') dnpm.push(`Fala: Sim (${v('dnpm-fala-quando')||""})`);
         if(v('dnpm-dente')) dnpm.push(`Dentição: ${v('dnpm-dente')}`);
         if(v('dnpm-fralda') && v('dnpm-fralda') !== 'Não') dnpm.push(`Desfralde: ${v('dnpm-fralda')} (${v('dnpm-fralda-quando')||""})`);
+        if(v('dnpm-regressao') === 'Sim') dnpm.push(`Regressão: ${v('dnpm-regressao-txt') || 'Sim, relato de perda de habilidade'}`);
         if(dnpm.length > 0) subj += `DNPM: ${dnpm.join(' | ')}.\n\n`;
 
         let pat = [];
@@ -1304,22 +2331,45 @@
 
         let soc = [];
         if(v('soc-casa')) soc.push(`Casa de ${v('soc-casa')}`);
-        if(v('soc-sane') === 'Sim') soc.push(`Saneamento Básico`);
-        if(v('soc-agua') === 'Sim') soc.push(`Água tratada`);
+        soc.push(v('soc-sane') === 'Sim' ? 'Possui saneamento b\u00e1sico' : 'N\u00e3o possui saneamento b\u00e1sico');
+        soc.push(v('soc-agua') === 'Sim' ? '\u00c1gua tratada' : 'Sem \u00e1gua tratada');
+        soc.push(v('soc-lixo') === 'Sim' ? 'Coleta de lixo frequente' : 'Sem coleta de lixo frequente');
+        soc.push(v('soc-esgoto') === 'Sim' ? 'Possui rede de esgoto' : 'Sem rede de esgoto');
         if(v('hab-amb-reside')) soc.push(`Residem: ${v('hab-amb-reside')}`);
         if(v('hab-amb-end')) soc.push(`Endereço: ${v('hab-amb-end')} (${v('hab-amb-local')||""})`);
         if(v('hab-amb-pet-sel') === 'Sim') soc.push(`Animais: ${v('hab-amb-pet-txt')}`);
         if(v('hab-amb-tab-sel') === 'Sim') soc.push(`Tabagista: ${v('hab-amb-tab-txt')}`);
         if(soc.length > 0) subj += `SOCIOECONÔMICO E AMBIENTE: ${soc.join('. ')}.\n\n`;
 
-        let hab = "HÁBITOS:\n";
+        let hab = "H\u00c1BITOS:\n";
         let hasHab = false;
-        if(v('hab-alim-rotina')) { hab += `- Alimentação: ${v('hab-alim-rotina')} (${v('hab-alim-vezes')||""}). Água: ${v('hab-alim-agua')||""}.\n`; hasHab=true; }
-        if(v('hab-med-cont')) { hab += `- Medicações: ${v('hab-med-cont')}.\n`; hasHab=true; }
-        if(v('hab-sono-horas')) { hab += `- Sono: ${v('hab-sono-horas')} horas. ${v('hab-sono-agi-sel')==='Sim' ? 'Agitado/Acorda: '+v('hab-sono-motivo') : 'Tranquilo'}.\n`; hasHab=true; }
+        if(v('hab-alim-rotina')) {
+            let vezes = v('hab-alim-vezes') || '';
+            let vezesNum = vezes.replace('x','');
+            hab += `- Alimenta\u00e7\u00e3o: ${v('hab-alim-rotina')}, frequ\u00eancia com que se alimenta ${vezesNum} ao dia. \u00c1gua: ${v('hab-alim-agua')||""}. `;
+            if(v('hab-alim-doces')) {
+                hab += `Paciente consome doces e guloseimas como: ${v('hab-alim-doces')}. `;
+            } else {
+                // Check if doces select is 'N\u00e3o'
+                let docesBox = document.getElementById('box-doces');
+                if(!docesBox || docesBox.style.display === 'none') hab += `N\u00e3o consome doces ou guloseimas. `;
+            }
+            hab += '\n';
+            hasHab = true;
+        }
+        if(v('hab-med-cont')) { hab += `- Medica\u00e7\u00f5es: ${v('hab-med-cont')}.\n`; hasHab=true; }
+        if(v('hab-sono-horas')) {
+            let sonoTxt = `- Sono: ${v('hab-sono-horas')} horas. `;
+            if(v('hab-sono-agi-sel')==='Sim') {
+                sonoTxt += `Sono agitado e acorda durante a noite por causa de: ${v('hab-sono-motivo')||'n\u00e3o especificado'}.`;
+            } else {
+                sonoTxt += 'Tranquilo.';
+            }
+            hab += sonoTxt + '\n'; hasHab=true;
+        }
         if(v('hab-telas-tempo')) { hab += `- Telas: ${v('hab-telas-tempo')} (${v('hab-telas-cont')||""}).\n`; hasHab=true; }
-        if(v('hab-evac-vezes')) { hab += `- Evacuação: ${v('hab-evac-vezes')}. Bristol: ${v('hab-evac-bristol')||""}. ${v('hab-evac-alt-sel')==='Sim' ? 'Alt: '+v('hab-evac-alt-txt') : ''}\n`; hasHab=true; }
-        if(v('hab-diu-vezes')) { hab += `- Diurese: ${v('hab-diu-vezes')}. Cor: ${v('hab-diu-cor')||""}. ${v('hab-diu-alt-sel')==='Sim' ? 'Alt: '+v('hab-diu-alt-txt') : ''}\n`; hasHab=true; }
+        if(v('hab-evac-vezes')) { hab += `- Evacua\u00e7\u00e3o: ${v('hab-evac-vezes')}. Bristol: ${v('hab-evac-bristol')||""}. ${v('hab-evac-alt-sel')==='Sim' ? 'Altera\u00e7\u00f5es: '+v('hab-evac-alt-txt') : ''}\n`; hasHab=true; }
+        if(v('hab-diu-vezes')) { hab += `- Diurese: ${v('hab-diu-vezes')}. Cor: ${v('hab-diu-cor')||""}. ${v('hab-diu-alt-sel')==='Sim' ? 'Altera\u00e7\u00f5es: '+v('hab-diu-alt-txt') : ''}\n`; hasHab=true; }
         
         if(hasHab) subj += hab + "\n";
         if(v('isda-texto')) subj += `ISDA: ${v('isda-texto')}\n`;
@@ -1356,7 +2406,10 @@
         obj += "\nEXAME FÍSICO ESPECÍFICO:\n";
         if(document.getElementById('chk-oro').checked && v('txt-oro')) obj += `- Oroscopia: ${v('txt-oro')}\n`;
         if(document.getElementById('chk-oto').checked && v('txt-oto')) obj += `- Otoscopia: ${v('txt-oto')}\n`;
-        if(document.getElementById('chk-linfo').checked && v('txt-linfo')) obj += `- Linfonodos: ${v('txt-linfo')}\n`;
+        if(document.getElementById('chk-linfo').checked) {
+            let linfoTexto = gerarTextoLinfonodal();
+            if(linfoTexto) obj += `- Linfonodos: ${linfoTexto}\n`;
+        }
         
         if(document.getElementById('chk-ar').checked) {
             let arParts = [];
@@ -1385,8 +2438,21 @@
             if(abdParts.length > 0) obj += `- Abdômen:\n  ${abdParts.join('\n  ')}\n`;
         }
 
-        if(document.getElementById('chk-reflexos').checked && v('txt-reflexos')) obj += `- Reflexos: ${v('txt-reflexos')}\n`;
+        if(document.getElementById('chk-reflexos').checked) {
+            let refTexto = gerarTextoReflexos();
+            if(refTexto) obj += `- Reflexos: ${refTexto}\n`;
+        }
         if(document.getElementById('chk-genital').checked && v('txt-genital')) obj += `- Genitália: ${v('txt-genital')}\n`;
+
+        // Exame Osteoarticular
+        if(document.getElementById('chk-osteo') && document.getElementById('chk-osteo').checked) {
+            let osteoParts = [];
+            const barlowChk = document.getElementById('chk-osteo-barlow');
+            const ortolaniChk = document.getElementById('chk-osteo-ortolani');
+            if(barlowChk && barlowChk.checked) osteoParts.push('Manobra de Barlow realizada');
+            if(ortolaniChk && ortolaniChk.checked) osteoParts.push('Manobra de Ortolani realizada');
+            if(osteoParts.length > 0) obj += `- Exame Osteoarticular: ${osteoParts.join('; ')}.\n`;
+        }
 
         // ================= AVALIAÇÃO =================
         let ava = "";
@@ -1513,10 +2579,19 @@
 
         if (prontuarioAberto) {
             dadosProntuario = prontuarioAberto;
+            dadosProntuario.pacienteNome = document.getElementById('paciente-nome').value || "N\u00e3o informado";
+            dadosProntuario.celularContato = document.getElementById('id-celular').value || "N\u00e3o informado";
             dadosProntuario.subjetivo = document.getElementById('soap-s').value;
             dadosProntuario.objetivo = document.getElementById('soap-o').value;
             dadosProntuario.avaliacao = document.getElementById('soap-a').value;
             dadosProntuario.plano = document.getElementById('soap-p').value;
+            
+            // Adicionado aluno e turma se tiver mudado
+            let nomeAluno = document.getElementById('aluno-1');
+            if(nomeAluno) dadosProntuario.nomeAluno = nomeAluno.value;
+            let turma = document.getElementById('turma');
+            if(turma) dadosProntuario.turma = turma.value;
+
             dadosProntuario.dadosGeraisJson = localStorage.getItem('prontuarioData');
         } else {
             dadosProntuario = {
@@ -1536,19 +2611,57 @@
         const textoOriginal = btn.innerHTML;
         btn.innerHTML = "<i class='fa-solid fa-spinner fa-spin'></i> SALVANDO...";
 
-        fetch('/api/prontuarios/salvar', {
-            method: 'POST',
+        let url = '/api/prontuarios/salvar';
+        let method = 'POST';
+
+        // Se o prontuário já foi salvo no banco (tem ID), fazemos PUT para atualizar
+        if (prontuarioAberto && prontuarioAberto.id) {
+            url = '/api/prontuarios/atualizar/' + prontuarioAberto.id;
+            method = 'PUT';
+        }
+
+        fetch(url, {
+            method: method,
             headers: getAuthHeaders(),
             body: JSON.stringify(dadosProntuario)
         })
-        .then(resposta => resposta.text())
+        .then(resposta => {
+            if(resposta.status === 401 || resposta.status === 403) {
+                sairDaConta();
+                throw new Error("Sessão expirada. Faça login novamente.");
+            }
+            if(!resposta.ok) throw new Error("Erro ao salvar no servidor.");
+            return resposta.text();
+        })
         .then(mensagem => {
-            showToast("Prontuário salvo na nuvem com sucesso!", "success");
-            btn.innerHTML = "<i class='fa-solid fa-check'></i> SALVO NA NUVEM!";
+            showToast("Prontu\u00e1rio salvo com sucesso!", "success");
+            btn.innerHTML = "<i class='fa-solid fa-check'></i> SALVO COM SUCESSO!";
             btn.style.backgroundColor = "#218838"; 
+            
+            // Limpa o localStorage após salvar
+            localStorage.removeItem('prontuarioData');
+            
+            setTimeout(() => {
+                btn.innerHTML = textoOriginal;
+                btn.style.backgroundColor = ""; // remove classe inline
+                
+                document.querySelector('.active-page').classList.remove('active-page');
+                
+                if (prontuarioAberto && prontuarioAberto.id) {
+                    // Edição -> vai pros Meus Pacientes Atendidos
+                    document.getElementById('page-lista').classList.add('active-page');
+                    buscarMeusProntuarios();
+                } else {
+                    // Novo -> vai pro Painel Pessoal
+                    document.getElementById('page-dashboard').classList.add('active-page');
+                    carregarEstatisticasDashboard();
+                }
+                
+                prontuarioAberto = null; 
+            }, 1200);
         })
         .catch(erro => {
-            showToast("Erro de conexão com o banco de dados.", "danger");
+            showToast(erro.message || "Erro de conexão com o banco de dados.", "danger");
             btn.innerHTML = textoOriginal;
         });
     }
@@ -1606,8 +2719,9 @@
                                 <p style="margin-top: 0; font-size: 0.9em; opacity: 0.8;"><strong>Data:</strong> ${dataFormatada} &nbsp;|&nbsp; <strong>Mãe:</strong> ${nomeMae}</p>
                             </div>
                             <div style="display: flex; gap: 10px;">
-                                <button class="btn" style="background-color: #dc3545; width: auto; margin-top: 0; padding: 10px 20px;" onclick="excluirProntuario(${pront.id})"><i class="fa-solid fa-trash-can"></i> Excluir</button>
-                                <button class="btn" style="background-color: #28a745; width: auto; margin-top: 0; padding: 10px 20px;" onclick="abrirProntuarioSalvo(${pront.id})"><i class="fa-solid fa-file-medical"></i> Abrir</button>
+                                <button class="btn" style="background-color: #dc3545; width: auto; margin-top: 0; padding: 10px 20px;" title="Excluir Definitivamente" onclick="excluirProntuario(${pront.id})"><i class="fa-solid fa-trash-can"></i></button>
+                                <button class="btn" style="background-color: var(--primary); width: auto; margin-top: 0; padding: 10px 20px;" title="Editar Prontuário" onclick="editarProntuarioSalvo(${pront.id})"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
+                                <button class="btn" style="background-color: #28a745; width: auto; margin-top: 0; padding: 10px 20px;" title="Visualizar SOAP" onclick="abrirProntuarioSalvo(${pront.id})"><i class="fa-solid fa-file-medical"></i> Resumo SOAP</button>
                             </div>
                         </div>
                     `;
@@ -1618,6 +2732,24 @@
             document.getElementById('page-lista').classList.add('active-page');
         })
         .catch(erro => showToast(erro.message || "Erro ao buscar no banco de dados.", "danger"));
+    }
+
+    function editarProntuarioSalvo(id) {
+        let pront = window.prontuariosSalvos.find(p => p.id === id);
+        if(pront && pront.dadosGeraisJson) {
+            prontuarioAberto = pront;
+            localStorage.setItem('prontuarioData', pront.dadosGeraisJson);
+            restaurarDadosSalvos();
+            
+            recolherTodosCards();
+
+            document.querySelector('.active-page').classList.remove('active-page');
+            document.getElementById('page-consulta').classList.add('active-page');
+            window.scrollTo(0,0);
+            showToast("Prontu\u00e1rio carregado para edi\u00e7\u00e3o.", "success");
+        } else {
+            showToast("Dados completos n\u00e3o encontrados para edi\u00e7\u00e3o.", "danger");
+        }
     }
 
     function filtrarProntuarios() {

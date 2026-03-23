@@ -3,7 +3,6 @@ package com.fema.ambulato.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -47,8 +46,16 @@ public class Prontuario {
 
     private LocalDateTime dataAtendimento;
 
+    /** Data da última edição do prontuário (auditoria) */
+    private LocalDateTime dataAtualizacao;
+
     public Prontuario() {
         this.dataAtendimento = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.dataAtualizacao = LocalDateTime.now();
     }
 
     // --- GETTERS E SETTERS ---
@@ -94,4 +101,7 @@ public class Prontuario {
 
     public LocalDateTime getDataAtendimento() { return dataAtendimento; }
     public void setDataAtendimento(LocalDateTime dataAtendimento) { this.dataAtendimento = dataAtendimento; }
+
+    public LocalDateTime getDataAtualizacao() { return dataAtualizacao; }
+    public void setDataAtualizacao(LocalDateTime dataAtualizacao) { this.dataAtualizacao = dataAtualizacao; }
 }

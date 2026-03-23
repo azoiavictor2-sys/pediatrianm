@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/prontuarios")
@@ -42,5 +43,23 @@ public class ProntuarioController {
 
         prontuarioService.deletar(id, userDetails.getUsername());
         return ResponseEntity.ok("Prontuário excluído com sucesso.");
+    }
+
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<Prontuario> atualizar(
+            @PathVariable Long id,
+            @Valid @RequestBody Prontuario prontuario,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        Prontuario atualizado = prontuarioService.atualizar(id, prontuario, userDetails.getUsername());
+        return ResponseEntity.ok(atualizado);
+    }
+
+    @GetMapping("/stats")
+    public ResponseEntity<Map<String, Object>> obterEstatisticas(
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        Map<String, Object> stats = prontuarioService.obterEstatisticas(userDetails.getUsername());
+        return ResponseEntity.ok(stats);
     }
 }

@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public interface ProntuarioRepository extends JpaRepository<Prontuario, Long> {
 
-    // Busca prontuários pelo objeto aluno (relação ManyToOne)
     List<Prontuario> findByAluno(Usuario aluno);
+
+    // Busca prontuários do aluno ordenados do mais recente ao mais antigo
+    List<Prontuario> findByAlunoOrderByDataAtendimentoDesc(Usuario aluno);
 }

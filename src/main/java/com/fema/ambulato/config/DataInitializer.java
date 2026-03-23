@@ -7,8 +7,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 /**
  * Inicializa os usuários do sistema na primeira execução.
+ * As credenciais são lidas do arquivo externo 'usuarios.properties'
+ * que NÃO deve ser versionado no git.
  * As senhas são armazenadas criptografadas com BCrypt.
  */
 @Component
@@ -22,26 +29,40 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        criarUsuarioSeNaoExistir("48473011880", "haloHAL2", "Victor Iunglaus Azoia", "T16");
-        criarUsuarioSeNaoExistir("45099722881", "19072002", "Maria Beatriz Paião de Camargo", "T16");
-        criarUsuarioSeNaoExistir("38439895836", "Saori226886", "Daniel Dágola Dias", "T16");
-        criarUsuarioSeNaoExistir("46381379898", "gb2520@t16", "Bianca Fongaro", "T16");
-        criarUsuarioSeNaoExistir("43125267889", "123femafer", "Fernanda Pobbe de Carvalho", "T16");
-        criarUsuarioSeNaoExistir("42186039877", "Saga0901", "Sara Esther Bezerra Saqueto", "T16");
-        criarUsuarioSeNaoExistir("46430976807", "Phfema10", "Pedro Henrique Gregorio", "T16");
-        criarUsuarioSeNaoExistir("13075765910", "Andre101010", "André Luis Bragaglia Filho", "T16");
-        criarUsuarioSeNaoExistir("43409319859", "Irys2209", "Irys Oliveira Dias", "T16");
-        criarUsuarioSeNaoExistir("11820955931", "Daniel2006Z", "Daniel Borges Torejani", "T16");
-        criarUsuarioSeNaoExistir("46303350801", "H12dream", "Victoria Harnisch da Silveira", "T16");
+        File externalFile = new File("usuarios.properties");
 
-        System.out.println("✅ DataInitializer: usuários verificados e carregados com sucesso!");
+        if (!externalFile.exists()) {
+            System.out.println("⚠️  DataInitializer: arquivo 'usuarios.properties' não encontrado. Nenhum usuário foi criado.");
+            System.out.println("    Crie o arquivo 'usuarios.properties' na raiz do projeto com as credenciais dos usuários.");
+            return;
+        }
+
+        try {
+            Properties props = new Properties();
+            props.load(new FileInputStream(externalFile));
+
+            int index = 0;
+            while (props.containsKey("usuarios[" + index + "].cpf")) {
+                String cpf    = props.getProperty("usuarios[" + index + "].cpf");
+                String senha  = props.getProperty("usuarios[" + index + "].senha");
+                String nome   = props.getProperty("usuarios[" + index + "].nome");
+                String turma  = props.getProperty("usuarios[" + index + "].turma", "T16");
+                criarUsuarioSeNaoExistir(cpf, senha, nome, turma);
+                index++;
+            }
+
+            System.out.println("✅ DataInitializer: " + index + " usuário(s) verificado(s) e carregado(s) com sucesso!");
+
+        } catch (IOException e) {
+            System.err.println("❌ DataInitializer: erro ao ler 'usuarios.properties' — " + e.getMessage());
+        }
     }
 
     private void criarUsuarioSeNaoExistir(String username, String senhaPlana, String nomeCompleto, String turma) {
         if (usuarioRepository.findByUsername(username).isEmpty()) {
             Usuario u = new Usuario();
             u.setUsername(username);
-            u.setSenha(passwordEncoder.encode(senhaPlana)); // Senha criptografada com BCrypt
+            u.setSenha(passwordEncoder.encode(senhaPlana));
             u.setNomeCompleto(nomeCompleto);
             u.setTurma(turma);
             usuarioRepository.save(u);

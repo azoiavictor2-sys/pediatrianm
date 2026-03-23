@@ -35,3 +35,7 @@ build/
 ### H2 Database (dados locais - não versionar!) ###
 *.mv.db
 *.trace.db
+*.lock.db
+
+### Credenciais dos usuários - NUNCA versionar! ###
+usuarios.properties
