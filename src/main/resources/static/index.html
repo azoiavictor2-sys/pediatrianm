@@ -1304,7 +1304,8 @@
                     <section class="card" id="sec-qp">
                         <h3 onclick="toggleCard(this)" style="cursor:pointer; user-select:none;">Queixa Principal (QP)
                             <i class="fa-solid fa-chevron-up card-toggle-icon"
-                                style="float:right; font-size:0.7em; transition:transform 0.3s;"></i></h3>
+                                style="float:right; font-size:0.7em; transition:transform 0.3s;"></i>
+                        </h3>
                         <div class="form-group">
                             <label>Qual o motivo primário da consulta?</label>
                             <select id="qp-tipo" onchange="toggleBox(this.value, 'box-qp', 'Outro')">
@@ -1756,7 +1757,8 @@
                     <section class="card" id="sec-familiar">
                         <h3 onclick="toggleCard(this)" style="cursor:pointer; user-select:none;">Antecedentes Familiares
                             <i class="fa-solid fa-chevron-up card-toggle-icon"
-                                style="float:right; font-size:0.7em; transition:transform 0.3s;"></i></h3>
+                                style="float:right; font-size:0.7em; transition:transform 0.3s;"></i>
+                        </h3>
                         <div class="grid-3">
                             <div class="form-group"><label>Pai biológico possui doença?</label><select
                                     onchange="toggleBox(this.value, 'box-pai', 'Sim')">
@@ -2230,7 +2232,8 @@
                                                     onchange="toggleLinfoTexto('cervicais')"> Alterado</label>
                                             <div id="box-linfo-cervicais-txt" style="display:none; margin-top:6px;">
                                                 <input type="text" id="txt-linfo-cervicais"
-                                                    placeholder="Descreva os achados cervicais..."></div>
+                                                    placeholder="Descreva os achados cervicais...">
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- Supraclaviculares -->
@@ -2268,7 +2271,8 @@
                                                     onchange="toggleLinfoTexto('axilares')"> Alterado</label>
                                             <div id="box-linfo-axilares-txt" style="display:none; margin-top:6px;">
                                                 <input type="text" id="txt-linfo-axilares"
-                                                    placeholder="Descreva os achados axilares..."></div>
+                                                    placeholder="Descreva os achados axilares...">
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- Inguinais -->
@@ -2285,7 +2289,8 @@
                                                     onchange="toggleLinfoTexto('inguinais')"> Alterado</label>
                                             <div id="box-linfo-inguinais-txt" style="display:none; margin-top:6px;">
                                                 <input type="text" id="txt-linfo-inguinais"
-                                                    placeholder="Descreva os achados inguinais..."></div>
+                                                    placeholder="Descreva os achados inguinais...">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -3080,7 +3085,7 @@
         }
 
         function fazerLogin() {
-            const userRaw = document.getElementById('login-user').value.trim();
+            const user = document.getElementById('login-user').value.replace(/\D/g, '');
             const user = userRaw.replace(/\D/g, ""); // Pega só os 11 números para o backend
             const pass = document.getElementById('login-pass').value;
 

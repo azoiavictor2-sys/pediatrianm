@@ -3,6 +3,7 @@ package com.fema.ambulato.config;
 import com.fema.ambulato.model.Usuario;
 import com.fema.ambulato.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -20,19 +21,27 @@ public class DataInitializer implements CommandLineRunner {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Value("${AMBULATO_USERS:}")
+    private String usuariosEnv;
+
     @Override
     public void run(String... args) {
+        // Tenta ler do arquivo local primeiro (desenvolvimento)
         File externalFile = new File("usuarios.properties");
-
-        if (!externalFile.exists()) {
-            System.out.println("  DataInitializer: arquivo 'usuarios.properties' nao encontrado.");
-            return;
+        if (externalFile.exists()) {
+            carregarDoArquivo(externalFile);
         }
 
+        // Tenta ler da variavel de ambiente (producao/Railway)
+        if (usuariosEnv != null && !usuariosEnv.isEmpty()) {
+            carregarDaVariavel(usuariosEnv);
+        }
+    }
+
+    private void carregarDoArquivo(File arquivo) {
         try {
             Properties props = new Properties();
-            // CORRECAO: Leitura em UTF-8 para suportar acentos nos nomes
-            props.load(new InputStreamReader(new FileInputStream(externalFile), StandardCharsets.UTF_8));
+            props.load(new InputStreamReader(new FileInputStream(arquivo), StandardCharsets.UTF_8));
 
             int index = 0;
             while (props.containsKey("usuarios[" + index + "].cpf")) {
@@ -43,12 +52,27 @@ public class DataInitializer implements CommandLineRunner {
                 criarUsuarioSeNaoExistir(cpf, senha, nome, turma);
                 index++;
             }
-
-            System.out.println("  DataInitializer: " + index + " usuario(s) verificado(s) com sucesso!");
-
+            System.out.println("DataInitializer: " + index + " usuario(s) do arquivo verificados.");
         } catch (IOException e) {
-            System.err.println("  DataInitializer: erro ao ler 'usuarios.properties' - " + e.getMessage());
+            System.err.println("DataInitializer: erro ao ler arquivo - " + e.getMessage());
         }
+    }
+
+    private void carregarDaVariavel(String dados) {
+        String[] usuarios = dados.split(";");
+        int count = 0;
+        for (String u : usuarios) {
+            String[] campos = u.trim().split(",");
+            if (campos.length >= 3) {
+                String cpf = campos[0].trim();
+                String senha = campos[1].trim();
+                String nome = campos[2].trim();
+                String turma = campos.length >= 4 ? campos[3].trim() : "T16";
+                criarUsuarioSeNaoExistir(cpf, senha, nome, turma);
+                count++;
+            }
+        }
+        System.out.println("DataInitializer: " + count + " usuario(s) da variavel verificados.");
     }
 
     private void criarUsuarioSeNaoExistir(String username, String senhaPlana, String nomeCompleto, String turma) {
@@ -62,4 +86,10 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("   -> Usuario criado: " + nomeCompleto);
         }
     }
-}
+}```
+
+Depois faz
+commit e push:```
+git add.
+git commit-m"Fix CORS and add env users"
+git push
