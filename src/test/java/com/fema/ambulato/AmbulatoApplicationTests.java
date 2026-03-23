@@ -1,4 +1,4 @@
-zpackage com.fema.ambulato;
+package com.fema.ambulato;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,5 +9,4 @@ class AmbulatoApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
