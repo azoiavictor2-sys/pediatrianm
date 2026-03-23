@@ -86,10 +86,4 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("   -> Usuario criado: " + nomeCompleto);
         }
     }
-}```
-
-Depois faz
-commit e push:```
-git add.
-git commit-m"Fix CORS and add env users"
-git push
+}
