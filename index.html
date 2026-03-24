@@ -1029,16 +1029,19 @@
         }
 
         .login-topbar .t16-brand {
-            color: white;
-            font-size: 1.3em;
-            font-weight: 800;
-            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+        }
+
+        .login-topbar .t16-brand img {
+            height: 28px;
+            width: auto;
         }
 
         .login-topbar .btn-tema {
             background: transparent;
             border: none;
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
             padding: 6px 0;
             cursor: pointer;
             font-size: 0.82em;
@@ -1059,7 +1062,7 @@
         .login-topbar .btn-tema .tema-divider {
             width: 1px;
             height: 20px;
-            background: rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .login-split {
@@ -1091,7 +1094,7 @@
         }
 
         .login-left .logo-area img {
-            max-width: 180px;
+            max-width: 240px;
             height: auto;
         }
 
@@ -1121,7 +1124,7 @@
         .login-left .login-input:focus {
             outline: none;
             border-color: #0d2137;
-            box-shadow: 0 0 0 3px rgba(13,33,55,0.1);
+            box-shadow: 0 0 0 3px rgba(13, 33, 55, 0.1);
         }
 
         .login-left .login-input.valid {
@@ -1235,11 +1238,11 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(4px);
             padding: 8px 20px;
             font-size: 0.72em;
-            color: rgba(255,255,255,0.85);
+            color: rgba(255, 255, 255, 0.85);
             text-align: right;
         }
 
@@ -1279,10 +1282,12 @@
             .login-split {
                 flex-direction: column;
             }
+
             .login-left {
                 flex: none;
                 min-height: 100vh;
             }
+
             .login-right {
                 display: none;
             }
@@ -1329,7 +1334,7 @@
             background: #fff;
             padding: 40px 50px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
             line-height: 1.7;
             color: #333;
             font-size: 0.92em;
@@ -1425,8 +1430,9 @@
 
     <div id="page-login" class="page active-page">
         <div class="login-topbar">
-            <span class="t16-brand">T16.br</span>
-            <button class="btn-tema" onclick="toggleDarkMode()"><span id="tema-texto">MUDAR PARA TEMA ESCURO</span><span class="tema-divider"></span></button>
+            <span class="t16-brand"><img src="/img/t16a1-logo.png" alt="T16.A1"></span>
+            <button class="btn-tema" onclick="toggleDarkMode()"><span id="tema-texto">MUDAR PARA TEMA ESCURO</span><span
+                    class="tema-divider"></span></button>
         </div>
 
         <div class="login-split">
@@ -1437,17 +1443,14 @@
 
                 <div class="form-group">
                     <label>CPF do Usuario:</label>
-                    <input type="text" id="login-user" class="login-input"
-                        placeholder="" maxlength="14"
-                        oninput="this.classList.add('valid')"
-                        onkeypress="if(event.key === 'Enter') fazerLogin()">
+                    <input type="text" id="login-user" class="login-input" placeholder="" maxlength="14"
+                        oninput="this.classList.add('valid')" onkeypress="if(event.key === 'Enter') fazerLogin()">
                 </div>
 
                 <div class="form-group">
                     <label>Senha:</label>
                     <div class="senha-wrapper">
-                        <input type="password" id="login-pass" class="login-input valid"
-                            placeholder=""
+                        <input type="password" id="login-pass" class="login-input valid" placeholder=""
                             onkeypress="if(event.key === 'Enter') fazerLogin()">
                         <button class="toggle-senha" onclick="toggleSenhaVisivel()" type="button">
                             <i class="fa-solid fa-eye" id="icon-senha"></i>
@@ -1462,7 +1465,8 @@
                 <div class="login-error-msg" id="login-error"></div>
 
                 <div class="login-footer">
-                    <p>Sistema feito por um aluno de medicina<br><strong>com intuito de facilitar seus atendimentos</strong></p>
+                    <p>Sistema feito por um aluno de medicina<br><strong>com intuito de facilitar seus
+                            atendimentos</strong></p>
                     <hr>
                     <p class="login-version">Versao 5.5.8</p>
                     <a href="#" onclick="abrirTermosUso(); return false;">Termos de uso</a><br>
@@ -1472,15 +1476,17 @@
 
             <div class="login-right">
                 <img class="bg-turma" src="/img/turma-t16.png" alt="Turma T16 Medicina FEMA">
-                <div class="credit">Fonte: Ministerio da Saude, Organizacao Mundial de Saude, Sociedade Brasileira de Pediatria e Bibliografias Pediatras Brasileiras.</div>
+                <div class="credit">Fonte: Ministerio da Saude, Organizacao Mundial de Saude, Sociedade Brasileira de
+                    Pediatria e Bibliografias Pediatras Brasileiras.</div>
             </div>
         </div>
     </div>
 
     <div id="page-termos" class="termos-page">
         <div class="termos-topbar">
-            <span class="t16-brand">T16.br</span>
-            <button class="btn-tema" onclick="toggleDarkMode()"><span class="tema-texto-sub">MUDAR PARA TEMA ESCURO</span><span class="tema-divider"></span></button>
+            <span class="t16-brand"><img src="/img/t16a1-logo.png" alt="T16.A1"></span>
+            <button class="btn-tema" onclick="toggleDarkMode()"><span class="tema-texto-sub">MUDAR PARA TEMA
+                    ESCURO</span><span class="tema-divider"></span></button>
         </div>
 
         <div class="termos-container">
@@ -1496,57 +1502,102 @@
                 <img src="/img/eform-logo.png" alt="E-FORM Logo">
             </div>
 
-            <p>Este documento busca esclarecer os direitos e obrigações do desenvolvedor e do usuário do Sistema E-FORM, bem como as condições da correta utilização do referido sistema.</p>
+            <p>Este documento busca esclarecer os direitos e obrigações do desenvolvedor e do usuário do Sistema E-FORM,
+                bem como as condições da correta utilização do referido sistema.</p>
 
-            <p>Ao utilizar o E-FORM você se torna um <strong>USUÁRIO</strong>, e isso implica a aceitação plena e sem reserva de todos os itens do presente <strong>TERMO</strong>.</p>
+            <p>Ao utilizar o E-FORM você se torna um <strong>USUÁRIO</strong>, e isso implica a aceitação plena e sem
+                reserva de todos os itens do presente <strong>TERMO</strong>.</p>
 
-            <div class="termos-question" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
+            <div class="termos-question"
+                onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
                 <i class="fa-solid fa-chevron-down"></i> Qual a função do E-FORM?
             </div>
             <div style="display:none; padding: 10px 18px; line-height: 1.8;">
-                <p>O E-FORM tem como objetivo facilitar o trabalho dos alunos de medicina da turma T16 da FEMA durante os atendimentos dos cursos da quinta etapa. O sistema permite preencher prontuários médicos utilizando a anamnese mencionada na bibliografia <em>Semiologia da Criança e do Adolescente</em> de Maria Aparecida Martins, Maria Regina de Almeida Viana, Marcos Carvalho de Vasconcellos e Roberto Assis Ferreira; utiliza-se informações relacionadas aos sinais vitais, curvas de crescimento, IMC, perímetro encefálico e peso usando a base de dados pediátricos da Organização Mundial da Saúde "OMS", calendário vacinal e outras informações foram tomadas da <a href="https://www.sbp.com.br/" target="_blank" style="color:#2a6496; font-weight:700;">Sociedade Brasileira de Pediatria "SBP"</a> e usando o sistema SOAP (Subjetivo, Objetivo, Avaliação e Plano) que é utilizado pelo <a href="https://esusaps.bridge.ufsc.br/autenticacao" target="_blank" style="color:#2a6496; font-weight:700;">e-SUS de Assis-SP</a>, sistema fornecido pelo <a href="https://www.gov.br/" target="_blank" style="color:#2a6496; font-weight:700;">gov.br</a>, de forma totalmente digital. Isso aumenta a segurança e facilita a organização das informações clínicas dos pacientes atendidos no ambulatório.</p>
+                <p>O E-FORM tem como objetivo facilitar o trabalho dos alunos de medicina da turma T16 da FEMA durante
+                    os atendimentos dos cursos da quinta etapa. O sistema permite preencher prontuários médicos
+                    utilizando a anamnese mencionada na bibliografia <em>Semiologia da Criança e do Adolescente</em> de
+                    Maria Aparecida Martins, Maria Regina de Almeida Viana, Marcos Carvalho de Vasconcellos e Roberto
+                    Assis Ferreira; utiliza-se informações relacionadas aos sinais vitais, curvas de crescimento, IMC,
+                    perímetro encefálico e peso usando a base de dados pediátricos da Organização Mundial da Saúde
+                    "OMS", calendário vacinal e outras informações foram tomadas da <a href="https://www.sbp.com.br/"
+                        target="_blank" style="color:#2a6496; font-weight:700;">Sociedade Brasileira de Pediatria
+                        "SBP"</a> e usando o sistema SOAP (Subjetivo, Objetivo, Avaliação e Plano) que é utilizado pelo
+                    <a href="https://esusaps.bridge.ufsc.br/autenticacao" target="_blank"
+                        style="color:#2a6496; font-weight:700;">e-SUS de Assis-SP</a>, sistema fornecido pelo <a
+                        href="https://www.gov.br/" target="_blank" style="color:#2a6496; font-weight:700;">gov.br</a>,
+                    de forma totalmente digital. Isso aumenta a segurança e facilita a organização das informações
+                    clínicas dos pacientes atendidos no ambulatório.</p>
             </div>
 
-            <div class="termos-question" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
+            <div class="termos-question"
+                onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
                 <i class="fa-solid fa-chevron-down"></i> Meus dados pessoais estão sendo mantidos de forma segura?
             </div>
             <div style="display:none; padding: 10px 18px; line-height: 1.8;">
-                <p>Sim. O sistema utiliza criptografia para armazenar as senhas dos usuários, controle de sessão, e cada usuário só tem acesso aos seus próprios prontuários. As credenciais são armazenadas em variáveis de ambiente seguras no servidor, nunca em código-fonte. O sistema segue práticas de segurança da informação.</p>
+                <p>Sim. O sistema utiliza criptografia para armazenar as senhas dos usuários, controle de sessão, e cada
+                    usuário só tem acesso aos seus próprios prontuários. As credenciais são armazenadas em variáveis de
+                    ambiente seguras no servidor, nunca em código-fonte. O sistema segue práticas de segurança da
+                    informação.</p>
             </div>
 
-            <div class="termos-question" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
+            <div class="termos-question"
+                onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
                 <i class="fa-solid fa-chevron-down"></i> Quem pode acessar o sistema?
             </div>
             <div style="display:none; padding: 10px 18px; line-height: 1.8;">
-                <p>O sistema foi criado para alunos e preceptores do curso de medicina da <a href="https://www.fema.edu.br/" target="_blank" style="color:#2a6496; font-weight:700;">Fundação Educacional do Município de Assis "FEMA"</a>. Terão direito a acessar o sistema aqueles que entrarem em contato com o próprio desenvolvedor do sistema.</p>
+                <p>O sistema foi criado para alunos e preceptores do curso de medicina da <a
+                        href="https://www.fema.edu.br/" target="_blank" style="color:#2a6496; font-weight:700;">Fundação
+                        Educacional do Município de Assis "FEMA"</a>. Terão direito a acessar o sistema aqueles que
+                    entrarem em contato com o próprio desenvolvedor do sistema.</p>
             </div>
 
-            <div class="termos-question" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
+            <div class="termos-question"
+                onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
                 <i class="fa-solid fa-chevron-down"></i> Os dados dos pacientes são compartilhados?
             </div>
             <div style="display:none; padding: 10px 18px; line-height: 1.8;">
-                <p>Sim. Os dados dos pacientes registrados nos prontuários são acessíveis por todos os usuários que pesquisarem pelo nome do paciente completo na aba "meus prontuários". Entretanto, somente aqueles que cadastraram a consulta com tal paciente poderão alterar e salvar as informações adicionais, caso queira que faça alguma alteração entre em contato com o desenvolvedor, fornecendo o nome do usuário, nome completo do paciente, nome completo da mãe do paciente e quais alterações quer que sejam alteradas, com isso, os dados enviados serão analisados e então as alterações serão aprovadas ou negadas. Nenhum outro usuário do sistema pode editar ou excluir prontuários de outro aluno/preceptor. Os dados são armazenados em banco de dados protegido com acesso restrito.</p>
+                <p>Sim. Os dados dos pacientes registrados nos prontuários são acessíveis por todos os usuários que
+                    pesquisarem pelo nome do paciente completo na aba "meus prontuários". Entretanto, somente aqueles
+                    que cadastraram a consulta com tal paciente poderão alterar e salvar as informações adicionais, caso
+                    queira que faça alguma alteração entre em contato com o desenvolvedor, fornecendo o nome do usuário,
+                    nome completo do paciente, nome completo da mãe do paciente e quais alterações quer que sejam
+                    alteradas, com isso, os dados enviados serão analisados e então as alterações serão aprovadas ou
+                    negadas. Nenhum outro usuário do sistema pode editar ou excluir prontuários de outro
+                    aluno/preceptor. Os dados são armazenados em banco de dados protegido com acesso restrito.</p>
             </div>
 
-            <div class="termos-question" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
+            <div class="termos-question"
+                onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
                 <i class="fa-solid fa-chevron-down"></i> Quais são as responsabilidades do usuário?
             </div>
             <div style="display:none; padding: 10px 18px; line-height: 1.8;">
-                <p>O usuário é responsável por manter suas credenciais de acesso em sigilo, não compartilhar sua conta com terceiros, registrar informações verídicas nos prontuários e utilizar o sistema exclusivamente para fins acadêmicos e de atendimento médico no ambulatório da FEMA nas Unidades. O uso indevido do sistema poderá resultar na suspensão do acesso. Caso tenha esquecido sua senha, entrar em contato com o desenvolvedor fornecendo as seguintes informações: Nome completo, CPF, Turma, cursando qual etapa do curso de Medicina e informar a nova senha que deseja registrar.</p>
+                <p>O usuário é responsável por manter suas credenciais de acesso em sigilo, não compartilhar sua conta
+                    com terceiros, registrar informações verídicas nos prontuários e utilizar o sistema exclusivamente
+                    para fins acadêmicos e de atendimento médico no ambulatório da FEMA nas Unidades. O uso indevido do
+                    sistema poderá resultar na suspensão do acesso. Caso tenha esquecido sua senha, entrar em contato
+                    com o desenvolvedor fornecendo as seguintes informações: Nome completo, CPF, Turma, cursando qual
+                    etapa do curso de Medicina e informar a nova senha que deseja registrar.</p>
             </div>
 
             <h2>Política de Privacidade</h2>
-            <p>O E-FORM coleta apenas as informações estritamente necessárias para o funcionamento do sistema: CPF e nome do aluno para autenticação, e os dados clínicos dos pacientes para registro dos atendimentos. Nenhuma informação é vendida, compartilhada ou utilizada para fins comerciais. Os dados são armazenados em servidores seguros e protegidos por criptografia.</p>
+            <p>O E-FORM coleta apenas as informações estritamente necessárias para o funcionamento do sistema: CPF e
+                nome do aluno para autenticação, e os dados clínicos dos pacientes para registro dos atendimentos.
+                Nenhuma informação é vendida, compartilhada ou utilizada para fins comerciais. Os dados são armazenados
+                em servidores seguros e protegidos por criptografia.</p>
 
             <h2>Contato</h2>
-            <p>Em caso de dúvidas ou solicitações relacionadas a estes termos, entre em contato com o desenvolvedor do sistema através do endereço de e-mail: <a href="mailto:victorazoia@icloud.com" style="color:#2a6496; font-weight:700;">victorazoia@icloud.com</a>. Ou se preferir, entre em contato direto com o celular do desenvolvedor: <strong>+55 (18) 99725-1106</strong>.</p>
+            <p>Em caso de dúvidas ou solicitações relacionadas a estes termos, entre em contato com o desenvolvedor do
+                sistema através do endereço de e-mail: <a href="mailto:victorazoia@icloud.com"
+                    style="color:#2a6496; font-weight:700;">victorazoia@icloud.com</a>. Ou se preferir, entre em contato
+                direto com o celular do desenvolvedor: <strong>+55 (18) 99725-1106</strong>.</p>
         </div>
     </div>
 
     <div id="page-sobre" class="termos-page">
         <div class="termos-topbar">
-            <span class="t16-brand">T16.br</span>
-            <button class="btn-tema" onclick="toggleDarkMode()"><span class="tema-texto-sub">MUDAR PARA TEMA ESCURO</span><span class="tema-divider"></span></button>
+            <span class="t16-brand"><img src="/img/t16a1-logo.png" alt="T16.A1"></span>
+            <button class="btn-tema" onclick="toggleDarkMode()"><span class="tema-texto-sub">MUDAR PARA TEMA
+                    ESCURO</span><span class="tema-divider"></span></button>
         </div>
 
         <div class="termos-container">
@@ -1561,14 +1612,24 @@
                 <img src="/img/eform-logo.png" alt="E-FORM Logo">
             </div>
 
-            <p>E-FORM é uma plataforma voltada para organizar e ajudar os alunos do curso de medicina da FEMA. O sistema tem como objetivo ser o mais automatizado possível e em ajudar o aluno a não perder nenhuma informação necessária para o preenchimento do prontuário do paciente no Sistema E-SUS.</p>
+            <p>E-FORM é uma plataforma voltada para organizar e ajudar os alunos do curso de medicina da FEMA. O sistema
+                tem como objetivo ser o mais automatizado possível e em ajudar o aluno a não perder nenhuma informação
+                necessária para o preenchimento do prontuário do paciente no Sistema E-SUS.</p>
 
-            <p>Foi desenvolvido por um aluno da T16 na Quinta etapa, juntamente com seus amigos <strong>José Antônio Martins Neto</strong> e <strong>José Ricardo Araujo Silva</strong>, que são estudantes de cursos voltados à área de desenvolvimento, eles são os grandes responsáveis por ajudar no desenvolvimento do projeto E-FORM.</p>
+            <p>Foi desenvolvido por um aluno da T16 na Quinta etapa, juntamente com seus amigos <strong>José Antônio
+                    Martins Neto</strong> e <strong>José Ricardo Araujo Silva</strong>, que são estudantes de cursos
+                voltados à área de desenvolvimento, eles são os grandes responsáveis por ajudar no desenvolvimento do
+                projeto E-FORM.</p>
 
-            <p>O sistema passa por atualizações constantes, pois ainda não está em sua versão definitiva! Logo está em fase de criação. Caso perceba algum erro no sistema ou queira dar dicas para melhorar e evoluir o projeto, poderá mandar suas contribuições para o desenvolvedor.</p>
+            <p>O sistema passa por atualizações constantes, pois ainda não está em sua versão definitiva! Logo está em
+                fase de criação. Caso perceba algum erro no sistema ou queira dar dicas para melhorar e evoluir o
+                projeto, poderá mandar suas contribuições para o desenvolvedor.</p>
 
             <h2>Contato</h2>
-            <p>Em caso de dúvidas ou solicitações relacionadas a estes termos, entre em contato com o desenvolvedor do sistema através do endereço de e-mail: <a href="mailto:victorazoia@icloud.com" style="color:#2a6496; font-weight:700;">victorazoia@icloud.com</a>. Ou se preferir, entre em contato direto com o celular do desenvolvedor: <strong>+55 (18) 99725-1106</strong>.</p>
+            <p>Em caso de dúvidas ou solicitações relacionadas a estes termos, entre em contato com o desenvolvedor do
+                sistema através do endereço de e-mail: <a href="mailto:victorazoia@icloud.com"
+                    style="color:#2a6496; font-weight:700;">victorazoia@icloud.com</a>. Ou se preferir, entre em contato
+                direto com o celular do desenvolvedor: <strong>+55 (18) 99725-1106</strong>.</p>
         </div>
     </div>
 
@@ -3426,8 +3487,10 @@
             <div style="margin-bottom: 15px; margin-top: 5px;">
                 <label style="font-weight:700; font-size:0.85em;">Buscar paciente (todos os alunos):</label>
                 <div style="display:flex; gap:8px; margin-top:4px;">
-                    <input type="text" id="busca-paciente-global" placeholder="Nome completo do paciente..." style="flex:1; margin:0;">
-                    <button class="btn" onclick="buscarPacienteGlobal()" style="width:auto; margin:0; padding: 10px 16px;">
+                    <input type="text" id="busca-paciente-global" placeholder="Nome completo do paciente..."
+                        style="flex:1; margin:0;">
+                    <button class="btn" onclick="buscarPacienteGlobal()"
+                        style="width:auto; margin:0; padding: 10px 16px;">
                         <i class="fa-solid fa-search"></i> Buscar
                     </button>
                 </div>
@@ -3501,7 +3564,7 @@
             opcoes.headers['Authorization'] = 'Bearer ' + token;
             opcoes.headers['Content-Type'] = opcoes.headers['Content-Type'] || 'application/json';
 
-            return fetch(url, opcoes).then(function(resp) {
+            return fetch(url, opcoes).then(function (resp) {
                 if (resp.status === 401) {
                     localStorage.removeItem('ambulato_token');
                     localStorage.removeItem('usuarioLogadoNome');
@@ -3561,7 +3624,7 @@
             var texto = tema === 'dark' ? 'MUDAR PARA TEMA CLARO' : 'MUDAR PARA TEMA ESCURO';
             var el = document.getElementById('tema-texto');
             if (el) el.textContent = texto;
-            document.querySelectorAll('.tema-texto-sub').forEach(function(e) {
+            document.querySelectorAll('.tema-texto-sub').forEach(function (e) {
                 e.textContent = texto;
             });
         }
@@ -5544,97 +5607,97 @@
 
             var baseUrl = window.location.origin;
             fetchComAuth(baseUrl + '/api/prontuarios/buscar?nome=' + encodeURIComponent(nome))
-            .then(function(r) { return r.json(); })
-            .then(function(dados) {
-                if (!dados || dados.length === 0) {
-                    document.getElementById('resultados-busca-global').innerHTML =
-                        '<p style="color:#888; text-align:center; padding:20px;">Nenhum paciente encontrado com esse nome.</p>';
-                    return;
-                }
-
-                var html = '<h4 style="margin-bottom:10px; margin-top:0;">Resultados da busca (' + dados.length + '):</h4>';
-                dados.forEach(function(p) {
-                    var data = p.dataAtendimento ? new Date(p.dataAtendimento).toLocaleDateString('pt-BR') : '';
-                    var proprietario = p.proprietario;
-                    var badge = proprietario
-                        ? '<span style="background:#28a745;color:#fff;padding:2px 8px;border-radius:10px;font-size:0.75em;">Meu prontuario</span>'
-                        : '<span style="background:#6c757d;color:#fff;padding:2px 8px;border-radius:10px;font-size:0.75em;">Atendido por: ' + p.alunoNome + '</span>';
-
-                    html += '<div style="background:var(--box-bg);border:1px solid var(--border);border-radius:8px;padding:15px;margin-bottom:10px;">';
-                    html += '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">';
-                    html += '<div>';
-                    html += '<strong style="font-size:1.05em;">' + p.pacienteNome + '</strong><br>';
-                    html += '<span style="font-size:0.85em;color:#888;">Data: ' + data + ' &nbsp;|&nbsp; ' + badge + '</span>';
-                    html += '</div>';
-                    html += '<div style="display:flex;gap:6px;flex-shrink:0;">';
-
-                    if (proprietario) {
-                        html += '<button class="btn" style="background:var(--primary);width:auto;font-size:0.8em;margin:0;padding:8px 14px;" onclick="editarProntuarioSalvo(' + p.id + ')"><i class="fa-solid fa-pen"></i> Editar</button>';
-                    } else {
-                        html += '<button class="btn btn-secondary" style="width:auto;font-size:0.8em;margin:0;padding:8px 14px;" onclick="abrirProntuarioLeitura(' + p.id + ')"><i class="fa-solid fa-eye"></i> Acessar anamnese</button>';
+                .then(function (r) { return r.json(); })
+                .then(function (dados) {
+                    if (!dados || dados.length === 0) {
+                        document.getElementById('resultados-busca-global').innerHTML =
+                            '<p style="color:#888; text-align:center; padding:20px;">Nenhum paciente encontrado com esse nome.</p>';
+                        return;
                     }
 
-                    html += '</div></div></div>';
-                });
+                    var html = '<h4 style="margin-bottom:10px; margin-top:0;">Resultados da busca (' + dados.length + '):</h4>';
+                    dados.forEach(function (p) {
+                        var data = p.dataAtendimento ? new Date(p.dataAtendimento).toLocaleDateString('pt-BR') : '';
+                        var proprietario = p.proprietario;
+                        var badge = proprietario
+                            ? '<span style="background:#28a745;color:#fff;padding:2px 8px;border-radius:10px;font-size:0.75em;">Meu prontuario</span>'
+                            : '<span style="background:#6c757d;color:#fff;padding:2px 8px;border-radius:10px;font-size:0.75em;">Atendido por: ' + p.alunoNome + '</span>';
 
-                document.getElementById('resultados-busca-global').innerHTML = html;
-            })
-            .catch(function(err) {
-                if (err.message !== 'SESSAO_EXPIRADA') console.error(err);
-            });
+                        html += '<div style="background:var(--box-bg);border:1px solid var(--border);border-radius:8px;padding:15px;margin-bottom:10px;">';
+                        html += '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">';
+                        html += '<div>';
+                        html += '<strong style="font-size:1.05em;">' + p.pacienteNome + '</strong><br>';
+                        html += '<span style="font-size:0.85em;color:#888;">Data: ' + data + ' &nbsp;|&nbsp; ' + badge + '</span>';
+                        html += '</div>';
+                        html += '<div style="display:flex;gap:6px;flex-shrink:0;">';
+
+                        if (proprietario) {
+                            html += '<button class="btn" style="background:var(--primary);width:auto;font-size:0.8em;margin:0;padding:8px 14px;" onclick="editarProntuarioSalvo(' + p.id + ')"><i class="fa-solid fa-pen"></i> Editar</button>';
+                        } else {
+                            html += '<button class="btn btn-secondary" style="width:auto;font-size:0.8em;margin:0;padding:8px 14px;" onclick="abrirProntuarioLeitura(' + p.id + ')"><i class="fa-solid fa-eye"></i> Acessar anamnese</button>';
+                        }
+
+                        html += '</div></div></div>';
+                    });
+
+                    document.getElementById('resultados-busca-global').innerHTML = html;
+                })
+                .catch(function (err) {
+                    if (err.message !== 'SESSAO_EXPIRADA') console.error(err);
+                });
         }
 
         // === MODO LEITURA (prontuario de outro aluno) ===
         function abrirProntuarioLeitura(id) {
             var baseUrl = window.location.origin;
             fetchComAuth(baseUrl + '/api/prontuarios/' + id)
-            .then(function(r) { return r.json(); })
-            .then(function(p) {
-                // Carrega os dados no formulario
-                if (p.dadosGeraisJson) {
-                    try {
-                        var dados = JSON.parse(p.dadosGeraisJson);
-                        Object.keys(dados).forEach(function(key) {
-                            var el = document.getElementById(key);
-                            if (el) {
-                                if (el.type === 'checkbox') el.checked = dados[key];
-                                else el.value = dados[key];
-                            }
-                        });
-                    } catch(e) { console.error('Erro ao parsear dadosGeraisJson', e); }
-                }
+                .then(function (r) { return r.json(); })
+                .then(function (p) {
+                    // Carrega os dados no formulario
+                    if (p.dadosGeraisJson) {
+                        try {
+                            var dados = JSON.parse(p.dadosGeraisJson);
+                            Object.keys(dados).forEach(function (key) {
+                                var el = document.getElementById(key);
+                                if (el) {
+                                    if (el.type === 'checkbox') el.checked = dados[key];
+                                    else el.value = dados[key];
+                                }
+                            });
+                        } catch (e) { console.error('Erro ao parsear dadosGeraisJson', e); }
+                    }
 
-                // Preenche campos SOAP se existirem
-                ['subjetivo','objetivo','avaliacao','plano'].forEach(function(campo) {
-                    var el = document.getElementById(campo);
-                    if (el && p[campo]) el.value = p[campo];
+                    // Preenche campos SOAP se existirem
+                    ['subjetivo', 'objetivo', 'avaliacao', 'plano'].forEach(function (campo) {
+                        var el = document.getElementById(campo);
+                        if (el && p[campo]) el.value = p[campo];
+                    });
+
+                    // Navega para o formulario
+                    var paginaAtiva = document.querySelector('.active-page');
+                    if (paginaAtiva) paginaAtiva.classList.remove('active-page');
+                    document.getElementById('page-formulario').classList.add('active-page');
+
+                    // Desabilita todos os campos
+                    var campos = document.querySelectorAll('#page-formulario input, #page-formulario select, #page-formulario textarea');
+                    campos.forEach(function (c) {
+                        c.setAttribute('disabled', 'true');
+                        c.style.opacity = '0.7';
+                    });
+
+                    // Adiciona banner de leitura
+                    var banner = document.createElement('div');
+                    banner.id = 'banner-leitura';
+                    banner.style.cssText = 'background:#ffc107;color:#333;padding:10px 20px;text-align:center;font-weight:700;font-size:0.9em;position:sticky;top:0;z-index:99;';
+                    banner.innerHTML = '<i class="fa-solid fa-lock"></i> MODO LEITURA — Prontuario atendido por: ' + p.alunoNome + ' &nbsp;|&nbsp; <button onclick="sairModoLeitura()" style="background:#333;color:#fff;border:none;padding:4px 12px;border-radius:4px;cursor:pointer;font-family:inherit;">Voltar</button>';
+                    var formulario = document.getElementById('page-formulario');
+                    formulario.insertBefore(banner, formulario.firstChild);
+
+                    showToast('Modo leitura — voce nao pode editar este prontuario.', 'warning');
+                })
+                .catch(function (err) {
+                    if (err.message !== 'SESSAO_EXPIRADA') console.error(err);
                 });
-
-                // Navega para o formulario
-                var paginaAtiva = document.querySelector('.active-page');
-                if (paginaAtiva) paginaAtiva.classList.remove('active-page');
-                document.getElementById('page-formulario').classList.add('active-page');
-
-                // Desabilita todos os campos
-                var campos = document.querySelectorAll('#page-formulario input, #page-formulario select, #page-formulario textarea');
-                campos.forEach(function(c) {
-                    c.setAttribute('disabled', 'true');
-                    c.style.opacity = '0.7';
-                });
-
-                // Adiciona banner de leitura
-                var banner = document.createElement('div');
-                banner.id = 'banner-leitura';
-                banner.style.cssText = 'background:#ffc107;color:#333;padding:10px 20px;text-align:center;font-weight:700;font-size:0.9em;position:sticky;top:0;z-index:99;';
-                banner.innerHTML = '<i class="fa-solid fa-lock"></i> MODO LEITURA — Prontuario atendido por: ' + p.alunoNome + ' &nbsp;|&nbsp; <button onclick="sairModoLeitura()" style="background:#333;color:#fff;border:none;padding:4px 12px;border-radius:4px;cursor:pointer;font-family:inherit;">Voltar</button>';
-                var formulario = document.getElementById('page-formulario');
-                formulario.insertBefore(banner, formulario.firstChild);
-
-                showToast('Modo leitura — voce nao pode editar este prontuario.', 'warning');
-            })
-            .catch(function(err) {
-                if (err.message !== 'SESSAO_EXPIRADA') console.error(err);
-            });
         }
 
         function sairModoLeitura() {
@@ -5643,7 +5706,7 @@
 
             // Reabilita todos os campos
             var campos = document.querySelectorAll('#page-formulario input, #page-formulario select, #page-formulario textarea');
-            campos.forEach(function(c) {
+            campos.forEach(function (c) {
                 c.removeAttribute('disabled');
                 c.style.opacity = '';
             });
