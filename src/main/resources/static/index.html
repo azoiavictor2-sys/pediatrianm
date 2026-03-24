@@ -3653,10 +3653,10 @@
             const user = userRaw.replace(/\D/g, '');
             const pass = document.getElementById('login-pass').value;
 
-            const btnLogin = document.querySelector('#page-login .btn');
-            const loginOriginalText = btnLogin.innerHTML;
-            btnLogin.innerHTML = "<i class='fa-solid fa-circle-notch fa-spin'></i> Entrando...";
-            btnLogin.disabled = true;
+            const btnLogin = document.querySelector('#page-login .btn-acessar');
+            const loginOriginalText = btnLogin ? btnLogin.innerHTML : '';
+            if (btnLogin) { btnLogin.innerHTML = "<i class='fa-solid fa-circle-notch fa-spin'></i> Entrando..."; }
+            if (btnLogin) btnLogin.disabled = true;
 
             document.getElementById('login-error').innerText = "Autenticando no servidor...";
             document.getElementById('login-error').classList.remove('text-danger');
@@ -3679,8 +3679,7 @@
                     document.getElementById('setup-error').innerText = "";
                     document.querySelector('.active-page').classList.remove('active-page');
                     document.getElementById('page-dashboard').classList.add('active-page');
-                    btnLogin.innerHTML = loginOriginalText;
-                    btnLogin.disabled = false;
+                    if (btnLogin) { btnLogin.innerHTML = loginOriginalText; btnLogin.disabled = false; }
 
                     carregarEstatisticasDashboard();
                     gerarCamposAlunos();
@@ -3690,8 +3689,7 @@
                 .catch(erro => {
                     document.getElementById('login-error').innerText = erro.message;
                     document.getElementById('login-error').style.color = "#dc3545";
-                    btnLogin.innerHTML = loginOriginalText;
-                    btnLogin.disabled = false;
+                    if (btnLogin) { btnLogin.innerHTML = loginOriginalText; btnLogin.disabled = false; }
                 });
         }
 
