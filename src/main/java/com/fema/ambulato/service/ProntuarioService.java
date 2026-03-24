@@ -24,16 +24,10 @@ public class ProntuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    /**
-     * SALVAR — Sempre cria um prontuário NOVO.
-     * O id é forçado como null para impedir que alguém sobrescreva
-     * o prontuário de outro aluno enviando um id existente.
-     */
     public Prontuario salvar(Prontuario prontuario, String usernameDoAluno) {
         Usuario aluno = usuarioRepository.findByUsername(usernameDoAluno)
-                .orElseThrow(() -> new UsernameNotFoundException("Aluno não encontrado."));
+                .orElseThrow(() -> new UsernameNotFoundException("Aluno nao encontrado."));
 
-        // SEGURANCA: Força criação de novo registro, ignora qualquer id enviado
         prontuario.setId(null);
         prontuario.setAluno(aluno);
         prontuario.setDataAtendimento(LocalDateTime.now());
@@ -41,38 +35,81 @@ public class ProntuarioService {
         return prontuarioRepository.save(prontuario);
     }
 
-    /**
-     * LISTAR — Retorna apenas os prontuários do aluno logado.
-     */
     @Transactional(readOnly = true)
     public List<Prontuario> listarPorAluno(String usernameDoAluno) {
         Usuario aluno = usuarioRepository.findByUsername(usernameDoAluno)
-                .orElseThrow(() -> new UsernameNotFoundException("Aluno não encontrado."));
+                .orElseThrow(() -> new UsernameNotFoundException("Aluno nao encontrado."));
 
         return prontuarioRepository.findByAlunoOrderByDataAtendimentoDesc(aluno);
     }
 
     /**
-     * BUSCAR POR ID — Retorna apenas se o prontuário pertence ao aluno logado.
+     * Busca prontuarios de TODOS os alunos pelo nome do paciente.
+     * Retorna os prontuarios com uma flag indicando se pertence ao aluno logado.
      */
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> buscarPorPaciente(String nomePaciente, String usernameDoAluno) {
+        List<Prontuario> prontuarios = prontuarioRepository
+                .findByPacienteNomeContainingIgnoreCaseOrderByDataAtendimentoDesc(nomePaciente);
+
+        return prontuarios.stream().map(p -> {
+            Map<String, Object> dto = new HashMap<>();
+            dto.put("id", p.getId());
+            dto.put("pacienteNome", p.getPacienteNome());
+            dto.put("celularContato", p.getCelularContato());
+            dto.put("tipagemSanguinea", p.getTipagemSanguinea());
+            dto.put("subjetivo", p.getSubjetivo());
+            dto.put("objetivo", p.getObjetivo());
+            dto.put("avaliacao", p.getAvaliacao());
+            dto.put("plano", p.getPlano());
+            dto.put("dadosGeraisJson", p.getDadosGeraisJson());
+            dto.put("dataAtendimento", p.getDataAtendimento());
+            dto.put("dataAtualizacao", p.getDataAtualizacao());
+            dto.put("alunoNome", p.getAluno().getNomeCompleto());
+            dto.put("alunoId", p.getAluno().getId());
+            // Flag: true se o prontuario pertence ao aluno logado
+            dto.put("proprietario", p.getAluno().getUsername().equals(usernameDoAluno));
+            return dto;
+        }).toList();
+    }
+
     @Transactional(readOnly = true)
     public Prontuario buscarPorId(Long id, String usernameDoAluno) {
         Prontuario prontuario = prontuarioRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Prontuário não encontrado."));
-
-        if (!prontuario.getAluno().getUsername().equals(usernameDoAluno)) {
-            throw new SecurityException("Voce nao tem permissao para acessar este prontuario.");
-        }
+                .orElseThrow(() -> new NoSuchElementException("Prontuario nao encontrado."));
 
         return prontuario;
     }
 
     /**
-     * ATUALIZAR — Só permite se o prontuário pertence ao aluno logado.
+     * Buscar por ID para leitura (qualquer usuario pode ver)
      */
+    @Transactional(readOnly = true)
+    public Map<String, Object> buscarPorIdComPermissao(Long id, String usernameDoAluno) {
+        Prontuario p = prontuarioRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Prontuario nao encontrado."));
+
+        Map<String, Object> dto = new HashMap<>();
+        dto.put("id", p.getId());
+        dto.put("pacienteNome", p.getPacienteNome());
+        dto.put("celularContato", p.getCelularContato());
+        dto.put("tipagemSanguinea", p.getTipagemSanguinea());
+        dto.put("subjetivo", p.getSubjetivo());
+        dto.put("objetivo", p.getObjetivo());
+        dto.put("avaliacao", p.getAvaliacao());
+        dto.put("plano", p.getPlano());
+        dto.put("dadosGeraisJson", p.getDadosGeraisJson());
+        dto.put("dataAtendimento", p.getDataAtendimento());
+        dto.put("dataAtualizacao", p.getDataAtualizacao());
+        dto.put("alunoNome", p.getAluno().getNomeCompleto());
+        dto.put("alunoId", p.getAluno().getId());
+        dto.put("proprietario", p.getAluno().getUsername().equals(usernameDoAluno));
+        return dto;
+    }
+
     public Prontuario atualizar(Long id, Prontuario atualizado, String usernameDoAluno) {
         Prontuario existente = prontuarioRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Prontuário não encontrado."));
+                .orElseThrow(() -> new NoSuchElementException("Prontuario nao encontrado."));
 
         if (!existente.getAluno().getUsername().equals(usernameDoAluno)) {
             throw new SecurityException("Voce nao tem permissao para editar este prontuario.");
@@ -91,12 +128,9 @@ public class ProntuarioService {
         return prontuarioRepository.save(existente);
     }
 
-    /**
-     * DELETAR — Só permite se o prontuário pertence ao aluno logado.
-     */
     public void deletar(Long id, String usernameDoAluno) {
         Prontuario prontuario = prontuarioRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Prontuário não encontrado."));
+                .orElseThrow(() -> new NoSuchElementException("Prontuario nao encontrado."));
 
         if (!prontuario.getAluno().getUsername().equals(usernameDoAluno)) {
             throw new SecurityException("Voce nao tem permissao para excluir este prontuario.");
@@ -105,13 +139,10 @@ public class ProntuarioService {
         prontuarioRepository.deleteById(id);
     }
 
-    /**
-     * ESTATÍSTICAS — Apenas do aluno logado.
-     */
     @Transactional(readOnly = true)
     public Map<String, Object> obterEstatisticas(String usernameDoAluno) {
         Usuario aluno = usuarioRepository.findByUsername(usernameDoAluno)
-                .orElseThrow(() -> new UsernameNotFoundException("Aluno não encontrado."));
+                .orElseThrow(() -> new UsernameNotFoundException("Aluno nao encontrado."));
 
         List<Prontuario> todos = prontuarioRepository.findByAlunoOrderByDataAtendimentoDesc(aluno);
 

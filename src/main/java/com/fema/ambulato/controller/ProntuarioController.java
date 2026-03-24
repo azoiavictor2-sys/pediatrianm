@@ -23,7 +23,6 @@ public class ProntuarioController {
     public ResponseEntity<Prontuario> salvar(
             @Valid @RequestBody Prontuario prontuario,
             @AuthenticationPrincipal UserDetails userDetails) {
-
         Prontuario salvo = prontuarioService.salvar(prontuario, userDetails.getUsername());
         return ResponseEntity.ok(salvo);
     }
@@ -31,18 +30,39 @@ public class ProntuarioController {
     @GetMapping("/meus")
     public ResponseEntity<List<Prontuario>> listarMeus(
             @AuthenticationPrincipal UserDetails userDetails) {
-
         List<Prontuario> lista = prontuarioService.listarPorAluno(userDetails.getUsername());
         return ResponseEntity.ok(lista);
+    }
+
+    /**
+     * Busca prontuarios de TODOS os alunos pelo nome do paciente.
+     * Retorna flag "proprietario" para indicar se pode editar.
+     */
+    @GetMapping("/buscar")
+    public ResponseEntity<List<Map<String, Object>>> buscarPorPaciente(
+            @RequestParam String nome,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        List<Map<String, Object>> resultados = prontuarioService.buscarPorPaciente(nome, userDetails.getUsername());
+        return ResponseEntity.ok(resultados);
+    }
+
+    /**
+     * Busca prontuario por ID (qualquer usuario pode ver, mas com flag de permissao)
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> buscarPorId(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        Map<String, Object> resultado = prontuarioService.buscarPorIdComPermissao(id, userDetails.getUsername());
+        return ResponseEntity.ok(resultado);
     }
 
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletar(
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetails userDetails) {
-
         prontuarioService.deletar(id, userDetails.getUsername());
-        return ResponseEntity.ok("Prontuário excluído com sucesso.");
+        return ResponseEntity.ok("Prontuario excluido com sucesso.");
     }
 
     @PutMapping("/atualizar/{id}")
@@ -50,7 +70,6 @@ public class ProntuarioController {
             @PathVariable Long id,
             @Valid @RequestBody Prontuario prontuario,
             @AuthenticationPrincipal UserDetails userDetails) {
-
         Prontuario atualizado = prontuarioService.atualizar(id, prontuario, userDetails.getUsername());
         return ResponseEntity.ok(atualizado);
     }
@@ -58,7 +77,6 @@ public class ProntuarioController {
     @GetMapping("/stats")
     public ResponseEntity<Map<String, Object>> obterEstatisticas(
             @AuthenticationPrincipal UserDetails userDetails) {
-
         Map<String, Object> stats = prontuarioService.obterEstatisticas(userDetails.getUsername());
         return ResponseEntity.ok(stats);
     }

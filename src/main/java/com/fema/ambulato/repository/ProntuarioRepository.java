@@ -12,6 +12,8 @@ public interface ProntuarioRepository extends JpaRepository<Prontuario, Long> {
 
     List<Prontuario> findByAluno(Usuario aluno);
 
-    // Busca prontuários do aluno ordenados do mais recente ao mais antigo
     List<Prontuario> findByAlunoOrderByDataAtendimentoDesc(Usuario aluno);
+
+    // Busca prontuarios de TODOS os alunos pelo nome do paciente (case insensitive)
+    List<Prontuario> findByPacienteNomeContainingIgnoreCaseOrderByDataAtendimentoDesc(String pacienteNome);
 }
