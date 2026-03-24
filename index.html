@@ -5683,6 +5683,7 @@
             })
             .then(function(r) { return r.json(); })
             .then(function(p) {
+                // Carrega os dados no formulario
                 if (p.dadosGeraisJson) {
                     try {
                         var dados = JSON.parse(p.dadosGeraisJson);
@@ -5692,47 +5693,46 @@
                                 if (el.type === 'checkbox') el.checked = dados[key];
                                 else if (el.type === 'radio') {
                                     if (el.value === dados[key]) el.checked = true;
-                                } else el.value = dados[key];
+                                }
+                                else el.value = dados[key];
                             }
                         });
                     } catch(e) { console.error('Erro ao parsear JSON:', e); }
                 }
 
-                var paginas = document.querySelectorAll('.page');
-                paginas.forEach(function(pg) { pg.classList.remove('active-page'); });
+                // Navega para page-consulta
+                document.querySelectorAll('.page').forEach(function(pg) { pg.classList.remove('active-page'); });
+                document.getElementById('page-consulta').classList.add('active-page');
 
-                var paginaAnamnese = document.getElementById('page-consulta');
-                if (!paginaAnamnese) paginaAnamnese = document.getElementById('page-formulario');
-                if (paginaAnamnese) paginaAnamnese.classList.add('active-page');
-
+                // MODO LEITURA
                 setTimeout(function() {
-                    var container = paginaAnamnese || document.querySelector('.active-page');
-                    var campos = container.querySelectorAll('input, select, textarea');
-                    campos.forEach(function(c) {
+                    var container = document.getElementById('page-consulta');
+
+                    // Desabilita todos os campos
+                    container.querySelectorAll('input, select, textarea').forEach(function(c) {
                         c.setAttribute('disabled', 'true');
                         c.style.opacity = '0.7';
                         c.style.pointerEvents = 'none';
                     });
 
-                    var sidebar = container.querySelector('.sidebar, .menu-lateral');
-                    if (sidebar) {
-                        var itens = sidebar.querySelectorAll('a, button, .sidebar-item, .menu-item');
-                        itens.forEach(function(item) {
-                            var texto = item.textContent.toLowerCase();
-                            if (texto.includes('prontuario') || texto.includes('limpar') || texto.includes('finalizar') || texto.includes('salvar')) {
-                                item.style.display = 'none';
-                            }
-                        });
-                    }
+                    // Esconde botoes da sidebar
+                    container.querySelectorAll('a, button, .sidebar-item, .menu-item, [onclick]').forEach(function(item) {
+                        var texto = (item.textContent || '').toLowerCase();
+                        if (texto.includes('prontuario') || texto.includes('limpar') || texto.includes('finalizar') || texto.includes('salvar')) {
+                            item.setAttribute('data-leitura-hidden', 'true');
+                            item.style.display = 'none';
+                        }
+                    });
 
+                    // Remove banner anterior se existir
                     var bannerExistente = document.getElementById('banner-leitura');
                     if (bannerExistente) bannerExistente.remove();
 
+                    // Banner laranja de leitura
                     var banner = document.createElement('div');
                     banner.id = 'banner-leitura';
                     banner.style.cssText = 'background:#e67e22;color:#fff;padding:12px 20px;text-align:center;font-weight:700;font-size:0.9em;position:sticky;top:0;z-index:999;display:flex;justify-content:center;align-items:center;gap:15px;';
-                    banner.innerHTML = '<i class="fa-solid fa-lock"></i> MODO LEITURA - Prontuario atendido por: ' + (alunoNome || 'Outro aluno') + ' <button onclick="sairModoLeitura()" style="background:#fff;color:#333;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-family:inherit;font-weight:700;margin-left:10px;">Voltar</button>';
-
+                    banner.innerHTML = '<i class="fa-solid fa-lock"></i> MODO LEITURA - Atendido por: ' + (alunoNome || 'Outro aluno') + ' <button onclick="sairModoLeitura()" style="background:#fff;color:#333;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-family:inherit;font-weight:700;">Voltar</button>';
                     container.insertBefore(banner, container.firstChild);
                 }, 300);
 
@@ -5753,67 +5753,81 @@
             })
             .then(function(r) { return r.json(); })
             .then(function(p) {
-                var paginas = document.querySelectorAll('.page');
-                paginas.forEach(function(pg) { pg.classList.remove('active-page'); });
+                // Navega para page-soap
+                document.querySelectorAll('.page').forEach(function(pg) { pg.classList.remove('active-page'); });
+                document.getElementById('page-soap').classList.add('active-page');
 
-                var paginaSoap = document.getElementById('page-soap');
-                if (paginaSoap) paginaSoap.classList.add('active-page');
+                // Preenche os campos SOAP (tenta varios IDs possiveis)
+                var camposS = ['soap-s', 'resumo-subjetivo', 'subjetivo'];
+                var camposO = ['soap-o', 'resumo-objetivo', 'objetivo'];
+                var camposA = ['soap-a', 'resumo-avaliacao', 'avaliacao'];
+                var camposP = ['soap-p', 'resumo-plano', 'plano'];
 
-                var elS = document.getElementById('soap-s') || document.getElementById('resumo-subjetivo');
-                var elO = document.getElementById('soap-o') || document.getElementById('resumo-objetivo');
-                var elA = document.getElementById('soap-a') || document.getElementById('resumo-avaliacao');
-                var elP = document.getElementById('soap-p') || document.getElementById('resumo-plano');
+                function preencherCampo(ids, valor) {
+                    for (var i = 0; i < ids.length; i++) {
+                        var el = document.getElementById(ids[i]);
+                        if (el) { el.value = valor || ''; el.setAttribute('disabled', 'true'); return; }
+                    }
+                }
 
-                if (elS) { elS.value = p.subjetivo || ''; elS.setAttribute('disabled', 'true'); }
-                if (elO) { elO.value = p.objetivo || ''; elO.setAttribute('disabled', 'true'); }
-                if (elA) { elA.value = p.avaliacao || ''; elA.setAttribute('disabled', 'true'); }
-                if (elP) { elP.value = p.plano || ''; elP.setAttribute('disabled', 'true'); }
+                preencherCampo(camposS, p.subjetivo);
+                preencherCampo(camposO, p.objetivo);
+                preencherCampo(camposA, p.avaliacao);
+                preencherCampo(camposP, p.plano);
 
                 setTimeout(function() {
-                    var container = paginaSoap || document.querySelector('.active-page');
+                    var container = document.getElementById('page-soap');
 
-                    var botoesEsconder = container.querySelectorAll('button');
-                    botoesEsconder.forEach(function(btn) {
-                        var texto = btn.textContent.toLowerCase();
-                        if (texto.includes('salvar') || texto.includes('edic')) {
+                    // Desabilita todas as textareas e inputs
+                    container.querySelectorAll('textarea, input').forEach(function(c) {
+                        c.setAttribute('disabled', 'true');
+                        c.style.opacity = '0.7';
+                        c.style.pointerEvents = 'none';
+                    });
+
+                    // Esconde botoes de salvar/editar
+                    container.querySelectorAll('button').forEach(function(btn) {
+                        var texto = (btn.textContent || '').toLowerCase();
+                        if (texto.includes('salvar') || texto.includes('edic') || texto.includes('finalizar')) {
+                            btn.setAttribute('data-leitura-hidden', 'true');
                             btn.style.display = 'none';
                         }
                     });
 
+                    // Banner
                     var bannerExistente = document.getElementById('banner-leitura');
                     if (bannerExistente) bannerExistente.remove();
 
                     var banner = document.createElement('div');
                     banner.id = 'banner-leitura';
                     banner.style.cssText = 'background:#e67e22;color:#fff;padding:12px 20px;text-align:center;font-weight:700;font-size:0.9em;position:sticky;top:0;z-index:999;display:flex;justify-content:center;align-items:center;gap:15px;';
-                    banner.innerHTML = '<i class="fa-solid fa-lock"></i> MODO LEITURA - SOAP do paciente: ' + p.pacienteNome + ' | Atendido por: ' + (alunoNome || 'Outro aluno') + ' <button onclick="sairModoLeitura()" style="background:#fff;color:#333;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-family:inherit;font-weight:700;margin-left:10px;">Voltar</button>';
-
+                    banner.innerHTML = '<i class="fa-solid fa-lock"></i> MODO LEITURA - Paciente: ' + p.pacienteNome + ' | Atendido por: ' + (alunoNome || 'Outro aluno') + ' <button onclick="sairModoLeitura()" style="background:#fff;color:#333;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-family:inherit;font-weight:700;">Voltar</button>';
                     container.insertBefore(banner, container.firstChild);
                 }, 300);
             });
         }
 
         function sairModoLeitura() {
+            // Remove banner
             var banner = document.getElementById('banner-leitura');
             if (banner) banner.remove();
 
-            document.querySelectorAll('input[disabled], select[disabled], textarea[disabled]').forEach(function(c) {
+            // Reabilita todos os campos
+            document.querySelectorAll('[disabled]').forEach(function(c) {
                 c.removeAttribute('disabled');
                 c.style.opacity = '';
                 c.style.pointerEvents = '';
             });
 
-            document.querySelectorAll('.page button').forEach(function(btn) {
-                btn.style.display = '';
+            // Mostra botoes que foram escondidos
+            document.querySelectorAll('[data-leitura-hidden]').forEach(function(el) {
+                el.removeAttribute('data-leitura-hidden');
+                el.style.display = '';
             });
 
-            document.querySelectorAll('.sidebar-item, .menu-item').forEach(function(item) {
-                item.style.display = '';
-            });
-
+            // Volta para page-lista
             document.querySelectorAll('.page').forEach(function(pg) { pg.classList.remove('active-page'); });
-            var lista = document.getElementById('page-lista') || document.getElementById('page-prontuarios');
-            if (lista) lista.classList.add('active-page');
+            document.getElementById('page-lista').classList.add('active-page');
         }
     </script>
 </body>
