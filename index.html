@@ -1862,6 +1862,189 @@
             font-weight: 600;
             text-decoration: none;
         }
+
+        /* ============================================
+           PAGE SETUP - CONFIGURACAO DO ATENDIMENTO
+           ============================================ */
+        #page-setup .setup-wrapper {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        #page-setup .btn-voltar-painel {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #1351B4;
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background 0.2s;
+        }
+
+        #page-setup .btn-voltar-painel:hover {
+            background: #0d3a8a;
+        }
+
+        #page-setup .setup-title {
+            text-align: center;
+            color: #1351B4;
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        #page-setup .setup-card {
+            background: #fff;
+            border: 1.5px dashed #c8d6e0;
+            border-radius: 12px;
+            padding: 25px 30px;
+            margin-bottom: 20px;
+        }
+
+        [data-theme="dark"] #page-setup .setup-card {
+            background: #1a1a2e;
+            border-color: #444;
+        }
+
+        #page-setup .setup-card-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #1351B4;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e8edf2;
+        }
+
+        [data-theme="dark"] #page-setup .setup-card-title {
+            border-color: #333;
+        }
+
+        #page-setup .setup-card-title i {
+            font-size: 1.1em;
+        }
+
+        #page-setup .setup-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 12px;
+            align-items: flex-end;
+        }
+
+        #page-setup .setup-row .setup-field {
+            flex: 1;
+        }
+
+        #page-setup .setup-field label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85em;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        [data-theme="dark"] #page-setup .setup-field label {
+            color: #aaa;
+        }
+
+        #page-setup .setup-field input,
+        #page-setup .setup-field select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #d0d8e0;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.92em;
+            background: #f4f7fa;
+            color: #333;
+            transition: border-color 0.2s;
+        }
+
+        [data-theme="dark"] #page-setup .setup-field input,
+        [data-theme="dark"] #page-setup .setup-field select {
+            background: #252540;
+            border-color: #444;
+            color: #ddd;
+        }
+
+        #page-setup .setup-field input:focus,
+        #page-setup .setup-field select:focus {
+            outline: none;
+            border-color: #1351B4;
+            box-shadow: 0 0 0 3px rgba(19,81,180,0.1);
+        }
+
+        #page-setup .setup-field input.aluno-principal {
+            background: #dce6f0;
+            font-weight: 600;
+            border-color: #b0c4d8;
+        }
+
+        [data-theme="dark"] #page-setup .setup-field input.aluno-principal {
+            background: #2a3a5c;
+            border-color: #4a6a9a;
+        }
+
+        #page-setup .setup-field input[readonly] {
+            background: #e8edf2;
+            cursor: default;
+        }
+
+        [data-theme="dark"] #page-setup .setup-field input[readonly] {
+            background: #252540;
+        }
+
+        #page-setup .setup-alunos-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        #page-setup .setup-three-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        #page-setup .btn-iniciar {
+            display: block;
+            width: 100%;
+            max-width: 900px;
+            margin: 10px auto 40px auto;
+            padding: 14px;
+            background: #1351B4;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1.05em;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background 0.2s;
+        }
+
+        #page-setup .btn-iniciar:hover {
+            background: #0d3a8a;
+        }
+
+        #page-setup .btn-iniciar i {
+            margin-left: 6px;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
@@ -2224,71 +2407,135 @@
     </div>
 
     <div id="page-setup" class="page">
-        <div class="container-setup">
-            <button class="btn btn-secondary" style="width: auto; margin-bottom: 20px; font-size: 0.9em;"
-                onclick="voltarAoDashboard()"><i class="fa-solid fa-arrow-left"></i> Voltar ao Painel</button>
-            <h2 style="text-align: center; margin-bottom: 30px;">Configuração do Atendimento</h2>
-
-            <div class="card" style="margin-bottom: 20px; box-shadow: none; border: 1px solid var(--border);">
-                <h3 style="background: none; border: none; padding: 0;"><i class="fa-solid fa-users"></i> Equipe Médica
-                    / Turma</h3>
-                <hr style="border: 0; border-top: 1px solid var(--border); margin-bottom: 15px;">
-                <div class="form-group">
-                    <label>Qtd de alunos presentes:</label>
-                    <select id="qtd-alunos" onchange="gerarCamposAlunos()">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3" selected>3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
+        <!-- TOPBAR + HEADER (mesmo do dashboard) -->
+        <div class="topbar-global">
+            <span class="t16-brand"><img src="/img/t16a1-logo.png" alt="T16.A1"></span>
+            <button class="btn-tema-global" onclick="toggleDarkMode()">
+                <span class="tema-texto-sub">MUDAR PARA TEMA ESCURO</span>
+                <span class="tema-divider"></span>
+            </button>
+        </div>
+        <div class="header-app">
+            <div class="logo-eform"><img src="/img/eform-logo.png" alt="E-FORM"></div>
+            <div class="user-area" onclick="toggleUserDropdown()">
+                <div class="user-name">
+                    <span class="dash-user-nome-sync">Victor Iunglaus Azoia</span>
+                    <small>Seja Bem-Vindo!</small>
                 </div>
-                <div id="campos-alunos" class="form-group"></div>
-                <div class="grid-3">
-                    <div class="form-group"><label>Semestre:</label><select id="semestre">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option selected>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                            <option>11</option>
-                            <option>12</option>
-                        </select></div>
-                    <div class="form-group"><label>Turma:</label><input type="text" id="turma" value="T16"></div>
-                    <div class="form-group"><label>Matéria:</label><select id="materia">
-                            <option>IESC Ciclo Básico</option>
-                            <option>Habilidades</option>
-                            <option selected>Pediatria</option>
-                            <option>Ginecologia Obstétrica (GO)</option>
-                            <option>Clínico</option>
-                        </select></div>
-                </div>
+                <i class="fa-solid fa-chevron-up user-arrow"></i>
             </div>
+        </div>
 
-            <div class="card" style="box-shadow: none; border: 1px solid var(--border);">
-                <h3 style="background: none; border: none; padding: 0;"><i class="fa-solid fa-child"></i> Dados do
-                    Paciente</h3>
-                <hr style="border: 0; border-top: 1px solid var(--border); margin-bottom: 15px;">
-                <div class="grid-2">
-                    <div class="form-group"><label>Nome do Paciente:</label><input type="text" id="paciente-nome"
-                            placeholder="Nome completo"></div>
-                    <div class="form-group"><label>Sexo Biológico:</label><select id="paciente-sexo"
-                            onchange="atualizarSexoGenitalia()">
-                            <option>Masculino</option>
-                            <option>Feminino</option>
-                        </select></div>
+        <!-- SIDEBAR -->
+        <div class="sidebar-app">
+            <button class="sidebar-link" onclick="irParaDashboard()">
+                <i class="fa-solid fa-house" style="color:#e67e22;"></i>
+                <span class="link-text">Voltar ao Painel</span>
+            </button>
+            <button class="sidebar-link" onclick="irParaSetup()">
+                <i class="fa-solid fa-user-plus" style="color:#e67e22;"></i>
+                <span class="link-text">Novo Atendimento</span>
+            </button>
+            <button class="sidebar-link" onclick="irParaLista()">
+                <i class="fa-solid fa-clipboard-list" style="color:#1351B4;"></i>
+                <span class="link-text">Meus Prontuários</span>
+            </button>
+        </div>
+
+        <!-- CONTEUDO -->
+        <div class="main-content-dash">
+            <div class="setup-wrapper">
+                <button class="btn-voltar-painel" onclick="irParaDashboard()">
+                    <i class="fa-solid fa-arrow-left"></i> Voltar ao Painel
+                </button>
+
+                <h2 class="setup-title">Configuração do Atendimento</h2>
+
+                <!-- CARD EQUIPE MEDICA -->
+                <div class="setup-card">
+                    <div class="setup-card-title">
+                        <i class="fa-solid fa-users"></i> Equipe Médica / Turma
+                    </div>
+
+                    <div class="setup-row">
+                        <div class="setup-field">
+                            <label>Qtd de alunos presentes:</label>
+                            <select id="setup-qtd-alunos" onchange="atualizarCamposAlunos()">
+                                <option value="1">1</option>
+                                <option value="2" selected>2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="setup-alunos-list" id="setup-alunos-list">
+                        <div class="setup-field">
+                            <input type="text" id="setup-aluno-1" class="aluno-principal" readonly>
+                        </div>
+                        <div class="setup-field">
+                            <input type="text" id="setup-aluno-2" placeholder="Nome do Aluno 2">
+                        </div>
+                    </div>
+
+                    <div class="setup-three-cols">
+                        <div class="setup-field">
+                            <label>Semestre:</label>
+                            <select id="setup-semestre">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5" selected>5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                            </select>
+                        </div>
+                        <div class="setup-field">
+                            <label>Turma:</label>
+                            <input type="text" id="setup-turma" value="T16" readonly>
+                        </div>
+                        <div class="setup-field">
+                            <label>Matéria:</label>
+                            <select id="setup-materia">
+                                <option value="Pediatria" selected>Pediatria</option>
+                                <option value="Clinica Medica">Clínica Médica</option>
+                                <option value="Cirurgia">Cirurgia</option>
+                                <option value="Ginecologia">Ginecologia</option>
+                                <option value="Outra">Outra</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div id="setup-error" class="alert-text text-danger"
-                style="margin: 15px 0; text-align: center; font-size: 1em;"></div>
-            <button class="btn" onclick="iniciarConsulta()" style="padding: 15px; font-size: 1.1em;">INICIAR CONSULTA <i
-                    class="fa-solid fa-arrow-right"></i></button>
+                <!-- CARD DADOS DO PACIENTE -->
+                <div class="setup-card">
+                    <div class="setup-card-title">
+                        <i class="fa-solid fa-child"></i> Dados do Paciente
+                    </div>
+
+                    <div class="setup-row">
+                        <div class="setup-field">
+                            <label>Nome do Paciente:</label>
+                            <input type="text" id="setup-paciente-nome" placeholder="Nome completo">
+                        </div>
+                        <div class="setup-field">
+                            <label>Sexo Biológico:</label>
+                            <select id="setup-sexo">
+                                <option value="M" selected>Masculino</option>
+                                <option value="F">Feminino</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BOTAO INICIAR -->
+                <button class="btn-iniciar" onclick="iniciarConsulta()">
+                    INICIAR CONSULTA <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -4380,11 +4627,27 @@
             prontuarioAberto = null;
             document.querySelectorAll('.page').forEach(function(pg) { pg.classList.remove('active-page'); });
             document.getElementById('page-setup').classList.add('active-page');
+
+            // Preenche o nome do aluno logado
+            var nomeLogado = localStorage.getItem('usuarioLogadoNome') || 'Aluno';
+            var elAluno1 = document.getElementById('setup-aluno-1');
+            if (elAluno1) elAluno1.value = nomeLogado;
+
+            // Sincroniza nome no header
+            document.querySelectorAll('.dash-user-nome-sync').forEach(function(el) {
+                el.textContent = nomeLogado;
+            });
         }
 
         function voltarAoDashboard() {
             document.querySelectorAll('.page').forEach(function(pg) { pg.classList.remove('active-page'); });
             document.getElementById('page-dashboard').classList.add('active-page');
+        }
+
+        function irParaDashboard() {
+            document.querySelectorAll('.page').forEach(function(pg) { pg.classList.remove('active-page'); });
+            document.getElementById('page-dashboard').classList.add('active-page');
+            atualizarDashboard();
         }
 
         function buscarMeusProntuariosFromConsulta() {
@@ -4761,21 +5024,69 @@
         }
 
         function iniciarConsulta() {
-            let aluno1 = document.getElementById('aluno-1') ? document.getElementById('aluno-1').value.trim() : "";
-            let materia = document.getElementById('materia').value.trim();
-            let turma = document.getElementById('turma').value.trim();
-            let semestre = document.getElementById('semestre').value.trim();
-            let pacNome = document.getElementById('paciente-nome').value.trim();
+            // Try new setup form IDs first, fall back to old IDs
+            var setupPacNome = document.getElementById('setup-paciente-nome');
+            var oldPacNome = document.getElementById('paciente-nome');
+            var pacNome = '';
 
-            if (!aluno1 || !materia || !turma || !semestre || !pacNome) {
-                showToast("Preencha o nome do paciente e turma.", "danger");
+            if (setupPacNome && setupPacNome.value.trim()) {
+                pacNome = setupPacNome.value.trim();
+            } else if (oldPacNome && oldPacNome.value.trim()) {
+                pacNome = oldPacNome.value.trim();
+            }
+
+            if (!pacNome) {
+                showToast('Preencha o nome do paciente!', 'warning');
                 return;
             }
 
-            let alunos = [];
-            for (let i = 1; i <= document.getElementById('qtd-alunos').value; i++) {
-                if (document.getElementById(`aluno-${i}`).value) alunos.push(document.getElementById(`aluno-${i}`).value);
+            // Collect alunos from new or old form
+            var nomeLogado = localStorage.getItem('usuarioLogadoNome') || '';
+            var alunos = [];
+            var qtdEl = document.getElementById('setup-qtd-alunos') || document.getElementById('qtd-alunos');
+            var qtd = qtdEl ? parseInt(qtdEl.value) : 1;
+
+            // Try new setup IDs
+            var usandoNovoSetup = !!document.getElementById('setup-aluno-1');
+            if (usandoNovoSetup) {
+                for (var i = 1; i <= qtd; i++) {
+                    var el = document.getElementById('setup-aluno-' + i);
+                    if (el && el.value.trim()) alunos.push(el.value.trim());
+                }
+            } else {
+                for (var i = 1; i <= qtd; i++) {
+                    var el = document.getElementById('aluno-' + i);
+                    if (el && el.value.trim()) alunos.push(el.value.trim());
+                }
             }
+            if (alunos.length === 0) alunos.push(nomeLogado);
+
+            var semestre = '';
+            var turma = '';
+            var materia = '';
+            var sexo = '';
+
+            if (usandoNovoSetup) {
+                semestre = document.getElementById('setup-semestre') ? document.getElementById('setup-semestre').value : '5';
+                turma = document.getElementById('setup-turma') ? document.getElementById('setup-turma').value : 'T16';
+                materia = document.getElementById('setup-materia') ? document.getElementById('setup-materia').value : 'Pediatria';
+                sexo = document.getElementById('setup-sexo') ? document.getElementById('setup-sexo').value : 'M';
+            } else {
+                semestre = document.getElementById('semestre') ? document.getElementById('semestre').value : '5';
+                turma = document.getElementById('turma') ? document.getElementById('turma').value : 'T16';
+                materia = document.getElementById('materia') ? document.getElementById('materia').value : 'Pediatria';
+                sexo = document.getElementById('paciente-sexo') ? document.getElementById('paciente-sexo').value : 'M';
+            }
+
+            // Save to localStorage for the consultation
+            localStorage.setItem('setup_paciente', pacNome);
+            localStorage.setItem('setup_sexo', sexo);
+            localStorage.setItem('setup_alunos', JSON.stringify(alunos));
+            localStorage.setItem('setup_semestre', semestre);
+            localStorage.setItem('setup_turma', turma);
+            localStorage.setItem('setup_materia', materia);
+
+            // Fill consultation header
             document.getElementById('auto-alunos').innerText = alunos.join(', ');
             document.getElementById('auto-paciente').innerText = pacNome;
             document.getElementById('auto-etapa').innerText = semestre + 'º Semestre';
@@ -4783,10 +5094,36 @@
             document.getElementById('auto-materia').innerText = materia;
             document.getElementById('auto-data').innerText = new Date().toLocaleDateString('pt-BR');
 
+            // Fill patient name in consultation form
+            var elNome = document.getElementById('dg-paciente') || document.getElementById('paciente-nome');
+            if (elNome) elNome.value = pacNome;
+
+            var elSexo = document.getElementById('dg-sexo') || document.getElementById('paciente-sexo');
+            if (elSexo) {
+                if (sexo === 'M') elSexo.value = 'Masculino';
+                else if (sexo === 'F') elSexo.value = 'Feminino';
+                else elSexo.value = sexo;
+            }
+
             recolherTodosCards();
 
-            document.getElementById('page-setup').classList.remove('active-page');
+            // Navigate to consultation
+            document.querySelectorAll('.page').forEach(function(pg) { pg.classList.remove('active-page'); });
             document.getElementById('page-consulta').classList.add('active-page');
+        }
+
+        function atualizarCamposAlunos() {
+            var qtd = parseInt(document.getElementById('setup-qtd-alunos').value);
+            var container = document.getElementById('setup-alunos-list');
+            var nomeLogado = localStorage.getItem('usuarioLogadoNome') || 'Aluno';
+
+            var html = '<div class="setup-field"><input type="text" id="setup-aluno-1" class="aluno-principal" value="' + nomeLogado + '" readonly></div>';
+
+            for (var i = 2; i <= qtd; i++) {
+                html += '<div class="setup-field"><input type="text" id="setup-aluno-' + i + '" placeholder="Nome do Aluno ' + i + '"></div>';
+            }
+
+            container.innerHTML = html;
         }
 
         function recolherTodosCards() {
