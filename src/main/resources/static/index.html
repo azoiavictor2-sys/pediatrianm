@@ -1034,9 +1034,9 @@
         }
 
         .login-topbar .t16-brand img {
-            height: 75px;
+            height: 26px;
             width: auto;
-            margin: -23px 0;
+            margin-left: 15px;
         }
 
         .login-topbar .btn-tema {
@@ -1158,8 +1158,8 @@
         }
 
         .login-left .login-footer {
-            margin-top: 30px;
-            padding-top: 20px;
+            margin-top: 15px;
+            padding-top: 15px;
             text-align: center;
             font-size: 0.78em;
             color: #888;
@@ -1453,6 +1453,415 @@
             border-color: #444;
             color: #ccc;
         }
+
+        /* ============================================
+           BARRA SUPERIOR GLOBAL (todas as paginas)
+           ============================================ */
+        .topbar-global {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #071D41;
+            padding: 6px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 200;
+            height: 36px;
+        }
+
+        .topbar-global .t16-brand img {
+            height: 22px;
+            width: auto;
+            margin-left: 10px;
+        }
+
+        .topbar-global .btn-tema-global {
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.8);
+            cursor: pointer;
+            font-size: 0.78em;
+            font-family: inherit;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .topbar-global .btn-tema-global:hover { color: #fff; }
+
+        .topbar-global .tema-divider {
+            width: 1px;
+            height: 18px;
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* ============================================
+           HEADER COM LOGO E USUARIO (abaixo da topbar)
+           ============================================ */
+        .header-app {
+            position: fixed;
+            top: 36px;
+            left: 0;
+            right: 0;
+            background: #1351B4;
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 190;
+            height: 56px;
+        }
+
+        .header-app .logo-eform img {
+            height: 42px;
+            width: auto;
+        }
+
+        .header-app .user-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.1);
+            padding: 6px 16px;
+            border-radius: 6px;
+            position: relative;
+            transition: background 0.2s;
+        }
+
+        .header-app .user-area:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .header-app .user-area .user-name {
+            color: #fff;
+            font-size: 0.88em;
+            font-weight: 600;
+            text-align: right;
+            line-height: 1.3;
+        }
+
+        .header-app .user-area .user-name small {
+            font-weight: 400;
+            opacity: 0.8;
+            display: block;
+            font-size: 0.85em;
+        }
+
+        .header-app .user-area .user-arrow {
+            color: #fff;
+            font-size: 0.7em;
+            transition: transform 0.2s;
+        }
+
+        .header-app .user-area.open .user-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Badge de notificacao */
+        .header-app .user-area .notif-badge {
+            width: 10px;
+            height: 10px;
+            background: #e74c3c;
+            border-radius: 50%;
+            position: absolute;
+            top: 6px;
+            right: 6px;
+        }
+
+        /* ============================================
+           DROPDOWN DO USUARIO
+           ============================================ */
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            min-width: 220px;
+            margin-top: 8px;
+            z-index: 300;
+            overflow: hidden;
+        }
+
+        .user-dropdown.open { display: block; }
+
+        [data-theme="dark"] .user-dropdown {
+            background: #1a1a2e;
+            border-color: #333;
+        }
+
+        .user-dropdown .dropdown-section {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        [data-theme="dark"] .user-dropdown .dropdown-section {
+            border-color: #333;
+        }
+
+        .user-dropdown .dropdown-section:last-child { border-bottom: none; }
+
+        .user-dropdown .dropdown-label {
+            padding: 4px 16px;
+            font-size: 0.75em;
+            color: #1351B4;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .user-dropdown .dropdown-item {
+            padding: 8px 16px;
+            font-size: 0.88em;
+            color: #333;
+            cursor: pointer;
+            transition: background 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            background: none;
+            width: 100%;
+            font-family: inherit;
+            text-align: left;
+        }
+
+        .user-dropdown .dropdown-item:hover {
+            background: #f0f4f8;
+        }
+
+        [data-theme="dark"] .user-dropdown .dropdown-item {
+            color: #ccc;
+        }
+
+        [data-theme="dark"] .user-dropdown .dropdown-item:hover {
+            background: #252540;
+        }
+
+        .user-dropdown .dropdown-item.danger { color: #e74c3c; }
+
+        .user-dropdown .dropdown-item .notif-dot {
+            width: 8px;
+            height: 8px;
+            background: #e74c3c;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* ============================================
+           BREADCRUMB
+           ============================================ */
+        .breadcrumb-bar {
+            position: fixed;
+            top: 92px;
+            left: 0;
+            right: 0;
+            background: #f0f4f8;
+            padding: 8px 30px 8px 90px;
+            font-size: 0.85em;
+            z-index: 180;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        [data-theme="dark"] .breadcrumb-bar {
+            background: #1a1a2e;
+            border-color: #333;
+        }
+
+        .breadcrumb-bar a {
+            color: #1351B4;
+            text-decoration: none;
+        }
+
+        .breadcrumb-bar span { color: #888; }
+
+        /* ============================================
+           SIDEBAR RETRATIL
+           ============================================ */
+        .sidebar-app {
+            position: fixed;
+            top: 120px;
+            left: 0;
+            bottom: 0;
+            width: 56px;
+            background: #fff;
+            border-right: 1px solid #e0e0e0;
+            z-index: 170;
+            transition: width 0.25s ease;
+            overflow: hidden;
+            padding-top: 10px;
+        }
+
+        [data-theme="dark"] .sidebar-app {
+            background: #1a1a2e;
+            border-color: #333;
+        }
+
+        .sidebar-app:hover {
+            width: 240px;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-app .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            color: #333;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: background 0.15s;
+            white-space: nowrap;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            font-family: inherit;
+        }
+
+        [data-theme="dark"] .sidebar-app .sidebar-link {
+            color: #ccc;
+        }
+
+        .sidebar-app .sidebar-link:hover {
+            background: #f0f4f8;
+        }
+
+        [data-theme="dark"] .sidebar-app .sidebar-link:hover {
+            background: #252540;
+        }
+
+        .sidebar-app .sidebar-link i {
+            font-size: 1.3em;
+            min-width: 24px;
+            text-align: center;
+            color: #1351B4;
+        }
+
+        .sidebar-app .sidebar-link .link-text {
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .sidebar-app:hover .sidebar-link .link-text {
+            opacity: 1;
+        }
+
+        /* ============================================
+           AREA DE CONTEUDO PRINCIPAL DO DASHBOARD
+           ============================================ */
+        .main-content-dash {
+            margin-top: 120px;
+            margin-left: 56px;
+            padding: 30px 40px;
+            min-height: calc(100vh - 120px);
+            transition: margin-left 0.25s;
+        }
+
+        /* ============================================
+           DASHBOARD CARDS
+           ============================================ */
+        .dashboard-welcome {
+            background: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+        }
+
+        [data-theme="dark"] .dashboard-welcome {
+            background: #1a1a2e;
+        }
+
+        .dashboard-welcome h2 {
+            color: #1351B4;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .dashboard-stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-stats .stat-card {
+            flex: 1;
+            background: #f0f4f8;
+            border-radius: 8px;
+            padding: 18px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        [data-theme="dark"] .dashboard-stats .stat-card {
+            background: #252540;
+            border-color: #333;
+        }
+
+        .dashboard-stats .stat-card .stat-icon {
+            font-size: 1.5em;
+            color: #1351B4;
+            margin-bottom: 8px;
+        }
+
+        .dashboard-stats .stat-card .stat-value {
+            font-size: 1.4em;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .dashboard-stats .stat-card .stat-label {
+            font-size: 0.78em;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .dashboard-message {
+            background: #f8f9fa;
+            border-left: 4px solid #1351B4;
+            padding: 20px 25px;
+            border-radius: 0 8px 8px 0;
+            line-height: 1.7;
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 20px;
+        }
+
+        [data-theme="dark"] .dashboard-message {
+            background: #252540;
+            color: #bbb;
+        }
+
+        .dashboard-message strong { color: #1351B4; }
+
+        [data-theme="dark"] .dashboard-message strong { color: #7ab3ef; }
+
+        .dashboard-message .contact-info {
+            margin-top: 10px;
+            font-size: 0.88em;
+            color: #888;
+        }
+
+        .dashboard-message .contact-info a {
+            color: #1351B4;
+            font-weight: 600;
+            text-decoration: none;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
@@ -1559,8 +1968,7 @@
                         style="color:#2a6496; font-weight:700;">e-SUS de Assis-SP</a>, sistema fornecido pelo <a
                         href="https://www.gov.br/" target="_blank" style="color:#2a6496; font-weight:700;">gov.br</a>,
                     de forma totalmente digital. Isso aumenta a segurança e facilita a organização das informações
-                    clínicas dos pacientes atendidos no ambulatório.
-                </p>
+                    clínicas dos pacientes atendidos no ambulatório.</p>
             </div>
 
             <div class="termos-question"
@@ -1667,66 +2075,150 @@
         </div>
     </div>
 
+    <div id="page-novidades" class="termos-page">
+        <div class="termos-topbar">
+            <span class="t16-brand"><img src="/img/t16a1-logo.png" alt="T16.A1"></span>
+            <button class="btn-tema" onclick="toggleDarkMode()"><span class="tema-texto-sub">MUDAR PARA TEMA ESCURO</span><span class="tema-divider"></span></button>
+        </div>
+
+        <div class="termos-container">
+            <button class="btn-voltar-termos" onclick="fecharNovidadesVersao()">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+            </button>
+
+            <h1>Novidades da Versão</h1>
+            <p class="termos-subtitle">Histórico de atualizações do E-FORM</p>
+
+            <div class="termos-question" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
+                <i class="fa-solid fa-chevron-down"></i> Versão 5.5.8 — Março/2026
+            </div>
+            <div style="display:none; padding: 10px 18px; line-height: 1.8;">
+                <p><strong>Novidades:</strong></p>
+                <p>• Deploy na nuvem via Railway com PostgreSQL<br>
+                • Sistema de sessão única por dispositivo<br>
+                • Busca global de pacientes entre todos os alunos<br>
+                • Modo leitura para prontuários de outros alunos<br>
+                • Criptografia BCrypt para senhas<br>
+                • Curvas de crescimento OMS (0-19 anos)<br>
+                • Busca automática CID-10 com autocomplete<br>
+                • Redesign da tela de login estilo e-SUS<br>
+                • Página de Termos de Uso e Sobre<br>
+                • Validação de dados no backend<br>
+                • Controle de acesso a prontuários</p>
+            </div>
+
+            <div class="termos-question" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
+                <i class="fa-solid fa-chevron-down"></i> Versão 5.0.0 — Versão Inicial
+            </div>
+            <div style="display:none; padding: 10px 18px; line-height: 1.8;">
+                <p><strong>Funcionalidades iniciais:</strong></p>
+                <p>• Sistema de prontuário eletrônico pediátrico<br>
+                • Método SOAP (Subjetivo, Objetivo, Avaliação, Plano)<br>
+                • Autenticação por CPF e senha<br>
+                • Salvamento local e na nuvem<br>
+                • Exportação em PDF e Word<br>
+                • Dashboard com estatísticas<br>
+                • Tema claro e escuro</p>
+            </div>
+        </div>
+    </div>
+
     <div id="page-dashboard" class="page">
-        <div class="container-app" style="max-width: 900px; margin-top: 5vh;">
-            <div class="card" style="padding: 50px 40px; text-align: center;">
-                <div
-                    style="width: 80px; height: 80px; background-color: rgba(0,86,179,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
-                    <i class="fa-solid fa-user-doctor" style="font-size: 35px; color: var(--primary);"></i>
+        <!-- BARRA SUPERIOR - T16.A1 -->
+        <div class="topbar-global">
+            <span class="t16-brand"><img src="/img/t16a1-logo.png" alt="T16.A1"></span>
+            <button class="btn-tema-global" onclick="toggleDarkMode()">
+                <span id="tema-texto-dash">MUDAR PARA TEMA ESCURO</span>
+                <span class="tema-divider"></span>
+            </button>
+        </div>
+
+        <!-- HEADER - LOGO EFORM + USUARIO -->
+        <div class="header-app">
+            <div class="logo-eform">
+                <img src="/img/eform-logo.png" alt="E-FORM">
+            </div>
+            <div class="user-area" id="user-area" onclick="toggleUserDropdown()">
+                <div class="user-name">
+                    <span id="dash-user-nome">Victor Iunglaus Azoia</span>
+                    <small>Seja Bem-Vindo!</small>
                 </div>
-                <h1 style="color: var(--primary); margin-bottom: 10px;">Olá, <span id="dash-user-name">Aluno</span>!
-                </h1>
-                <p style="color: var(--text); opacity: 0.8; font-size: 1.1em; margin-bottom: 20px;">Bem-vindo(a) ao seu
-                    painel pessoal de controle.</p>
+                <i class="fa-solid fa-chevron-up user-arrow"></i>
+                <div class="notif-badge"></div>
 
-                <div class="grid-3" style="margin-bottom: 30px;">
-                    <div class="dash-card" style="padding: 20px;">
-                        <i class="fa-solid fa-file-waveform"
-                            style="font-size: 25px; color: var(--primary); margin-bottom: 10px;"></i>
-                        <h3 style="font-size: 1.5em; margin: 0; padding: 0; background: none; border: none; color: var(--text);"
-                            id="stat-total">--</h3>
-                        <p style="font-size: 0.8em; opacity: 0.7; margin: 5px 0 0 0;">Total de Prontuários</p>
+                <!-- DROPDOWN -->
+                <div class="user-dropdown" id="user-dropdown">
+                    <div class="dropdown-section">
+                        <div class="dropdown-label"><i class="fa-solid fa-location-dot"></i> Acesso</div>
+                        <button class="dropdown-item" onclick="sairDaConta()">Trocar acesso</button>
                     </div>
-                    <div class="dash-card" style="padding: 20px;">
-                        <i class="fa-solid fa-clock-rotate-left"
-                            style="font-size: 25px; color: var(--primary); margin-bottom: 10px;"></i>
-                        <h3 style="font-size: 1.2em; margin: 0; padding: 0; background: none; border: none; color: var(--text);"
-                            id="stat-data">--/--/----</h3>
-                        <p style="font-size: 0.8em; opacity: 0.7; margin: 5px 0 0 0;">Último Registro</p>
+                    <div class="dropdown-section">
+                        <button class="dropdown-item" onclick="abrirNovidadesVersao()">
+                            <span class="notif-dot"></span> Novidades da versão
+                        </button>
+                        <button class="dropdown-item" onclick="abrirSobreEform()">Sobre</button>
+                        <button class="dropdown-item" onclick="abrirTermosUso()">Termos de uso</button>
                     </div>
-                    <div class="dash-card" style="padding: 20px;">
-                        <i class="fa-solid fa-person-breastfeeding"
-                            style="font-size: 25px; color: var(--primary); margin-bottom: 10px;"></i>
-                        <h3 style="font-size: 1.2em; margin: 0; padding: 0; background: none; border: none; color: var(--text);"
-                            id="stat-nome">--</h3>
-                        <p style="font-size: 0.8em; opacity: 0.7; margin: 5px 0 0 0;">Último Paciente</p>
-                    </div>
-                </div>
-
-                <div class="grid-2">
-                    <div class="dash-card" onclick="irParaSetup()">
-                        <i class="fa-solid fa-file-medical"
-                            style="font-size: 40px; color: var(--primary); margin-bottom: 15px;"></i>
-                        <h3
-                            style="margin-bottom: 10px; border:none; background:none; padding:0; color: var(--primary);">
-                            Novo Atendimento</h3>
-                        <p style="font-size: 0.9em; opacity: 0.7; margin: 0; color: var(--text);">Iniciar a anamnese e
-                            exame de um novo paciente.</p>
-                    </div>
-
-                    <div class="dash-card green" onclick="buscarMeusProntuarios()">
-                        <i class="fa-solid fa-folder-open"
-                            style="font-size: 40px; color: #28a745; margin-bottom: 15px;"></i>
-                        <h3 style="margin-bottom: 10px; border:none; background:none; padding:0; color: #28a745;">Meus
-                            Prontuários</h3>
-                        <p style="font-size: 0.9em; opacity: 0.7; margin: 0; color: var(--text);">Acessar e editar
-                            histórico de pacientes salvos.</p>
+                    <div class="dropdown-section">
+                        <button class="dropdown-item danger" onclick="sairDaConta()">
+                            <i class="fa-solid fa-right-from-bracket"></i> Sair
+                        </button>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <button class="btn btn-secondary" onclick="sairDaConta()"
-                    style="width: auto; margin-top: 50px; padding: 10px 25px;"><i
-                        class="fa-solid fa-right-from-bracket"></i> Sair da Conta</button>
+        <!-- BREADCRUMB -->
+        <div class="breadcrumb-bar">
+            <a href="#"><i class="fa-solid fa-house"></i></a>
+            <span>&gt;</span>
+        </div>
+
+        <!-- SIDEBAR RETRATIL -->
+        <div class="sidebar-app">
+            <button class="sidebar-link" onclick="irParaSetup()">
+                <i class="fa-solid fa-user-plus" style="color:#e67e22;"></i>
+                <span class="link-text">Novo Atendimento</span>
+            </button>
+            <button class="sidebar-link" onclick="irParaLista()">
+                <i class="fa-solid fa-clipboard-list" style="color:#1351B4;"></i>
+                <span class="link-text">Meus Prontuários</span>
+            </button>
+        </div>
+
+        <!-- CONTEUDO PRINCIPAL -->
+        <div class="main-content-dash">
+            <div class="dashboard-welcome">
+                <h2 id="dash-titulo">Painel de controle particular de Victor!</h2>
+
+                <!-- ESTATISTICAS -->
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-file-medical"></i></div>
+                        <div class="stat-value" id="dash-total">0</div>
+                        <div class="stat-label">Total de Prontuários</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                        <div class="stat-value" id="dash-data">--</div>
+                        <div class="stat-label">Último Registro</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-child"></i></div>
+                        <div class="stat-value" id="dash-paciente">--</div>
+                        <div class="stat-label">Último Paciente</div>
+                    </div>
+                </div>
+
+                <!-- MENSAGEM DE BOAS VINDAS -->
+                <div class="dashboard-message">
+                    <p>O <strong>E-FORM</strong> está aqui para facilitar e organizar a sua vida como estudante. Espero que faça bom uso da plataforma.</p>
+                    <p>Caso tenha alguma dúvida ou deseja relatar algum erro ou adicionar algum comentário construtivo, peço que entre em contato com o desenvolvedor.</p>
+                    <div class="contact-info">
+                        <strong>Contato:</strong> Email: <a href="mailto:victorazoia@icloud.com">victorazoia@icloud.com</a> | Celular: <strong>(18) 99725-1106</strong>
+                    </div>
+                    <p style="margin-top:12px; font-size:0.9em; font-style:italic;">Agradeço desde já por estar utilizando essa plataforma, lembre-se que essa plataforma está em desenvolvimento e constante atualização, logo peço paciência caso tenha alguma experiência ruim. Ela já será solucionada!</p>
+                </div>
             </div>
         </div>
     </div>
@@ -3658,6 +4150,8 @@
             var texto = tema === 'dark' ? 'MUDAR PARA TEMA CLARO' : 'MUDAR PARA TEMA ESCURO';
             var el = document.getElementById('tema-texto');
             if (el) el.textContent = texto;
+            var elDash = document.getElementById('tema-texto-dash');
+            if (elDash) elDash.textContent = texto;
             document.querySelectorAll('.tema-texto-sub').forEach(function (e) {
                 e.textContent = texto;
             });
@@ -3772,13 +4266,12 @@
                     localStorage.setItem('usuarioLogadoNome', dadosUsuario.nomeCompleto);
                     localStorage.setItem('ambulato_token', dadosUsuario.token);
 
-                    document.getElementById('dash-user-name').innerText = dadosUsuario.nomeCompleto.split(' ')[0];
                     document.getElementById('setup-error').innerText = "";
                     document.querySelector('.active-page').classList.remove('active-page');
                     document.getElementById('page-dashboard').classList.add('active-page');
                     if (btnLogin) { btnLogin.innerHTML = loginOriginalText; btnLogin.disabled = false; }
 
-                    carregarEstatisticasDashboard();
+                    atualizarDashboard();
                     gerarCamposAlunos();
                     restaurarDadosSalvos();
                     showToast("Login realizado com sucesso!", "success");
@@ -3790,29 +4283,78 @@
                 });
         }
 
-        function carregarEstatisticasDashboard() {
-            const token = localStorage.getItem('ambulato_token');
-            if (!token) return;
-
-            fetch('/api/prontuarios/stats', {
-                method: 'GET',
-                headers: getAuthHeaders()
-            })
-                .then(resposta => {
-                    if (resposta.ok) return resposta.json();
-                    throw new Error("N\u00e3o foi poss\u00edvel carregar estat\u00edsticas.");
-                })
-                .then(stats => {
-                    document.getElementById('stat-total').innerText = stats.total;
-                    document.getElementById('stat-nome').innerText = stats.ultimoPaciente || "--";
-                    if (stats.ultimaData) {
-                        document.getElementById('stat-data').innerText = new Date(stats.ultimaData).toLocaleDateString('pt-BR');
-                    } else {
-                        document.getElementById('stat-data').innerText = "--/--/----";
-                    }
-                })
-                .catch(erro => console.error(erro));
+        // === DROPDOWN DO USUARIO ===
+        function toggleUserDropdown() {
+            var dropdown = document.getElementById('user-dropdown');
+            var userArea = document.getElementById('user-area');
+            dropdown.classList.toggle('open');
+            userArea.classList.toggle('open');
         }
+
+        // Fechar dropdown ao clicar fora
+        document.addEventListener('click', function(e) {
+            var userArea = document.getElementById('user-area');
+            var dropdown = document.getElementById('user-dropdown');
+            if (userArea && dropdown && !userArea.contains(e.target)) {
+                dropdown.classList.remove('open');
+                userArea.classList.remove('open');
+            }
+        });
+
+        // === NAVEGACAO DA SIDEBAR ===
+        function irParaLista() {
+            document.querySelectorAll('.page').forEach(function(pg) { pg.classList.remove('active-page'); });
+            document.getElementById('page-lista').classList.add('active-page');
+        }
+
+        // === NOVIDADES DA VERSAO ===
+        function abrirNovidadesVersao() {
+            document.querySelectorAll('.page').forEach(function(pg) { pg.classList.remove('active-page'); });
+            document.getElementById('page-novidades').classList.add('active');
+            document.getElementById('page-dashboard').classList.remove('active-page');
+            window.scrollTo(0, 0);
+        }
+
+        function fecharNovidadesVersao() {
+            document.getElementById('page-novidades').classList.remove('active');
+            document.getElementById('page-dashboard').classList.add('active-page');
+        }
+
+        // === ATUALIZAR DASHBOARD ===
+        function atualizarDashboard() {
+            var nome = localStorage.getItem('usuarioLogadoNome') || 'Usuario';
+            var primeiroNome = nome.split(' ')[0];
+
+            var elNome = document.getElementById('dash-user-nome');
+            if (elNome) elNome.textContent = nome;
+
+            var elTitulo = document.getElementById('dash-titulo');
+            if (elTitulo) elTitulo.textContent = 'Painel de controle particular de ' + primeiroNome + '!';
+
+            // Busca estatisticas
+            var token = localStorage.getItem('ambulato_token');
+            var baseUrl = window.location.origin;
+
+            fetch(baseUrl + '/api/prontuarios/stats', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            })
+            .then(function(r) { return r.json(); })
+            .then(function(stats) {
+                var elTotal = document.getElementById('dash-total');
+                var elData = document.getElementById('dash-data');
+                var elPaciente = document.getElementById('dash-paciente');
+
+                if (elTotal) elTotal.textContent = stats.total || '0';
+                if (elPaciente) elPaciente.textContent = stats.ultimoPaciente || '--';
+                if (elData && stats.ultimaData) {
+                    elData.textContent = new Date(stats.ultimaData).toLocaleDateString('pt-BR');
+                }
+            })
+            .catch(function(err) { console.error('Erro stats:', err); });
+        }
+
+        // Keep old name as alias for backward compatibility
+        function carregarEstatisticasDashboard() { atualizarDashboard(); }
 
         function sairDaConta() {
             // Faz logout no servidor para invalidar o token
@@ -3836,12 +4378,12 @@
 
         function irParaSetup() {
             prontuarioAberto = null;
-            document.querySelector('.active-page').classList.remove('active-page');
+            document.querySelectorAll('.page').forEach(function(pg) { pg.classList.remove('active-page'); });
             document.getElementById('page-setup').classList.add('active-page');
         }
 
         function voltarAoDashboard() {
-            document.querySelector('.active-page').classList.remove('active-page');
+            document.querySelectorAll('.page').forEach(function(pg) { pg.classList.remove('active-page'); });
             document.getElementById('page-dashboard').classList.add('active-page');
         }
 
@@ -5645,66 +6187,66 @@
             fetch(baseUrl + '/api/prontuarios/buscar?nome=' + encodeURIComponent(nome), {
                 headers: { 'Authorization': 'Bearer ' + token }
             })
-                .then(function (r) {
-                    if (r.status === 401) {
-                        alert('Sessao expirada. Faca login novamente.');
-                        sairDaConta();
-                        return;
+            .then(function(r) {
+                if (r.status === 401) {
+                    alert('Sessao expirada. Faca login novamente.');
+                    sairDaConta();
+                    return;
+                }
+                return r.json();
+            })
+            .then(function(dados) {
+                if (!dados || dados.length === 0) {
+                    document.getElementById('resultados-busca-global').innerHTML =
+                        '<p style="color:#888; text-align:center; padding:20px;">Nenhum paciente encontrado com esse nome.</p>';
+                    return;
+                }
+
+                var html = '<h4 style="margin-bottom:10px;">Resultados da busca (' + dados.length + '):</h4>';
+                dados.forEach(function(p) {
+                    var data = p.dataAtendimento ? new Date(p.dataAtendimento).toLocaleDateString('pt-BR') : '';
+                    var proprietario = p.proprietario;
+                    var nomeMae = '';
+                    if (p.dadosGeraisJson) {
+                        try {
+                            var dg = JSON.parse(p.dadosGeraisJson);
+                            nomeMae = dg['dg-mae'] || dg['dg-nome-mae'] || '';
+                        } catch(e) {}
                     }
-                    return r.json();
-                })
-                .then(function (dados) {
-                    if (!dados || dados.length === 0) {
-                        document.getElementById('resultados-busca-global').innerHTML =
-                            '<p style="color:#888; text-align:center; padding:20px;">Nenhum paciente encontrado com esse nome.</p>';
-                        return;
-                    }
+                    var maeTexto = nomeMae ? nomeMae : 'Nao informada';
 
-                    var html = '<h4 style="margin-bottom:10px;">Resultados da busca (' + dados.length + '):</h4>';
-                    dados.forEach(function (p) {
-                        var data = p.dataAtendimento ? new Date(p.dataAtendimento).toLocaleDateString('pt-BR') : '';
-                        var proprietario = p.proprietario;
-                        var nomeMae = '';
-                        if (p.dadosGeraisJson) {
-                            try {
-                                var dg = JSON.parse(p.dadosGeraisJson);
-                                nomeMae = dg['dg-mae'] || dg['dg-nome-mae'] || '';
-                            } catch (e) { }
-                        }
-                        var maeTexto = nomeMae ? nomeMae : 'Nao informada';
-
-                        if (proprietario) {
-                            html += '<div class="card-prontuario" style="border-left: 4px solid #1a73e8; background: var(--box-bg); border-radius: 8px; padding: 18px 20px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06);">';
-                            html += '<div>';
-                            html += '<strong style="font-size:1.1em; color:#1a73e8;">' + p.pacienteNome + '</strong><br>';
-                            html += '<span style="font-size:0.85em; color:var(--text);"><strong>Data:</strong> ' + data + ' | <strong>Mae:</strong> ' + maeTexto + '</span>';
-                            html += '</div>';
-                            html += '<div style="display:flex; gap:6px;">';
-                            html += '<button class="btn btn-danger" style="width:auto;" onclick="excluirProntuario(' + p.id + ')"><i class="fa-solid fa-trash"></i></button>';
-                            html += '<button class="btn btn-primary" style="width:auto;" onclick="abrirProntuarioSalvo(' + p.id + ')"><i class="fa-solid fa-pen"></i> Editar</button>';
-                            html += '<button class="btn" style="width:auto; background:#28a745; color:#fff;" onclick="abrirResumoSoap(' + p.id + ')"><i class="fa-solid fa-file-medical"></i> Resumo SOAP</button>';
-                            html += '</div></div>';
-                        } else {
-                            html += '<div class="card-prontuario" style="border-left: 4px solid #e67e22; background: var(--box-bg); border-radius: 8px; padding: 18px 20px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06);">';
-                            html += '<div>';
-                            html += '<strong style="font-size:1.1em; color:#e67e22;">' + p.pacienteNome + '</strong><br>';
-                            html += '<span style="font-size:0.85em; color:var(--text);"><strong>Data:</strong> ' + data + ' | <strong>Mae:</strong> ' + maeTexto + '</span><br>';
-                            html += '<span style="display:inline-block; margin-top:4px; background:#1a73e8; color:#fff; padding:2px 10px; border-radius:12px; font-size:0.78em;">Atendido por: ' + p.alunoNome + '</span>';
-                            html += '</div>';
-                            html += '<div style="display:flex; gap:6px;">';
-                            html += '<button class="btn btn-primary" style="width:auto;" onclick="abrirProntuarioLeitura(' + p.id + ',\'' + p.alunoNome.replace(/\'/g, "\\'") + '\')"><i class="fa-solid fa-eye"></i> Acessar anamnese</button>';
-                            html += '<button class="btn" style="width:auto; background:#28a745; color:#fff;" onclick="abrirResumoSoapLeitura(' + p.id + ',\'' + p.alunoNome.replace(/\'/g, "\\'") + '\')"><i class="fa-solid fa-file-medical"></i> Resumo SOAP</button>';
-                            html += '</div></div>';
-                        }
-                    });
-
-                    document.getElementById('resultados-busca-global').innerHTML = html;
-                })
-                .catch(function (err) {
-                    if (err.message !== 'SESSAO_EXPIRADA') {
-                        console.error(err);
+                    if (proprietario) {
+                        html += '<div class="card-prontuario" style="border-left: 4px solid #1a73e8; background: var(--box-bg); border-radius: 8px; padding: 18px 20px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06);">';
+                        html += '<div>';
+                        html += '<strong style="font-size:1.1em; color:#1a73e8;">' + p.pacienteNome + '</strong><br>';
+                        html += '<span style="font-size:0.85em; color:var(--text);"><strong>Data:</strong> ' + data + ' | <strong>Mae:</strong> ' + maeTexto + '</span>';
+                        html += '</div>';
+                        html += '<div style="display:flex; gap:6px;">';
+                        html += '<button class="btn btn-danger" style="width:auto;" onclick="excluirProntuario(' + p.id + ')"><i class="fa-solid fa-trash"></i></button>';
+                        html += '<button class="btn btn-primary" style="width:auto;" onclick="abrirProntuarioSalvo(' + p.id + ')"><i class="fa-solid fa-pen"></i> Editar</button>';
+                        html += '<button class="btn" style="width:auto; background:#28a745; color:#fff;" onclick="abrirResumoSoap(' + p.id + ')"><i class="fa-solid fa-file-medical"></i> Resumo SOAP</button>';
+                        html += '</div></div>';
+                    } else {
+                        html += '<div class="card-prontuario" style="border-left: 4px solid #e67e22; background: var(--box-bg); border-radius: 8px; padding: 18px 20px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06);">';
+                        html += '<div>';
+                        html += '<strong style="font-size:1.1em; color:#e67e22;">' + p.pacienteNome + '</strong><br>';
+                        html += '<span style="font-size:0.85em; color:var(--text);"><strong>Data:</strong> ' + data + ' | <strong>Mae:</strong> ' + maeTexto + '</span><br>';
+                        html += '<span style="display:inline-block; margin-top:4px; background:#1a73e8; color:#fff; padding:2px 10px; border-radius:12px; font-size:0.78em;">Atendido por: ' + p.alunoNome + '</span>';
+                        html += '</div>';
+                        html += '<div style="display:flex; gap:6px;">';
+                        html += '<button class="btn btn-primary" style="width:auto;" onclick="abrirProntuarioLeitura(' + p.id + ',\'' + p.alunoNome.replace(/\'/g, "\\'") + '\')"><i class="fa-solid fa-eye"></i> Acessar anamnese</button>';
+                        html += '<button class="btn" style="width:auto; background:#28a745; color:#fff;" onclick="abrirResumoSoapLeitura(' + p.id + ',\'' + p.alunoNome.replace(/\'/g, "\\'") + '\')"><i class="fa-solid fa-file-medical"></i> Resumo SOAP</button>';
+                        html += '</div></div>';
                     }
                 });
+
+                document.getElementById('resultados-busca-global').innerHTML = html;
+            })
+            .catch(function(err) {
+                if (err.message !== 'SESSAO_EXPIRADA') {
+                    console.error(err);
+                }
+            });
         }
 
         // === MODO LEITURA (prontuario de outro aluno) ===
@@ -5715,67 +6257,67 @@
             fetch(baseUrl + '/api/prontuarios/' + id, {
                 headers: { 'Authorization': 'Bearer ' + token }
             })
-                .then(function (r) { return r.json(); })
-                .then(function (p) {
-                    // Carrega os dados no formulario
-                    if (p.dadosGeraisJson) {
-                        try {
-                            var dados = JSON.parse(p.dadosGeraisJson);
-                            Object.keys(dados).forEach(function (key) {
-                                var el = document.getElementById(key);
-                                if (el) {
-                                    if (el.type === 'checkbox') el.checked = dados[key];
-                                    else if (el.type === 'radio') {
-                                        if (el.value === dados[key]) el.checked = true;
-                                    }
-                                    else el.value = dados[key];
+            .then(function(r) { return r.json(); })
+            .then(function(p) {
+                // Carrega os dados no formulario
+                if (p.dadosGeraisJson) {
+                    try {
+                        var dados = JSON.parse(p.dadosGeraisJson);
+                        Object.keys(dados).forEach(function(key) {
+                            var el = document.getElementById(key);
+                            if (el) {
+                                if (el.type === 'checkbox') el.checked = dados[key];
+                                else if (el.type === 'radio') {
+                                    if (el.value === dados[key]) el.checked = true;
                                 }
-                            });
-                        } catch (e) { console.error('Erro ao parsear JSON:', e); }
-                    }
-
-                    // Navega para page-consulta
-                    document.querySelectorAll('.page').forEach(function (pg) { pg.classList.remove('active-page'); });
-                    document.getElementById('page-consulta').classList.add('active-page');
-
-                    // MODO LEITURA
-                    setTimeout(function () {
-                        var container = document.getElementById('page-consulta');
-
-                        // Desabilita todos os campos
-                        container.querySelectorAll('input, select, textarea').forEach(function (c) {
-                            c.setAttribute('disabled', 'true');
-                            c.style.opacity = '0.7';
-                            c.style.pointerEvents = 'none';
-                        });
-
-                        // Esconde botoes da sidebar
-                        container.querySelectorAll('a, button, .sidebar-item, .menu-item, [onclick]').forEach(function (item) {
-                            var texto = (item.textContent || '').toLowerCase();
-                            if (texto.includes('prontuario') || texto.includes('limpar') || texto.includes('finalizar') || texto.includes('salvar')) {
-                                item.setAttribute('data-leitura-hidden', 'true');
-                                item.style.display = 'none';
+                                else el.value = dados[key];
                             }
                         });
+                    } catch(e) { console.error('Erro ao parsear JSON:', e); }
+                }
 
-                        // Remove banner anterior se existir
-                        var bannerExistente = document.getElementById('banner-leitura');
-                        if (bannerExistente) bannerExistente.remove();
+                // Navega para page-consulta
+                document.querySelectorAll('.page').forEach(function(pg) { pg.classList.remove('active-page'); });
+                document.getElementById('page-consulta').classList.add('active-page');
 
-                        // Banner laranja de leitura
-                        var banner = document.createElement('div');
-                        banner.id = 'banner-leitura';
-                        banner.style.cssText = 'background:#e67e22;color:#fff;padding:12px 20px;text-align:center;font-weight:700;font-size:0.9em;position:sticky;top:0;z-index:999;display:flex;justify-content:center;align-items:center;gap:15px;';
-                        banner.innerHTML = '<i class="fa-solid fa-lock"></i> MODO LEITURA - Atendido por: ' + (alunoNome || 'Outro aluno') + ' <button onclick="sairModoLeitura()" style="background:#fff;color:#333;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-family:inherit;font-weight:700;">Voltar</button>';
-                        container.insertBefore(banner, container.firstChild);
-                    }, 300);
+                // MODO LEITURA
+                setTimeout(function() {
+                    var container = document.getElementById('page-consulta');
 
-                    showToast('Modo leitura - voce nao pode editar este prontuario.', 'warning');
-                })
-                .catch(function (err) {
-                    console.error('Erro ao abrir prontuario:', err);
-                    showToast('Erro ao carregar o prontuario.', 'danger');
-                });
+                    // Desabilita todos os campos
+                    container.querySelectorAll('input, select, textarea').forEach(function(c) {
+                        c.setAttribute('disabled', 'true');
+                        c.style.opacity = '0.7';
+                        c.style.pointerEvents = 'none';
+                    });
+
+                    // Esconde botoes da sidebar
+                    container.querySelectorAll('a, button, .sidebar-item, .menu-item, [onclick]').forEach(function(item) {
+                        var texto = (item.textContent || '').toLowerCase();
+                        if (texto.includes('prontuario') || texto.includes('limpar') || texto.includes('finalizar') || texto.includes('salvar')) {
+                            item.setAttribute('data-leitura-hidden', 'true');
+                            item.style.display = 'none';
+                        }
+                    });
+
+                    // Remove banner anterior se existir
+                    var bannerExistente = document.getElementById('banner-leitura');
+                    if (bannerExistente) bannerExistente.remove();
+
+                    // Banner laranja de leitura
+                    var banner = document.createElement('div');
+                    banner.id = 'banner-leitura';
+                    banner.style.cssText = 'background:#e67e22;color:#fff;padding:12px 20px;text-align:center;font-weight:700;font-size:0.9em;position:sticky;top:0;z-index:999;display:flex;justify-content:center;align-items:center;gap:15px;';
+                    banner.innerHTML = '<i class="fa-solid fa-lock"></i> MODO LEITURA - Atendido por: ' + (alunoNome || 'Outro aluno') + ' <button onclick="sairModoLeitura()" style="background:#fff;color:#333;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-family:inherit;font-weight:700;">Voltar</button>';
+                    container.insertBefore(banner, container.firstChild);
+                }, 300);
+
+                showToast('Modo leitura - voce nao pode editar este prontuario.', 'warning');
+            })
+            .catch(function(err) {
+                console.error('Erro ao abrir prontuario:', err);
+                showToast('Erro ao carregar o prontuario.', 'danger');
+            });
         }
 
         function abrirResumoSoapLeitura(id, alunoNome) {
@@ -5785,60 +6327,60 @@
             fetch(baseUrl + '/api/prontuarios/' + id, {
                 headers: { 'Authorization': 'Bearer ' + token }
             })
-                .then(function (r) { return r.json(); })
-                .then(function (p) {
-                    // Navega para page-soap
-                    document.querySelectorAll('.page').forEach(function (pg) { pg.classList.remove('active-page'); });
-                    document.getElementById('page-soap').classList.add('active-page');
+            .then(function(r) { return r.json(); })
+            .then(function(p) {
+                // Navega para page-soap
+                document.querySelectorAll('.page').forEach(function(pg) { pg.classList.remove('active-page'); });
+                document.getElementById('page-soap').classList.add('active-page');
 
-                    // Preenche os campos SOAP (tenta varios IDs possiveis)
-                    var camposS = ['soap-s', 'resumo-subjetivo', 'subjetivo'];
-                    var camposO = ['soap-o', 'resumo-objetivo', 'objetivo'];
-                    var camposA = ['soap-a', 'resumo-avaliacao', 'avaliacao'];
-                    var camposP = ['soap-p', 'resumo-plano', 'plano'];
+                // Preenche os campos SOAP (tenta varios IDs possiveis)
+                var camposS = ['soap-s', 'resumo-subjetivo', 'subjetivo'];
+                var camposO = ['soap-o', 'resumo-objetivo', 'objetivo'];
+                var camposA = ['soap-a', 'resumo-avaliacao', 'avaliacao'];
+                var camposP = ['soap-p', 'resumo-plano', 'plano'];
 
-                    function preencherCampo(ids, valor) {
-                        for (var i = 0; i < ids.length; i++) {
-                            var el = document.getElementById(ids[i]);
-                            if (el) { el.value = valor || ''; el.setAttribute('disabled', 'true'); return; }
-                        }
+                function preencherCampo(ids, valor) {
+                    for (var i = 0; i < ids.length; i++) {
+                        var el = document.getElementById(ids[i]);
+                        if (el) { el.value = valor || ''; el.setAttribute('disabled', 'true'); return; }
                     }
+                }
 
-                    preencherCampo(camposS, p.subjetivo);
-                    preencherCampo(camposO, p.objetivo);
-                    preencherCampo(camposA, p.avaliacao);
-                    preencherCampo(camposP, p.plano);
+                preencherCampo(camposS, p.subjetivo);
+                preencherCampo(camposO, p.objetivo);
+                preencherCampo(camposA, p.avaliacao);
+                preencherCampo(camposP, p.plano);
 
-                    setTimeout(function () {
-                        var container = document.getElementById('page-soap');
+                setTimeout(function() {
+                    var container = document.getElementById('page-soap');
 
-                        // Desabilita todas as textareas e inputs
-                        container.querySelectorAll('textarea, input').forEach(function (c) {
-                            c.setAttribute('disabled', 'true');
-                            c.style.opacity = '0.7';
-                            c.style.pointerEvents = 'none';
-                        });
+                    // Desabilita todas as textareas e inputs
+                    container.querySelectorAll('textarea, input').forEach(function(c) {
+                        c.setAttribute('disabled', 'true');
+                        c.style.opacity = '0.7';
+                        c.style.pointerEvents = 'none';
+                    });
 
-                        // Esconde botoes de salvar/editar
-                        container.querySelectorAll('button').forEach(function (btn) {
-                            var texto = (btn.textContent || '').toLowerCase();
-                            if (texto.includes('salvar') || texto.includes('edic') || texto.includes('finalizar')) {
-                                btn.setAttribute('data-leitura-hidden', 'true');
-                                btn.style.display = 'none';
-                            }
-                        });
+                    // Esconde botoes de salvar/editar
+                    container.querySelectorAll('button').forEach(function(btn) {
+                        var texto = (btn.textContent || '').toLowerCase();
+                        if (texto.includes('salvar') || texto.includes('edic') || texto.includes('finalizar')) {
+                            btn.setAttribute('data-leitura-hidden', 'true');
+                            btn.style.display = 'none';
+                        }
+                    });
 
-                        // Banner
-                        var bannerExistente = document.getElementById('banner-leitura');
-                        if (bannerExistente) bannerExistente.remove();
+                    // Banner
+                    var bannerExistente = document.getElementById('banner-leitura');
+                    if (bannerExistente) bannerExistente.remove();
 
-                        var banner = document.createElement('div');
-                        banner.id = 'banner-leitura';
-                        banner.style.cssText = 'background:#e67e22;color:#fff;padding:12px 20px;text-align:center;font-weight:700;font-size:0.9em;position:sticky;top:0;z-index:999;display:flex;justify-content:center;align-items:center;gap:15px;';
-                        banner.innerHTML = '<i class="fa-solid fa-lock"></i> MODO LEITURA - Paciente: ' + p.pacienteNome + ' | Atendido por: ' + (alunoNome || 'Outro aluno') + ' <button onclick="sairModoLeitura()" style="background:#fff;color:#333;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-family:inherit;font-weight:700;">Voltar</button>';
-                        container.insertBefore(banner, container.firstChild);
-                    }, 300);
-                });
+                    var banner = document.createElement('div');
+                    banner.id = 'banner-leitura';
+                    banner.style.cssText = 'background:#e67e22;color:#fff;padding:12px 20px;text-align:center;font-weight:700;font-size:0.9em;position:sticky;top:0;z-index:999;display:flex;justify-content:center;align-items:center;gap:15px;';
+                    banner.innerHTML = '<i class="fa-solid fa-lock"></i> MODO LEITURA - Paciente: ' + p.pacienteNome + ' | Atendido por: ' + (alunoNome || 'Outro aluno') + ' <button onclick="sairModoLeitura()" style="background:#fff;color:#333;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-family:inherit;font-weight:700;">Voltar</button>';
+                    container.insertBefore(banner, container.firstChild);
+                }, 300);
+            });
         }
 
         function sairModoLeitura() {
@@ -5847,20 +6389,20 @@
             if (banner) banner.remove();
 
             // Reabilita todos os campos
-            document.querySelectorAll('[disabled]').forEach(function (c) {
+            document.querySelectorAll('[disabled]').forEach(function(c) {
                 c.removeAttribute('disabled');
                 c.style.opacity = '';
                 c.style.pointerEvents = '';
             });
 
             // Mostra botoes que foram escondidos
-            document.querySelectorAll('[data-leitura-hidden]').forEach(function (el) {
+            document.querySelectorAll('[data-leitura-hidden]').forEach(function(el) {
                 el.removeAttribute('data-leitura-hidden');
                 el.style.display = '';
             });
 
             // Volta para page-lista
-            document.querySelectorAll('.page').forEach(function (pg) { pg.classList.remove('active-page'); });
+            document.querySelectorAll('.page').forEach(function(pg) { pg.classList.remove('active-page'); });
             document.getElementById('page-lista').classList.add('active-page');
         }
     </script>
