@@ -4513,7 +4513,8 @@
                     localStorage.setItem('usuarioLogadoNome', dadosUsuario.nomeCompleto);
                     localStorage.setItem('ambulato_token', dadosUsuario.token);
 
-                    document.getElementById('setup-error').innerText = "";
+                    var setupErr = document.getElementById('setup-error');
+                    if (setupErr) setupErr.innerText = "";
                     document.querySelector('.active-page').classList.remove('active-page');
                     document.getElementById('page-dashboard').classList.add('active-page');
                     if (btnLogin) { btnLogin.innerHTML = loginOriginalText; btnLogin.disabled = false; }
