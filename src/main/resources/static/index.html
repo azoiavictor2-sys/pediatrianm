@@ -5676,10 +5676,10 @@
                     // Navega para o formulario
                     var paginaAtiva = document.querySelector('.active-page');
                     if (paginaAtiva) paginaAtiva.classList.remove('active-page');
-                    document.getElementById('page-formulario').classList.add('active-page');
+                    document.getElementById('page-consulta').classList.add('active-page');
 
                     // Desabilita todos os campos
-                    var campos = document.querySelectorAll('#page-formulario input, #page-formulario select, #page-formulario textarea');
+                    var campos = document.querySelectorAll('#page-consulta input, #page-consulta select, #page-consulta textarea');
                     campos.forEach(function (c) {
                         c.setAttribute('disabled', 'true');
                         c.style.opacity = '0.7';
@@ -5690,7 +5690,7 @@
                     banner.id = 'banner-leitura';
                     banner.style.cssText = 'background:#ffc107;color:#333;padding:10px 20px;text-align:center;font-weight:700;font-size:0.9em;position:sticky;top:0;z-index:99;';
                     banner.innerHTML = '<i class="fa-solid fa-lock"></i> MODO LEITURA — Prontuario atendido por: ' + p.alunoNome + ' &nbsp;|&nbsp; <button onclick="sairModoLeitura()" style="background:#333;color:#fff;border:none;padding:4px 12px;border-radius:4px;cursor:pointer;font-family:inherit;">Voltar</button>';
-                    var formulario = document.getElementById('page-formulario');
+                    var formulario = document.getElementById('page-consulta');
                     formulario.insertBefore(banner, formulario.firstChild);
 
                     showToast('Modo leitura — voce nao pode editar este prontuario.', 'warning');
@@ -5705,7 +5705,7 @@
             if (banner) banner.remove();
 
             // Reabilita todos os campos
-            var campos = document.querySelectorAll('#page-formulario input, #page-formulario select, #page-formulario textarea');
+            var campos = document.querySelectorAll('#page-consulta input, #page-consulta select, #page-consulta textarea');
             campos.forEach(function (c) {
                 c.removeAttribute('disabled');
                 c.style.opacity = '';
