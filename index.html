@@ -1142,8 +1142,8 @@
         }
 
         .login-left .login-footer {
-            margin-top: auto;
-            padding-top: 30px;
+            margin-top: 30px;
+            padding-top: 20px;
             text-align: center;
             font-size: 0.78em;
             color: #888;
@@ -1165,7 +1165,7 @@
         .login-left .login-footer hr {
             border: none;
             border-top: 1px solid #e0e0e0;
-            margin: 15px 40px;
+            margin: 12px 40px;
         }
 
         [data-theme="dark"] .login-left .login-footer hr {
@@ -1175,6 +1175,7 @@
         .login-left .login-footer a {
             color: #4a86c8;
             text-decoration: none;
+            font-weight: 700;
         }
 
         .login-left .login-footer a:hover {
@@ -1184,7 +1185,18 @@
         .login-left .login-version {
             font-size: 0.75em;
             color: #aaa;
-            margin-top: 8px;
+            margin-top: 5px;
+            margin-bottom: 8px;
+        }
+
+        .login-left .login-divider {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 18px 0;
+        }
+
+        [data-theme="dark"] .login-left .login-divider {
+            border-color: #444;
         }
 
         .login-right {
@@ -1197,22 +1209,25 @@
             overflow: hidden;
         }
 
-        .login-right img {
-            max-width: 55%;
-            max-height: 70vh;
-            object-fit: contain;
-            border-radius: 12px;
-            opacity: 0.95;
-            filter: drop-shadow(0 10px 40px rgba(0,0,0,0.4));
+        .login-right img.bg-turma {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         .login-right .credit {
             position: absolute;
-            bottom: 15px;
-            right: 20px;
-            font-size: 0.7em;
-            color: rgba(255,255,255,0.4);
-            max-width: 80%;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(4px);
+            padding: 8px 20px;
+            font-size: 0.72em;
+            color: rgba(255,255,255,0.85);
             text-align: right;
         }
 
@@ -1260,6 +1275,134 @@
                 display: none;
             }
         }
+
+        /* === TERMOS DE USO === */
+        .termos-page {
+            display: none;
+            min-height: 100vh;
+            background: #f5f5f5;
+            padding-top: 50px;
+        }
+
+        [data-theme="dark"] .termos-page {
+            background: #121225;
+        }
+
+        .termos-page.active {
+            display: block;
+        }
+
+        .termos-topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #0d2137;
+            padding: 8px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .termos-topbar .t16-brand {
+            color: white;
+            font-size: 1.1em;
+            font-weight: 800;
+        }
+
+        .termos-container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 40px 50px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            line-height: 1.7;
+            color: #333;
+            font-size: 0.92em;
+        }
+
+        [data-theme="dark"] .termos-container {
+            background: #1a1a2e;
+            color: #ccc;
+        }
+
+        .termos-container h1 {
+            font-size: 1.4em;
+            color: #0d2137;
+            margin-bottom: 5px;
+        }
+
+        .termos-container h2 {
+            font-size: 1.15em;
+            color: #0d2137;
+            margin-top: 25px;
+            margin-bottom: 8px;
+        }
+
+        [data-theme="dark"] .termos-container h1,
+        [data-theme="dark"] .termos-container h2 {
+            color: #7ab3ef;
+        }
+
+        .termos-container .termos-logo {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .termos-container .termos-logo img {
+            max-width: 200px;
+        }
+
+        .termos-container .termos-subtitle {
+            color: #888;
+            font-size: 0.85em;
+            margin-bottom: 20px;
+        }
+
+        .termos-container .termos-question {
+            background: #f0f4f8;
+            padding: 12px 18px;
+            border-radius: 6px;
+            margin: 15px 0;
+            cursor: pointer;
+            font-weight: 700;
+            color: #2a6496;
+            transition: background 0.2s;
+        }
+
+        .termos-container .termos-question:hover {
+            background: #e0eaf4;
+        }
+
+        [data-theme="dark"] .termos-container .termos-question {
+            background: #252540;
+            color: #7ab3ef;
+        }
+
+        .btn-voltar-termos {
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 8px 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            color: #333;
+            transition: all 0.2s;
+        }
+
+        .btn-voltar-termos:hover {
+            background: #f0f0f0;
+        }
+
+        [data-theme="dark"] .btn-voltar-termos {
+            background: #252540;
+            border-color: #444;
+            color: #ccc;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
@@ -1286,7 +1429,6 @@
                         placeholder="" maxlength="14"
                         oninput="this.classList.add('valid')"
                         onkeypress="if(event.key === 'Enter') fazerLogin()">
-                    <span class="login-hint" id="login-hint-user"></span>
                 </div>
 
                 <div class="form-group">
@@ -1301,6 +1443,8 @@
                     </div>
                 </div>
 
+                <hr class="login-divider">
+
                 <button class="btn-acessar" onclick="fazerLogin()">Acessar</button>
 
                 <div class="login-error-msg" id="login-error"></div>
@@ -1309,15 +1453,81 @@
                     <p>Sistema feito por um aluno de medicina<br><strong>com intuito de facilitar seus atendimentos</strong></p>
                     <hr>
                     <p class="login-version">Versao 5.5.8</p>
-                    <a href="#">Termos de uso</a><br>
-                    <a href="#">Descubra mais sobre o e-form</a>
+                    <a href="#" onclick="abrirTermosUso(); return false;">Termos de uso</a><br>
+                    <a href="#" onclick="abrirSobreEform(); return false;">Descubra mais sobre o e-form</a>
                 </div>
             </div>
 
             <div class="login-right">
-                <img src="/img/turma-t16.png" alt="Turma T16 Medicina FEMA">
-                <div class="credit">Fonte: FEMA - Medicina T16 (2024-2029)</div>
+                <img class="bg-turma" src="/img/turma-t16.png" alt="Turma T16 Medicina FEMA">
+                <div class="credit">Fonte: Ministerio da Saude, Organizacao Mundial de Saude, Sociedade Brasileira de Pediatria e Bibliografias Pediatras Brasileiras.</div>
             </div>
+        </div>
+    </div>
+
+    <div id="page-termos" class="termos-page">
+        <div class="termos-topbar">
+            <span class="t16-brand">T16.br</span>
+            <button class="btn-tema" onclick="toggleDarkMode()"><i class="fa-solid fa-moon"></i> MUDAR TEMA</button>
+        </div>
+
+        <div class="termos-container">
+            <button class="btn-voltar-termos" onclick="fecharTermosUso()">
+                <i class="fa-solid fa-arrow-left"></i> Voltar a tela inicial
+            </button>
+
+            <h1>Termos de Uso e Politica de Privacidade</h1>
+            <h2>Termos de Uso</h2>
+            <p class="termos-subtitle">Versao 5.5.8 | Ultima atualizacao em 20/03/2026</p>
+
+            <div class="termos-logo">
+                <img src="/img/eform-logo.png" alt="E-FORM Logo">
+            </div>
+
+            <p>Este documento busca esclarecer os direitos e obrigacoes do desenvolvedor e do usuario do Sistema E-FORM Ambulato, bem como as condicoes da correta utilizacao do referido sistema.</p>
+
+            <p>Ao utilizar o E-FORM Ambulato voce se torna um <strong>USUARIO</strong>, e isso implica a aceitacao plena e sem reserva de todos os itens do presente <strong>TERMO</strong>.</p>
+
+            <div class="termos-question" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
+                <i class="fa-solid fa-chevron-down"></i> Qual a funcao do E-FORM Ambulato?
+            </div>
+            <div style="display:none; padding: 10px 18px; line-height: 1.8;">
+                <p>O E-FORM Ambulato tem como objetivo facilitar o trabalho dos alunos de medicina da turma T16 da FEMA durante os atendimentos pediatricos. O sistema permite preencher prontuarios medicos utilizando o metodo SOAP (Subjetivo, Objetivo, Avaliacao e Plano), de forma totalmente digital. Isso aumenta a seguranca e facilita a organizacao das informacoes clinicas dos pacientes atendidos no ambulatorio.</p>
+            </div>
+
+            <div class="termos-question" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
+                <i class="fa-solid fa-chevron-down"></i> Meus dados pessoais estao sendo mantidos de forma segura?
+            </div>
+            <div style="display:none; padding: 10px 18px; line-height: 1.8;">
+                <p>Sim. O sistema utiliza criptografia BCrypt para armazenar as senhas dos usuarios, autenticacao via JWT (JSON Web Token) para controle de sessao, e cada usuario so tem acesso aos seus proprios prontuarios. As credenciais sao armazenadas em variaveis de ambiente seguras no servidor, nunca em codigo-fonte. O sistema segue boas praticas de seguranca da informacao.</p>
+            </div>
+
+            <div class="termos-question" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'none' : 'block'">
+                <i class="fa-solid fa-chevron-down"></i> Quem pode acessar o sistema?
+            </div>
+            <div style="display:none; padding: 10px 18px; line-height: 1.8;">
+                <p>O acesso ao E-FORM Ambulato e restrito aos alunos de medicina da turma T16 da FEMA previamente cadastrados pelo administrador do sistema. Cada aluno acessa o sistema com seu CPF e uma senha pessoal. Apenas um dispositivo pode estar logado por vez em cada conta.</p>
+            </div>
+
+            <div class="termos-question" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
+                <i class="fa-solid fa-chevron-down"></i> Os dados dos pacientes sao compartilhados?
+            </div>
+            <div style="display:none; padding: 10px 18px; line-height: 1.8;">
+                <p>Nao. Os dados dos pacientes registrados nos prontuarios sao acessiveis apenas pelo aluno que os cadastrou. Nenhum outro usuario do sistema pode visualizar, editar ou excluir prontuarios de outro usuario. Os dados sao armazenados em banco de dados protegido com acesso restrito.</p>
+            </div>
+
+            <div class="termos-question" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
+                <i class="fa-solid fa-chevron-down"></i> Quais sao as responsabilidades do usuario?
+            </div>
+            <div style="display:none; padding: 10px 18px; line-height: 1.8;">
+                <p>O usuario e responsavel por manter suas credenciais de acesso em sigilo, nao compartilhar sua conta com terceiros, registrar informacoes veridicas nos prontuarios e utilizar o sistema exclusivamente para fins academicos e de atendimento medico no ambulatorio da FEMA. O uso indevido do sistema podera resultar na suspensao do acesso.</p>
+            </div>
+
+            <h2>Politica de Privacidade</h2>
+            <p>O E-FORM Ambulato coleta apenas as informacoes estritamente necessarias para o funcionamento do sistema: CPF e nome do aluno para autenticacao, e os dados clinicos dos pacientes para registro dos atendimentos. Nenhuma informacao e vendida, compartilhada ou utilizada para fins comerciais. Os dados sao armazenados em servidores seguros e protegidos por criptografia.</p>
+
+            <h2>Contato</h2>
+            <p>Em caso de duvidas ou solicitacoes relacionadas a estes termos, entre em contato com o desenvolvedor do sistema atraves do e-mail institucional da FEMA.</p>
         </div>
     </div>
 
@@ -5215,6 +5425,20 @@
                 icone.classList.remove('fa-eye-slash');
                 icone.classList.add('fa-eye');
             }
+        }
+
+        function abrirTermosUso() {
+            document.getElementById('page-login').style.display = 'none';
+            document.getElementById('page-termos').classList.add('active');
+        }
+
+        function fecharTermosUso() {
+            document.getElementById('page-termos').classList.remove('active');
+            document.getElementById('page-login').style.display = '';
+        }
+
+        function abrirSobreEform() {
+            alert('E-FORM - Espaco para Alunos Med.\n\nSistema de prontuario eletronico pediatrico desenvolvido para a turma T16 de Medicina da FEMA.\n\nVersao 5.5.8');
         }
     </script>
 </body>
