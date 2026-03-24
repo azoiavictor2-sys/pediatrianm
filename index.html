@@ -1013,6 +1013,253 @@
             color: #4da3ff;
             border: 1px solid rgba(77, 163, 255, 0.3)
         }
+
+        /* === NOVA TELA DE LOGIN ESTILO E-SUS === */
+        .login-topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #0d2137;
+            padding: 8px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .login-topbar .t16-brand {
+            color: white;
+            font-size: 1.3em;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .login-topbar .btn-tema {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .login-topbar .btn-tema:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .login-split {
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .login-left {
+            flex: 0 0 380px;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 40px 30px 40px;
+            padding-top: 70px;
+            position: relative;
+        }
+
+        [data-theme="dark"] .login-left {
+            background: #1a1a2e;
+        }
+
+        .login-left .logo-area {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-left .logo-area img {
+            max-width: 180px;
+            height: auto;
+        }
+
+        .login-left .form-group label {
+            font-weight: 700;
+            font-size: 0.85em;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        [data-theme="dark"] .login-left .form-group label {
+            color: #ccc;
+        }
+
+        .login-left .login-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #cc0000;
+            border-radius: 4px;
+            font-size: 0.95em;
+            font-family: inherit;
+            background: #fff;
+            color: #333;
+            transition: border-color 0.2s;
+        }
+
+        .login-left .login-input:focus {
+            outline: none;
+            border-color: #0d2137;
+            box-shadow: 0 0 0 3px rgba(13,33,55,0.1);
+        }
+
+        .login-left .login-input.valid {
+            border-color: #ccc;
+        }
+
+        [data-theme="dark"] .login-left .login-input {
+            background: #252540;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+
+        .login-left .btn-acessar {
+            width: 100%;
+            padding: 12px;
+            background: #4a86c8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.2s;
+            margin-top: 15px;
+        }
+
+        .login-left .btn-acessar:hover {
+            background: #3a6fa8;
+        }
+
+        .login-left .login-footer {
+            margin-top: auto;
+            padding-top: 30px;
+            text-align: center;
+            font-size: 0.78em;
+            color: #888;
+            line-height: 1.6;
+        }
+
+        .login-left .login-footer strong {
+            color: #555;
+        }
+
+        [data-theme="dark"] .login-left .login-footer {
+            color: #666;
+        }
+
+        [data-theme="dark"] .login-left .login-footer strong {
+            color: #999;
+        }
+
+        .login-left .login-footer hr {
+            border: none;
+            border-top: 1px solid #e0e0e0;
+            margin: 15px 40px;
+        }
+
+        [data-theme="dark"] .login-left .login-footer hr {
+            border-color: #333;
+        }
+
+        .login-left .login-footer a {
+            color: #4a86c8;
+            text-decoration: none;
+        }
+
+        .login-left .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .login-left .login-version {
+            font-size: 0.75em;
+            color: #aaa;
+            margin-top: 8px;
+        }
+
+        .login-right {
+            flex: 1;
+            background: #0d2137;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-right img {
+            max-width: 55%;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 12px;
+            opacity: 0.95;
+            filter: drop-shadow(0 10px 40px rgba(0,0,0,0.4));
+        }
+
+        .login-right .credit {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 0.7em;
+            color: rgba(255,255,255,0.4);
+            max-width: 80%;
+            text-align: right;
+        }
+
+        .senha-wrapper {
+            position: relative;
+        }
+
+        .senha-wrapper .toggle-senha {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #888;
+            font-size: 1em;
+            padding: 4px;
+        }
+
+        .login-error-msg {
+            color: #dc3545;
+            font-weight: 600;
+            font-size: 0.85em;
+            text-align: center;
+            margin-top: 10px;
+            min-height: 20px;
+        }
+
+        .login-hint {
+            color: #cc0000;
+            font-size: 0.78em;
+            margin-top: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .login-split {
+                flex-direction: column;
+            }
+            .login-left {
+                flex: none;
+                min-height: 100vh;
+            }
+            .login-right {
+                display: none;
+            }
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
@@ -1022,35 +1269,55 @@
     <div id="toast-container"></div>
 
     <div id="page-login" class="page active-page">
-        <div style="text-align: right; padding: 20px;">
-            <button class="btn btn-secondary"
-                style="width: auto; padding: 8px 15px; border-radius: 20px; font-size: 0.9em;"
-                onclick="toggleDarkMode()"><i class="fa-solid fa-moon"></i> Tema Escuro</button>
+        <div class="login-topbar">
+            <span class="t16-brand">T16.br</span>
+            <button class="btn-tema" onclick="toggleDarkMode()"><i class="fa-solid fa-moon"></i> MUDAR TEMA</button>
         </div>
-        <div class="container-login">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                </svg>
-                <h2 style="margin-top: 15px; margin-bottom: 5px;">Ambulatório FEMA</h2>
-                <p style="color: var(--text); opacity: 0.7; margin-top: 0;">Prontuário Eletrônico</p>
-            </div>
-            <div class="form-group"><label>CPF do Usuário:</label><input type="tel" id="login-user"
-                    placeholder="Digite seu CPF" maxlength="14" onkeypress="if(event.key === 'Enter') fazerLogin()">
-            </div>
-            <div class="form-group"><label>Senha:</label>
-                <div style="position: relative;">
-                    <input type="password" id="login-pass" placeholder="Digite sua senha"
-                        onkeypress="if(event.key === 'Enter') fazerLogin()" style="padding-right: 45px;">
-                    <button type="button" onclick="toggleSenha()"
-                        style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:transparent; border:none; cursor:pointer; color:var(--text); opacity:0.6; font-size:1.1em; padding:0;"
-                        title="Mostrar/Ocultar senha"><i class="fa-solid fa-eye" id="toggle-senha-icon"></i></button>
+
+        <div class="login-split">
+            <div class="login-left">
+                <div class="logo-area">
+                    <img src="/img/eform-logo.png" alt="E-FORM Logo">
+                </div>
+
+                <div class="form-group">
+                    <label>CPF do Usuario:</label>
+                    <input type="text" id="login-user" class="login-input"
+                        placeholder="" maxlength="14"
+                        oninput="this.classList.add('valid')"
+                        onkeypress="if(event.key === 'Enter') fazerLogin()">
+                    <span class="login-hint" id="login-hint-user"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Senha:</label>
+                    <div class="senha-wrapper">
+                        <input type="password" id="login-pass" class="login-input valid"
+                            placeholder=""
+                            onkeypress="if(event.key === 'Enter') fazerLogin()">
+                        <button class="toggle-senha" onclick="toggleSenhaVisivel()" type="button">
+                            <i class="fa-solid fa-eye" id="icon-senha"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button class="btn-acessar" onclick="fazerLogin()">Acessar</button>
+
+                <div class="login-error-msg" id="login-error"></div>
+
+                <div class="login-footer">
+                    <p>Sistema feito por um aluno de medicina<br><strong>com intuito de facilitar seus atendimentos</strong></p>
+                    <hr>
+                    <p class="login-version">Versao 5.5.8</p>
+                    <a href="#">Termos de uso</a><br>
+                    <a href="#">Descubra mais sobre o e-form</a>
                 </div>
             </div>
-            <button class="btn" onclick="fazerLogin()"><i class="fa-solid fa-arrow-right-to-bracket"></i> ACESSAR
-                SISTEMA</button>
-            <div id="login-error" class="alert-text text-danger" style="text-align: center; margin-top: 15px;"></div>
+
+            <div class="login-right">
+                <img src="/img/turma-t16.png" alt="Turma T16 Medicina FEMA">
+                <div class="credit">Fonte: FEMA - Medicina T16 (2024-2029)</div>
+            </div>
         </div>
     </div>
 
@@ -4933,6 +5200,20 @@
             } else {
                 var campos = []; if (isNaN(pac.meses)) campos.push('Data de Nascimento'); if (tipo === 'peso' && isNaN(pac.peso)) campos.push('Peso'); if (tipo === 'altura' && isNaN(pac.altura)) campos.push('Estatura'); if (tipo === 'imc' && isNaN(pac.imc)) campos.push('Peso e Estatura'); if (tipo === 'pc' && isNaN(pac.pc)) campos.push('Per\u00edmetro Cef\u00e1lico');
                 ra.innerHTML = '<div class="curvas-resultado" style="border-color:var(--primary);"><h3><i class="fa-solid fa-circle-info"></i> Dados Insuficientes</h3><p>Preencha ' + campos.join(' e ') + ' no Exame F\u00edsico para ver a an\u00e1lise autom\u00e1tica.</p><span class="curvas-badge badge-blue">As curvas de refer\u00eancia j\u00e1 est\u00e3o vis\u00edveis acima</span></div>';
+            }
+        }
+
+        function toggleSenhaVisivel() {
+            var campo = document.getElementById('login-pass');
+            var icone = document.getElementById('icon-senha');
+            if (campo.type === 'password') {
+                campo.type = 'text';
+                icone.classList.remove('fa-eye');
+                icone.classList.add('fa-eye-slash');
+            } else {
+                campo.type = 'password';
+                icone.classList.remove('fa-eye-slash');
+                icone.classList.add('fa-eye');
             }
         }
     </script>
