@@ -53,7 +53,8 @@ public class SecurityConfig {
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/login", "/api/auth/logout").permitAll()
-                        .requestMatchers("/", "/index.html", "/dashboard.html", "/css/**", "/js/**", "/favicon.ico")
+                        .requestMatchers("/", "/index.html", "/dashboard.html", "/css/**", "/js/**", "/img/**",
+                                "/favicon.ico")
                         .permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated())
