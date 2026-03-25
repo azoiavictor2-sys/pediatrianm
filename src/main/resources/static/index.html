@@ -577,20 +577,6 @@
             color: var(--primary);
         }
 
-
-        /* ── Sidebar sticky top – compensa topbar+header fixos (92px) ── */
-        #page-consulta .sidebar {
-            top: 100px;
-            max-height: calc(90vh - 100px);
-        }
-
-        /* ── Char counter nos textareas do SOAP ── */
-        .char-counter {
-            font-size: 0.8em;
-            color: #888;
-            padding: 4px 0;
-        }
-
         #print-area {
             display: none;
         }
@@ -1781,26 +1767,7 @@
     </div>
 
     <div id="page-consulta" class="page">
-        <!-- BARRA SUPERIOR GLOBAL -->
-        <div class="topbar-global">
-            <span class="t16-brand"><img src="/img/t16a1-logo.png" alt="T16.A1"></span>
-            <button class="btn-tema-global" onclick="toggleDarkMode()">
-                <span class="tema-texto-sub">MUDAR PARA TEMA ESCURO</span>
-                <span class="tema-divider"></span>
-            </button>
-        </div>
-        <!-- HEADER APP -->
-        <div class="header-app">
-            <div class="logo-eform"><img src="/img/eform-logo.png" alt="E-FORM"></div>
-            <div class="user-area" onclick="toggleUserDropdown()">
-                <div class="user-name">
-                    <span class="dash-user-nome-sync">Victor</span>
-                    <small>Seja Bem-Vindo!</small>
-                </div>
-                <i class="fa-solid fa-chevron-up user-arrow"></i>
-            </div>
-        </div>
-        <div class="container-app" style="margin-top: 100px;">
+        <div class="container-app">
             <div class="summary-box" style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
                     <p style="font-size: 1.2em; color: var(--primary); margin:0;"><strong><i
@@ -3426,26 +3393,7 @@
     </div>
 
     <div id="page-soap" class="page">
-        <!-- BARRA SUPERIOR GLOBAL -->
-        <div class="topbar-global">
-            <span class="t16-brand"><img src="/img/t16a1-logo.png" alt="T16.A1"></span>
-            <button class="btn-tema-global" onclick="toggleDarkMode()">
-                <span class="tema-texto-sub">MUDAR PARA TEMA ESCURO</span>
-                <span class="tema-divider"></span>
-            </button>
-        </div>
-        <!-- HEADER APP -->
-        <div class="header-app">
-            <div class="logo-eform"><img src="/img/eform-logo.png" alt="E-FORM"></div>
-            <div class="user-area" onclick="toggleUserDropdown()">
-                <div class="user-name">
-                    <span class="dash-user-nome-sync">Victor</span>
-                    <small>Seja Bem-Vindo!</small>
-                </div>
-                <i class="fa-solid fa-chevron-up user-arrow"></i>
-            </div>
-        </div>
-        <div class="container-app" style="margin-top: 100px;">
+        <div class="container-app">
             <div class="card" style="max-width: 1000px; margin: 0 auto;">
                 <h1 style="text-align: center; border-bottom: none;"><i class="fa-solid fa-file-medical"></i> PRONTUÁRIO
                     FINALIZADO</h1>
@@ -3522,26 +3470,7 @@
     </datalist>
 
     <div id="page-lista" class="page">
-        <!-- BARRA SUPERIOR GLOBAL -->
-        <div class="topbar-global">
-            <span class="t16-brand"><img src="/img/t16a1-logo.png" alt="T16.A1"></span>
-            <button class="btn-tema-global" onclick="toggleDarkMode()">
-                <span class="tema-texto-sub">MUDAR PARA TEMA ESCURO</span>
-                <span class="tema-divider"></span>
-            </button>
-        </div>
-        <!-- HEADER APP -->
-        <div class="header-app">
-            <div class="logo-eform"><img src="/img/eform-logo.png" alt="E-FORM"></div>
-            <div class="user-area" onclick="toggleUserDropdown()">
-                <div class="user-name">
-                    <span class="dash-user-nome-sync">Victor</span>
-                    <small>Seja Bem-Vindo!</small>
-                </div>
-                <i class="fa-solid fa-chevron-up user-arrow"></i>
-            </div>
-        </div>
-        <div class="container-app" style="max-width: 900px; margin-top: 100px;">
+        <div class="container-app" style="max-width: 900px;">
             <h1 style="text-align: center;"><i class="fa-solid fa-folder-open"></i> Meus Pacientes Atendidos</h1>
 
             <div style="display: flex; gap: 15px; margin-bottom: 20px; align-items: center;">
@@ -3654,7 +3583,7 @@
             atualizarTextoTema(localStorage.getItem('theme') || 'light');
             const logado = localStorage.getItem('usuarioLogadoNome');
             if (logado) {
-                document.getElementById('dash-user-nome').innerText = logado.split(' ')[0];
+                document.getElementById('dash-user-name').innerText = logado.split(' ')[0];
                 document.getElementById('page-login').classList.remove('active-page');
                 document.getElementById('page-dashboard').classList.add('active-page');
                 restaurarDadosSalvos();
@@ -5813,52 +5742,6 @@
                 console.error('Erro ao abrir prontuario:', err);
                 showToast('Erro ao carregar o prontuario.', 'danger');
             });
-        }
-
-
-        // Abre SOAP de prontuário PRÓPRIO vindo da busca global
-
-        // Contador de caracteres dos textareas do SOAP
-        function updateCharCount(el) {
-            var limites = { 'soap-o': 4000, 'soap-a': 2000, 'soap-p': 2000 };
-            var countEl = document.getElementById('counter-' + el.id);
-            if (!countEl) return;
-            var max = limites[el.id] || 2000;
-            var len = el.value.length;
-            countEl.textContent = len + ' / ' + max;
-            if (len > max)          { countEl.style.color = '#dc3545'; }
-            else if (len > max * 0.9) { countEl.style.color = '#ffc107'; }
-            else                    { countEl.style.color = '';        }
-        }
-
-        function abrirResumoSoap(id) {
-            var token = localStorage.getItem('ambulato_token');
-            var baseUrl = window.location.origin;
-            fetch(baseUrl + '/api/prontuarios/' + id, {
-                headers: { 'Authorization': 'Bearer ' + token }
-            })
-            .then(function(r) { return r.json(); })
-            .then(function(p) {
-                prontuarioAberto = p;
-                var soapVazio = (!p.subjetivo || p.subjetivo.trim() === '') &&
-                                (!p.objetivo  || p.objetivo.trim()  === '') &&
-                                (!p.avaliacao || p.avaliacao.trim() === '') &&
-                                (!p.plano     || p.plano.trim()     === '');
-                if (!soapVazio) {
-                    document.getElementById('soap-s').value = p.subjetivo || '';
-                    document.getElementById('soap-o').value = p.objetivo  || '';
-                    document.getElementById('soap-a').value = p.avaliacao || '';
-                    document.getElementById('soap-p').value = p.plano     || '';
-                } else if (p.dadosGeraisJson) {
-                    localStorage.setItem('prontuarioData', p.dadosGeraisJson);
-                    restaurarDadosSalvos();
-                    gerarSOAP();
-                    prontuarioAberto = p;
-                }
-                origemSoap = 'lista';
-                navegarPara('page-soap');
-            })
-            .catch(function() { showToast('Erro ao carregar prontuário.', 'danger'); });
         }
 
         function abrirResumoSoapLeitura(id, alunoNome) {
