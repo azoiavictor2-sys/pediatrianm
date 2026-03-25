@@ -3911,7 +3911,8 @@
                                         <p
                                             style="font-size:0.82em; opacity:0.7; margin-bottom:10px; font-style:italic;">
                                             <i class="fa-solid fa-circle-info"></i> Estão presentes ao nascimento, mas
-                                            devem ser inibidos ao longo dos meses.</p>
+                                            devem ser inibidos ao longo dos meses.
+                                        </p>
                                         <div style="display:flex; flex-direction:column; gap:8px;"
                                             id="box-reflexos-primitivos">
 
@@ -4170,7 +4171,8 @@
                                             mantêm a
                                             posição, postura e equilíbrio do corpo durante repouso ou movimento. Modulam
                                             a
-                                            distribuição do tônus muscular nos membros e tronco.</p>
+                                            distribuição do tônus muscular nos membros e tronco.
+                                        </p>
                                         <div style="display:flex; flex-direction:column; gap:8px;"
                                             id="box-reflexos-posturais">
 
@@ -4767,8 +4769,9 @@
 
                         var setupErr = document.getElementById('setup-error');
                         if (setupErr) setupErr.innerText = "";
-                        document.querySelector('.active-page').classList.remove('active-page');
-                        document.getElementById('page-dashboard').classList.add('active-page');
+
+                        navegarPara('page-dashboard');
+
                         if (btnLogin) { btnLogin.innerHTML = loginOriginalText; btnLogin.disabled = false; }
 
                         atualizarDashboard();
@@ -4817,6 +4820,7 @@
                 if (pagina) {
                     if (pagina.classList.contains('termos-page')) {
                         pagina.classList.add('active');
+                        pagina.style.display = 'block'; // ou flex dependendo do css
                     } else {
                         pagina.classList.add('active-page');
                     }
@@ -6749,21 +6753,10 @@
                 }
             }
 
-            function abrirTermosUso() {
-                navegarPara('page-termos');
-            }
-
-            function fecharTermosUso() {
-                navegarPara('page-dashboard');
-            }
-
-            function abrirSobreEform() {
-                navegarPara('page-sobre');
-            }
-
-            function fecharSobreEform() {
-                navegarPara('page-dashboard');
-            }
+            function abrirTermosUso(e) { if (e) e.preventDefault(); navegarPara('page-termos'); }
+            function fecharTermosUso() { navegarPara('page-login'); } // Se logado pode ser corrigido com base na sessao
+            function abrirSobreEform(e) { if (e) e.preventDefault(); navegarPara('page-sobre'); }
+            function fecharSobreEform() { navegarPara('page-login'); }
 
             function sincronizarNomeUsuario() {
                 var nome = localStorage.getItem('usuarioLogadoNome') || 'Usuario';
